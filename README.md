@@ -2,15 +2,28 @@
 
 # NoteBLOX Server
 
+<!-- TOC depthFrom:2 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
+
+- [Howto](#howto)
+	- [Prerequisites](#prerequisites)
+	- [Checkout](#checkout)
+	- [Build](#build)
+	- [Run](#run)
+	- [Run Integration Tests](#run-integration-tests)
+- [Architecture](#architecture)
+- [License](#license)
+
+<!-- /TOC -->
+
 NoteBLOX is an on-page support and collaboration tool for websites.
 
 
-## Howto 
+## Howto
 
 ### Prerequisites
 
 - Java Development Kit 1.8 (either OpenJDK or Oracle)
-- Apache Maven 3.3.9 
+- Apache Maven 3.3.9
 
 ### Checkout
 
@@ -68,8 +81,8 @@ mvn  clean install -P ci
                     |     <strong>Repository</strong> | | FileService (FS, S3) | | EmailService  | | Misc Util  |
                     +----------------+ +----------------------+ +---------------+ +------------+
 </pre>
-                               
+
 
 ## License
-    
+
 Restdude is distributed under the <a href="https://www.gnu.org/licenses/agpl-3.0-standalone.html">GNU Affero General Public License</a> <img style="float: right;" src="docs/assets/images/agplv3-155x51.png" alt="AGPL Logo" />
