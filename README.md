@@ -1,4 +1,4 @@
-
+[![Build Status](https://travis-ci.org/Noteblox/Noteblox-Server.svg?branch=master)](https://travis-ci.org/Noteblox/Noteblox-Server)
 
 # NoteBLOX Server
 
