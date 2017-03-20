@@ -7,6 +7,17 @@ NoteBLOX is an on-page support and collaboration tool for websites.
 
 ## Howto 
 
+### Prerequisites
+
+- Java Development Kit 1.8 (either OpenJDK or Oracle)
+- Apache Maven 3.3.9 
+
+### Checkout
+
+```
+git clone https://github.com/Noteblox/Noteblox-Server.git
+```
+
 ### Build
 
 ```
