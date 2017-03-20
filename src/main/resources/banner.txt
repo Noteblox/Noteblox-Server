@@ -1,0 +1,9 @@
+
+
+${AnsiColor.BRIGHT_BLUE}    ███╗   ██╗ ██████╗ ████████╗███████╗██████╗ ██╗      ██████╗ ██╗  ██╗
+${AnsiColor.BRIGHT_BLUE}    ████╗  ██║██╔═══██╗╚══██╔══╝██╔════╝██╔══██╗██║     ██╔═══██╗╚██╗██╔╝
+${AnsiColor.BRIGHT_BLUE}    ██╔██╗ ██║██║   ██║   ██║   █████╗  ██████╔╝██║     ██║   ██║ ╚███╔╝
+${AnsiColor.BRIGHT_BLUE}    ██║╚██╗██║██║   ██║   ██║   ██╔══╝  ██╔══██╗██║     ██║   ██║ ██╔██╗
+${AnsiColor.BRIGHT_BLUE}    ██║ ╚████║╚██████╔╝   ██║   ███████╗██████╔╝███████╗╚██████╔╝██╔╝ ██╗
+${AnsiColor.BRIGHT_BLUE}    ╚═╝  ╚═══╝ ╚═════╝    ╚═╝   ╚══════╝╚═════╝ ╚══════╝ ╚═════╝ ╚═╝  ╚═╝
+${AnsiColor.BRIGHT_BLUE}    Version: ${project.version}, see https://noteblox.com

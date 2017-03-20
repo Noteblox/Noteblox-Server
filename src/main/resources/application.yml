@@ -1,0 +1,159 @@
+# ===================================================================
+# NoteBLOX Spring Boot configuration.
+#
+# This configuration will be overridden by the Spring profile you use,
+# for example application-dev.yml if you use the "dev" profile.
+# ===================================================================
+
+# ===================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+
+management:
+  context-path: /api/management
+  info.git.mode: full
+  security.roles: ADMIN
+#  health:
+#    mail:
+#      enabled: false # When using the MailService, configure an SMTP server and set this to true
+#    binders:
+#      enabled: true
+spring:
+  application:
+    name: noteblox
+  # profiles:
+    # The commented value for `active` can be replaced with valid spring profiles to load.
+    # Otherwise, it will be filled in by maven when building the WAR file
+    # Either way, it can be overridden by `--spring.profiles.active` value passed in the commandline or `-Dspring.profiles.active` set in `JAVA_OPTS`
+    # active: #spring.profiles.active#
+# HTTP encoding (HttpEncodingProperties)
+  hateoas.use-hal-as-default-json-media-type: false
+  http:
+    encoding:
+      charset: UTF-8 # the encoding of HTTP requests/responses
+      enabled: true # enable http encoding support
+      force: true # force the configured encoding
+    multipart:
+      enabled: true
+  jackson:
+    serialization.write_dates_as_timestamps: false
+#  datasource:
+#    type: com.zaxxer.hikari.HikariDataSource
+  jpa:
+    generate-ddl: true
+    properties:
+      javax.persistence.validation.mode: none
+#     open-in-view: false
+#    show-sql: true
+#    database: H2
+  mvc:
+    throw-exception-if-no-handler-found: true
+    favicon:
+      enabled: false
+  thymeleaf:
+    mode: HTML
+  mail:
+    default-encoding: UTF-8 # Default MimeMessage encoding.
+    host: ${buildfilters.mail.server.host} # SMTP server host. For instance `smtp.example.com`
+#    jndi-name: # Session JNDI name. When set, takes precedence to others mail settings.
+    port: ${buildfilters.mail.server.port} # SMTP server port.
+#    properties.*= # Additional JavaMail session properties.
+    protocol: ${buildfilters.mail.server.protocol} # Protocol used by the SMTP server.
+    test-connection: false # Test that the mail server is available on startup.
+    username: ${buildfilters.mail.server.username} # Login user of the SMTP server.
+    password: ${buildfilters.mail.server.password} # Login password of the SMTP server.
+  resources:
+    add-mappings: true
+logging:
+  level:
+    root: WARN
+    com.yahoo.elide.core: WARN
+    org.springframework: WARN
+    com.restdude:
+      test: WARN
+      init  : WARN
+      util: WARN
+      mdd: WARN
+      jsonapi: WARN
+
+#        repository: DEBUG
+#        validation: DEBUG
+
+
+server:
+  contextPath: /noteblox
+  error:
+    include-stacktrace: always
+#    whitelabel:
+#      enabled: false
+
+# ===================================================================
+# Restdude specific properties
+# ===================================================================
+restdude:
+  persistenceUnit.packagesToScan: ${buildfilters.restdude.packages}
+  jwt:
+    accessTokenMinutes: 10
+    refreshTokenMinutes: 50
+    tokenIssuer: Restdude
+    tokenSigningKey: foobar
+  api:
+    basePath: /api/rest
+    defaultParentPath:
+    prepend:
+      excludes: /api/rest, /api/auth, /apiauth, /ws, /app, /queue, /topic
+  testEmailDomain: "noteblox.com"
+  baseurl: http://localhost:8080/noteblox
+  appVersion: 2.1.2-SNAPSHOT
+  contact:
+    name: NoteBLOX Team
+    url: https://github.com/Noteblox
+    email: support at noteblox com
+  license:
+    name: AGPLv3
+    url: https://www.gnu.org/licenses/agpl-3.0.en.html
+mail:
+  enabled: ${buildfilters.mail.enabled}
+  test:
+    enabled: ${buildfilters.mail.test.enable}
+    user: ${buildfilters.mail.test.user}
+  server:
+    from: ${buildfilters.mail.server.from}
+
+info:
+  app:
+    encoding: ${project.build.sourceEncoding}
+    java:
+      source: ${maven.compiler.source}
+      target: ${maven.compiler.target}
+  git:
+    tags: ${git.tags}
+    branch: ${git.branch}
+    dirty: ${git.dirty}
+    remote.origin.url: ${git.remote.origin.url}
+    commit:
+      id: ${git.commit.id}
+#OR (depends on commitIdGenerationMode)
+#      identifier.full: ${git.commit.identifier.full}
+      id.abbrev: ${git.commit.id.abbrev}
+      id.describe: ${git.commit.id.describe}
+      id.describe-short: ${git.commit.id.describe-short}
+      user:
+        name: ${git.commit.user.name}
+        email: ${git.commit.user.email}
+      message:
+        full: ${git.commit.message.full}
+        short: ${git.commit.message.short}
+      time: ${git.commit.time}
+    closest.tag:
+      name: ${git.closest.tag.name}
+      commit.count: ${git.closest.tag.commit.count}
+    build:
+      user:
+        name: ${git.build.user.name}
+        email: ${git.build.user.email}
+      time: ${git.build.time}
+      host: ${git.build.host}
+      version: ${git.build.version}

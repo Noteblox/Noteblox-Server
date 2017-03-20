@@ -1,0 +1,91 @@
+# BUILD HOWTO
+# ----------------------------------------------
+# 0: (Optional): Eclipse users run: mvn eclipse:eclipse
+# 1: RENAME this file to dev.properties
+# 2: Run in this directory: mvn clean install
+# 5: Point your browser to http://localhost:8080/noteglox/client
+# 6: Login with username: admin, password: admin
+#
+#
+# CONFIG PROPERTIES
+# ----------------------------------------------
+buildfilters.restdude.appName=NoteBLOX
+buildfilters.restdude.contextPath=/noteblox
+# Note: Google Chrome does not save cookies from localhost
+buildfilters.restdude.initData=true
+buildfilters.restdude.cookies.httpOnly=false
+buildfilters.restdude.cookies.secure=false
+buildfilters.restdude.registration.forceCodes=false
+buildfilters.restdude.packages=com.restdude, com.noteblox
+
+buildfilters.jetty.port=8888
+buildfilters.log.rootlevel=debug
+test.log.rootlevel=debug
+
+# Email
+buildfilters.mail.enabled=true
+buildfilters.mail.test.enable=false
+buildfilters.mail.test.user=system
+buildfilters.mail.server.host=
+buildfilters.mail.server.port=2525
+buildfilters.mail.server.protocol=smtp
+buildfilters.mail.server.from=YOU@YOU.YOU
+buildfilters.mail.server.username=USERNAME
+buildfilters.mail.server.password=PASSWORD
+
+# H2 Database
+# RESThub JPA default properties are:
+buildfilters.dataSource.driverClassName=org.h2.Driver
+buildfilters.dataSource.url=jdbc:h2:mem:noteblox;DB_CLOSE_DELAY=-1;MVCC=TRUE
+buildfilters.dataSource.maxActive=50
+buildfilters.dataSource.maxWait=1000
+buildfilters.dataSource.poolPreparedStatements=true
+buildfilters.dataSource.username=sa
+buildfilters.dataSource.password =
+buildfilters.dataSource.validationQuery=SELECT 1
+buildfilters.hibernate.dialect=org.hibernate.dialect.H2Dialect
+buildfilters.hibernate.show_sql=false
+buildfilters.hibernate.format_sql=true
+buildfilters.hibernate.hbm2ddl.auto=create
+buildfilters.hibernate.cache.use_second_level_cache=true
+buildfilters.hibernate.cache.provider_class=net.sf.ehcache.hibernate.SingletonEhCacheProvider
+buildfilters.hibernate.id.new_generator_mappings=true
+
+
+# MySQL Database (it needs to be created first!)
+#buildfilters.dataSource.driverClassName=com.mysql.jdbc.Driver
+#buildfilters.dataSource.url =jdbc:mysql://localhost:3306/YOURS?characterEncoding=UTF-8
+#buildfilters.dataSource.maxActive=50
+#buildfilters.dataSource.maxWait=1000
+#buildfilters.dataSource.poolPreparedStatements=true
+#buildfilters.dataSource.username=root
+#buildfilters.dataSource.password=YOURS
+#buildfilters.dataSource.validationQuery=SELECT 1
+#buildfilters.hibernate.dialect =org.hibernate.dialect.MySQL5InnoDBDialect
+#buildfilters.hibernate.show_sql=false
+#buildfilters.hibernate.format_sql=false
+#buildfilters.hibernate.hbm2ddl.auto=update
+#buildfilters.hibernate.cache.use_second_level_cache=true
+#buildfilters.hibernate.cache.provider_class=net.sf.ehcache.hibernate.SingletonEhCacheProvider
+#buildfilters.hibernate.id.new_generator_mappings=true
+
+
+# social APIs
+buildfilters.github.clientId=
+buildfilters.github.clientSecret=
+buildfilters.facebook.clientId=
+buildfilters.facebook.clientSecret=
+buildfilters.twitter.consumerKey=
+buildfilters.twitter.consumerSecret=
+buildfilters.linkedin.consumerKey=
+buildfilters.linkedin.consumerSecret=
+buildfilters.google.consumerKey=
+buildfilters.google.consumerSecret=
+
+# file service impl
+buildfilters.fs.filePersistenceService=com.restdude.domain.fs.DummyFilePersistenceServiceImpl
+
+# AWS S3
+buildfilters.aws_access_key_id=
+buildfilters.aws_secret_access_key=
+buildfilters.aws_namecard_bucket=
