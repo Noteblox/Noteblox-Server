@@ -1,26 +1,26 @@
 # name of the software
-name: "Restdude"
+name: "NoteBLOX Server"
 # current version of the software
 version: 2.1.2-SNAPSHOT
 # url of the download button
-downloadUrl: https://github.com/manosbatsis/restdude
+downloadUrl: ttps://github.com/Noteblox/Noteblox-Server
 # licence of the software
-license: LGPLv3
-licenseUrl: https://opensource.org/licenses/LGPL-3.0
+license: AGPLv3
+licenseUrl: https://opensource.org/licenses/AGPL-3.0
 # github base URL
-baseurl: "/restdude"
+baseurl: "/Noteblox-Server"
 
 # list of additional links on the right of the top menu
 headerLinks:
   - title: GitHub
-    url: https://github.com/manosbatsis/restdude
+    url: https://github.com/Noteblox/Noteblox-Server
 
 # list if additional links on the footer
 footerLinks:
   - title: GitHub
-    url: https://github.com/manosbatsis/restdude
+    url: https://github.com/Noteblox/Noteblox-Server
   - title: Issues
-    url: https://github.com/manosbatsis/restdude/issues?state=open
+    url: https://github.com/Noteblox/Noteblox-Server/issues?state=open
 
 # header
 header:
@@ -35,8 +35,9 @@ analytics:
 
 # github buttons
 githubButton:
-  user: manosbatsis
-  repo: restdude
+  enabled: false
+  user:
+  repo:
 
 # twitter buttons
 twitter:
