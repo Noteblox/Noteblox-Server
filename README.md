@@ -17,8 +17,12 @@
 
 NoteBLOX is an on-page support and collaboration tool for websites.
 
+## Documentation
 
-## Howto
+- [Project pages](https://noteblox.github.io/Noteblox-Server/)
+- [REST API reference](https://noteblox.github.io/Noteblox-Server/restapi.html)
+
+## Build and Run
 
 ### Prerequisites
 
