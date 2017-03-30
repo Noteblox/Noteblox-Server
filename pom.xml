@@ -57,9 +57,26 @@
                 </file>
             </activation>
             <build>
-                <filters>
-                    <filter>./HOWTO.txt</filter>
-                </filters>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.8</version>
+                        <executions>
+                            <execution>
+                                <id>copy</id>
+                                <phase>validate</phase>
+                                <configuration>
+                                    <tasks>
+                                        <copy file="HOWTO.txt" tofile="dev.properties"/>
+                                    </tasks>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
             </build>
         </profile>
     </profiles>
