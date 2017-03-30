@@ -1,1 +1,1 @@
-web: ls - la target && java -Dserver.port=$PORT -jar target/noteblox-server-2.1.2-SNAPSHOT.jar
+web: ls -la target && java -Dserver.port=$PORT -jar target/noteblox-server-2.1.2-SNAPSHOT.jar
