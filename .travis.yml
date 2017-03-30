@@ -3,4 +3,4 @@ jdk:
   - oraclejdk8
 before_install:
   - cp HOWTO.txt dev.properties
-script: mvn test -B install -P ci
+script: mvn -U test -B install -P ci
