@@ -19,6 +19,7 @@
     <properties>
         <project.parent.basedir>${basedir}</project.parent.basedir>
         <it.skip>true</it.skip>
+        <git-commit-id-plugin.skip>false</git-commit-id-plugin.skip>
     </properties>
 
     <distributionManagement>
@@ -56,6 +57,9 @@
                     <missing>dev.properties</missing>
                 </file>
             </activation>
+            <properties>
+                <git-commit-id-plugin.skip>true</git-commit-id-plugin.skip>
+            </properties>
             <build>
                 <plugins>
                     <plugin>
@@ -108,6 +112,7 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <skip>${git-commit-id-plugin.skip}</skip>
                     <dotGitDirectory>.git</dotGitDirectory>
                     <verbose>true</verbose>
                 </configuration>
