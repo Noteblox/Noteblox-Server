@@ -41,6 +41,10 @@ define(['jquery', 'underscore', 'bloodhound', 'typeahead', "lib/restdudelib/util
                             cell: Restdude.components.backgrid.ViewRowCell,
                         }
                     },
+                    contact: {
+                        fieldType: "RelatedModel",
+                        pathFragment: "users",
+                    },
                     edit: {
                         fieldType: "Edit",
                     },

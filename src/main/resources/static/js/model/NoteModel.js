@@ -35,6 +35,10 @@ define(['jquery', 'underscore', 'bloodhound', 'typeahead', "lib/restdudelib/util
                     rolesExcluded: null,
                 },
                 fields: {
+                    createdBy: {
+                        fieldType: "RelatedModel",
+                        pathFragment: "users",
+                    },
                     title: {
                         fieldType: "String",
                         backgrid: {

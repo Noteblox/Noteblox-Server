@@ -18,10 +18,10 @@ define({
         "models": {
             "billableAccounts": {
                 "singular": {
-                    "label": "Client Account"
+                    "label": "Billable Account"
                 },
                 "plural": {
-                    "label": "Client Accounts"
+                    "label": "Billable Accounts"
                 },
             },
             "noteComments": {
