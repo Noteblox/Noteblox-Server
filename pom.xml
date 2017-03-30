@@ -49,6 +49,19 @@
                 <it.skip>false</it.skip>
             </properties>
         </profile>
+        <profile>
+            <id>default</id>
+            <activation>
+                <file>
+                    <missing>dev.properties</missing>
+                </file>
+            </activation>
+            <build>
+                <filters>
+                    <filter>./HOWTO.txt</filter>
+                </filters>
+            </build>
+        </profile>
     </profiles>
 
     <build>
