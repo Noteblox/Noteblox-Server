@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT -jar target/*.jar
+web: java -Dserver.port=$PORT -jar target/noteblox-server-2.1.2-SNAPSHOT.jar
