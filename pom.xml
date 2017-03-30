@@ -15,7 +15,7 @@
     <version>2.1.2-SNAPSHOT</version>
 
     <name>Noteblox-Server</name>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <properties>
         <project.parent.basedir>${basedir}</project.parent.basedir>
         <it.skip>true</it.skip>
