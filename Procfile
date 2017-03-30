@@ -1,1 +1,1 @@
-web: ls -la target && java -Dserver.port=$PORT -jar target/noteblox-server-2.1.2-SNAPSHOT.jar
+web: java -Dserver.port=$PORT -jar target/noteblox-server-2.1.2-SNAPSHOT.jar -Dspring.profiles.active=prod
