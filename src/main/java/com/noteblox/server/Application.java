@@ -52,8 +52,8 @@ import java.util.Map;
 
 @SpringBootApplication(scanBasePackages = {"com.restdude", "com.noteblox"}, exclude = {ErrorMvcAutoConfiguration.class})
 @EnableTransactionManagement
-@EntityScan({"**.restdude", "**.noteblox"})
-@EnableJpaRepositories(basePackages =  {"**.restdude", "**.noteblox"},
+@EntityScan({"com.restdude", "com.noteblox"})
+@EnableJpaRepositories(basePackages =  {"com.restdude", "com.noteblox"},
         repositoryFactoryBeanClass = ModelRepositoryFactoryBean.class
 )
 @EnableJpaAuditing(auditorAwareRef = AuditorBean.BEAN_NAME)
