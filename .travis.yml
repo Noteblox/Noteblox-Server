@@ -4,8 +4,3 @@ jdk:
 before_install:
   - cp HOWTO.txt dev.properties
 script: mvn test -B install -P ci
-deploy:
- provider: heroku
- api-key:
-  secure: $HEROKU_API_KEY
- app: noteblox
