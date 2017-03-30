@@ -94,7 +94,7 @@ server:
 # Restdude specific properties
 # ===================================================================
 restdude:
-  persistenceUnit.packagesToScan: ${buildfilters.restdude.packages}
+  persistenceUnit.packagesToScan: com.restdude, com.noteblox
   jwt:
     accessTokenMinutes: 10
     refreshTokenMinutes: 50
