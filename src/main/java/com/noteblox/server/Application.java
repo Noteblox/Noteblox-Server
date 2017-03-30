@@ -54,8 +54,7 @@ import java.util.Map;
 @EnableTransactionManagement
 @EntityScan({"**.restdude", "**.noteblox"})
 @EnableJpaRepositories(basePackages =  {"**.restdude", "**.noteblox"},
-        repositoryFactoryBeanClass = ModelRepositoryFactoryBean.class,
-        repositoryBaseClass = BaseRepositoryImpl.class
+        repositoryFactoryBeanClass = ModelRepositoryFactoryBean.class
 )
 @EnableJpaAuditing(auditorAwareRef = AuditorBean.BEAN_NAME)
 @EnableScheduling
