@@ -20,6 +20,7 @@
         <project.parent.basedir>${basedir}</project.parent.basedir>
         <it.skip>true</it.skip>
         <git-commit-id-plugin.skip>false</git-commit-id-plugin.skip>
+        <org.mapstruct.version>1.2.0.Beta2</org.mapstruct.version>
     </properties>
 
     <distributionManagement>
@@ -332,6 +333,21 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
+        <repository>
+            <id>atlassian-public</id>
+            <url>https://m2proxy.atlassian.com/repository/public</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
+                <checksumPolicy>warn</checksumPolicy>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+                <checksumPolicy>warn</checksumPolicy>
+            </releases>
+        </repository>
+
+
     </repositories>
 
     <dependencyManagement>
@@ -347,6 +363,16 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
+        <dependency>
+            <groupId>com.atlassian.jira</groupId>
+            <artifactId>jira-rest-java-client-core</artifactId>
+            <version>4.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-jdk8</artifactId>
+            <version>${org.mapstruct.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.restdude</groupId>
             <artifactId>restdude-framework</artifactId>

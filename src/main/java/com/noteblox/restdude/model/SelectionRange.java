@@ -16,32 +16,27 @@
  */
 package com.noteblox.restdude.model;
 
-import com.restdude.domain.cases.model.AbstractCaseCommentModel;
-import com.restdude.mdd.annotation.model.ModelResource;
-import com.restdude.mdd.controller.AbstractNoDeletePersistableModelController;
+import com.restdude.domain.cms.model.AbstractSelectionRange;
 import io.swagger.annotations.ApiModel;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 /**
- * {@value CLASS_DESCRIPTION}
+ * {@inheritDoc}
  */
 @Entity
-@Table(name = "note_comment")
-@ModelResource(pathFragment = NoteComment.API_PATH, controllerSuperClass = AbstractNoDeletePersistableModelController.class,
-        apiName = "Note Comments", apiDescription = "Note comment operations")
-@ApiModel(description = NoteComment.CLASS_DESCRIPTION)
-public class NoteComment extends AbstractCaseCommentModel<Note, NoteComment> {
-
-    public static final String API_PATH = "noteComments";
-    public static final String CLASS_DESCRIPTION = "Comments for discussing notes";
+@Table(name = "selection_range")
+@ApiModel(description = AbstractSelectionRange.API_MODEL_DESCRIPTION)
+public class SelectionRange extends AbstractSelectionRange {
 
 
-    public NoteComment() {
-
+    public SelectionRange() {
+        super();
     }
 
-    public NoteComment(Note note, String me) {
-        this.setSubject(note);
+    public SelectionRange(String start, String end, Integer startOffset, Integer endOffset) {
+        super(start, end, startOffset, endOffset);
     }
 }

@@ -16,10 +16,10 @@
  */
 package com.noteblox.restdude.model;
 
-import com.restdude.domain.cases.model.Membership;
+import com.restdude.domain.cases.model.CaseWorkflow;
 import com.restdude.domain.cases.model.Space;
+import com.restdude.domain.cases.model.SpaceCasesApp;
 import com.restdude.domain.cases.model.enums.ContextVisibilityType;
-import com.restdude.domain.misc.model.Host;
 import com.restdude.domain.users.model.User;
 import com.restdude.mdd.annotation.model.ModelResource;
 import com.restdude.util.Constants;
@@ -31,47 +31,33 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Set;
 
 /**
  * {@value #API_MODEL_DESCRIPTION}
  */
 @Entity
-@Table(name = "context_website")
-@ModelResource(pathFragment = Website.API_PATH_FRAGMENT,
+@Table(name = "context_website_notes_app")
+@ModelResource(pathFragment = WebsiteNotesApp.API_PATH_FRAGMENT,
 		apiName = "Website",
 		apiDescription = "Website Operations")
-@ApiModel(description = Website.API_MODEL_DESCRIPTION)
-public class Website extends Space {
+@ApiModel(description = WebsiteNotesApp.API_MODEL_DESCRIPTION)
+public class WebsiteNotesApp extends SpaceCasesApp<Note> {
 
-	public static final String API_PATH_FRAGMENT = "websites";
-	public static final String API_MODEL_DESCRIPTION = "A model representing a Website, essentially a group of resources under a base path.";
+	public static final String API_PATH_FRAGMENT = "websiteNoteApps";
+	public static final String API_MODEL_DESCRIPTION = "A model representing a Website notes application.";
 
 	@NotNull
 	@Column(name = "base_path", nullable = false, unique = true)
 	@Getter @Setter
 	@ApiModelProperty(value = "The base path of applicable resources, default is '/'", required = true)
-	private String basePath = "/";
+	private String basePath;
 
-	@NotNull
-	@ManyToOne
-	@JoinColumn(name = "owner", nullable = false, updatable = false)
-	@Getter @Setter
-	@ApiModelProperty(value = "The account this website belongs to", required = true)
-	private BillableAccount billableAccount;
 
-	@NotNull
-	@ManyToOne
-	@JoinColumn(name = "host", nullable = false, updatable = false)
-	@Getter @Setter
-	@ApiModelProperty(value = "The website host", required = true)
-	private Host host;
-
-	public Website() {
+	public WebsiteNotesApp() {
 		super();
 	}
-	
-	public Website(String id) {
+
+	public WebsiteNotesApp(String id) {
 		this();
 		this.setPk(id);
 	}
@@ -80,7 +66,6 @@ public class Website extends Space {
 	public String toString() {
 		return new ToStringBuilder(this).appendSuper(super.toString())
 				.append("name", this.getName())
-				.append("basePath", this.getBasePath())
 				.toString();
 	}
 
@@ -91,16 +76,10 @@ public class Website extends Space {
 		private String description;
 		private String avatarUrl = Constants.DEFAULT_AVATAR_URL;
 		private String bannerUrl = Constants.DEFAULT_BANNER_URL;
-		private Host host;
 		private User owner;
-		private BillableAccount billableAccount;
-		private ContextVisibilityType visibility;
-		private Set<Membership> memberships;
-
-		public Builder billableAccount(BillableAccount billableAccount) {
-			this.billableAccount = billableAccount;
-			return this;
-		}
+		private ContextVisibilityType visibility = ContextVisibilityType.CLOSED;
+		private Space space;
+		private CaseWorkflow workflow;
 
 		public Builder basePath(String basePath) {
 			this.basePath = basePath;
@@ -132,13 +111,13 @@ public class Website extends Space {
 			return this;
 		}
 
-		public Builder host(Host host) {
-			this.host = host;
+		public Builder owner(User owner) {
+			this.owner = owner;
 			return this;
 		}
 
-		public Builder owner(User owner) {
-			this.owner = owner;
+		public Builder space(Space space) {
+			this.space = space;
 			return this;
 		}
 
@@ -147,21 +126,28 @@ public class Website extends Space {
 			return this;
 		}
 
-		public Website build() {
-			return new Website(this);
+		public Builder workflow(CaseWorkflow workflow) {
+			this.workflow = workflow;
+			return this;
+		}
+
+		public WebsiteNotesApp build() {
+			return new WebsiteNotesApp(this);
 		}
 	}
 
-	private Website(Builder builder) {
+	private WebsiteNotesApp(WebsiteNotesApp.Builder builder) {
 		this.setBasePath(builder.basePath);
 		this.setName(builder.name);
-		this.setBillableAccount(builder.billableAccount);
 		this.setTitle(builder.title);
 		this.setDescription(builder.description);
 		this.setAvatarUrl(builder.avatarUrl);
 		this.setBannerUrl(builder.bannerUrl);
 		this.setOwner(builder.owner);
-		this.setHost(builder.host);
+		this.setSpace(builder.space);
 		this.setVisibility(builder.visibility);
+		this.setWorkflow(builder.workflow);
+
 	}
+
 }

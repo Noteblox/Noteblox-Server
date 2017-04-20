@@ -17,20 +17,22 @@
 package com.noteblox.restdude.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.restdude.domain.topic.model.AbstractTopicModel;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.noteblox.restdude.model.enums.NoteVisibilityType;
+import com.restdude.domain.cases.model.AbstractCaseModel;
+import com.restdude.domain.cases.model.CaseStatus;
+import com.restdude.domain.cms.model.Tag;
+import com.restdude.domain.users.model.User;
 import com.restdude.mdd.annotation.model.ModelResource;
 import com.restdude.mdd.controller.AbstractNoDeletePersistableModelController;
-import com.restdude.mdd.model.CommentModel;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -41,53 +43,141 @@ import java.util.List;
 @ModelResource(pathFragment = Note.API_PATH, controllerSuperClass = AbstractNoDeletePersistableModelController.class,
         apiName = "Notes", apiDescription = "Note operations")
 @ApiModel(description = Note.CLASS_DESCRIPTION)
-public class Note extends AbstractTopicModel<NoteComment> {
+public class Note extends AbstractCaseModel<WebsiteNotesApp, Note, NoteComment> {
 
     public static final String API_PATH = "notes";
     public static final String CLASS_DESCRIPTION = "Entity model for page notes";
 
+    @Getter @Setter
+    @ApiModelProperty(value = "The annotated text selection")
+    private String quote;
+
+    @Getter @Setter
+    @ApiModelProperty(value = "Original given URL of the note target")
+    private String originalUrl;
 
     @NotNull
-    @ApiModelProperty(value = "The note text", required = true, notes = "Max byte length: " + CommentModel.DEFAULT_MAX_CONTENT_LENGTH)
-    @Column(name = "text_content", nullable = false, updatable = false, length =CommentModel. DEFAULT_MAX_CONTENT_LENGTH)
-    @Getter
-    @Setter
-    private String content;
+    @Column(name = "visibility", nullable = false)
+    @Getter @Setter
+    @ApiModelProperty(value = "Note visibility settings", allowableValues = "PERSONAL, WEBSITE", required = true)
+    private NoteVisibilityType visibility = NoteVisibilityType.WEBSITE;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "target", nullable = false, updatable = false)
+    @Getter @Setter
+    @ApiModelProperty(value = "The website host", required = true)
+    private NoteTarget target;
+
+    @Getter @Setter
+    @ApiModelProperty(value = "List of tags")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "note_tags", joinColumns = {@JoinColumn(name = "tag")}, inverseJoinColumns = {
+            @JoinColumn(name = "note")})
+    private List<Tag> tags;
 
     @JsonIgnore
-    @OneToMany(mappedBy="topic", fetch= FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
+    @JoinColumn(name="note")
     @Getter @Setter
-    private List<NoteComment> comments;
+    private List<SelectionRange> ranges;
 
     public Note() {
 
     }
 
-    protected Note(HttpServletRequest request, String content) {
-        this.content = content;
+    protected Note(String title, String detail) {
+       super(title, detail);
 
 
     }
+    public static class Builder {
+        private String quote;
+        private String title;
+        private String originalUrl;
+        private String detail;
+        private User user;
+        private CaseStatus status;
+        private NoteTarget target;
+        private WebsiteNotesApp application;
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .append("pk", this.getPk())
-                .append("content", this.getContent())
-                .toString();
-    }
+        private List<SelectionRange> ranges;
 
-    @Override
-    public void preSave() {
-        super.preSave();
-        if (this.getCreatedBy() != null && this.getCreatedBy().getPk() == null) {
-            this.setCreatedBy(null);
+        public Builder status(CaseStatus status) {
+            this.status = status;
+            return this;
         }
-        if (StringUtils.isNotEmpty(this.content) && this.content.length() > com.restdude.domain.error.model.BaseError.MAX_MESSAGE_LENGTH) {
-            this.content = StringUtils.abbreviate(this.content, com.restdude.domain.error.model.BaseError.MAX_MESSAGE_LENGTH);
+
+        public Builder application(WebsiteNotesApp application) {
+            this.application = application;
+            return this;
+        }
+
+        public Builder target(NoteTarget target) {
+            this.target = target;
+            return this;
+        }
+
+        public Builder detail(String detail) {
+            this.detail = detail;
+            return this;
+        }
+
+        public Builder quote(String quote) {
+            this.quote = quote;
+            return this;
+        }
+
+        public Builder range(SelectionRange range) {
+            if(this.ranges == null){
+                ranges = new LinkedList<>();
+            }
+            this.ranges.add(range);
+            return this;
+        }
+
+        public Builder ranges(List<SelectionRange> ranges) {
+            this.ranges = ranges;
+            return this;
+        }
+
+        public Builder originalUrl(String url) {
+            this.originalUrl = url;
+            return this;
+        }
+
+
+        public Builder title(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public Builder user(User user) {
+            this.user = user;
+            return this;
+        }
+
+        public Builder description(String description) {
+            this.detail = description;
+            return this;
+        }
+
+        public Note build() {
+            return new Note(this);
         }
     }
 
+    private Note(Builder builder) {
+        this.setQuote(builder.quote);
+        this.setTitle(builder.title);
+        this.setOriginalUrl(builder.originalUrl);
+        this.setCreatedBy(builder.user);
+        this.setTarget(builder.target);
+        this.setDetail(builder.detail);
+        this.setApplication(builder.application);
+        this.setStatus(builder.status);
+        this.setRanges(builder.ranges);
+    }
 
 
 }

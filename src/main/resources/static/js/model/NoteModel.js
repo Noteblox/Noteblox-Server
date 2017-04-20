@@ -15,10 +15,10 @@
  * along with NoteBLOX.  If not, see <https://www.gnu.org/licenses/agpl-3.0.en.html>.
  */
 define(['jquery', 'underscore', 'bloodhound', 'typeahead', "lib/restdudelib/util", "lib/restdudelib/form",
-        "lib/restdudelib/uifield", "lib/restdudelib/backgrid", "lib/restdudelib/view", 'handlebars', "lib/restdudelib/models/Model"],
+        "lib/restdudelib/uifield", "lib/restdudelib/backgrid", "lib/restdudelib/view", 'handlebars', "lib/restdudelib/models/CaseModel"],
     function ($, _, Bloodhoud, Typeahead, Restdude, RestdudeForm, RestdudeField, RestdudeGrid, RestdudeView, Handlebars) {
 
-        Restdude.model.NoteModel = Restdude.Model.extend(
+        Restdude.model.NoteModel = Restdude.model.CaseModel .extend(
             /** @lends Restdude.model.NoteModel.prototype */
             {
                 toString: function () {
@@ -33,31 +33,6 @@ define(['jquery', 'underscore', 'bloodhound', 'typeahead', "lib/restdudelib/util
                 menuConfig: {
                     rolesIncluded: ["ROLE_ADMIN", "ROLE_SITE_OPERATOR"],
                     rolesExcluded: null,
-                },
-                fields: {
-                    createdBy: {
-                        fieldType: "RelatedModel",
-                        pathFragment: "users",
-                    },
-                    title: {
-                        fieldType: "String",
-                        backgrid: {
-                            cell: Restdude.components.backgrid.ViewRowCell,
-                        }
-                    },
-
-                    content: {
-                        fieldType: "String",
-                    },
-                    createdDate: {
-                        fieldType: "Date",
-                    },
-                    lastModifiedDate: {
-                        fieldType: "Date",
-                    },
-                    edit: {
-                        fieldType: "Edit",
-                    },
                 },
             });
 

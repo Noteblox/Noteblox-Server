@@ -17,12 +17,15 @@
 package com.noteblox.restdude.init;
 
 import com.restdude.init.DataInitializer;
+import com.restdude.util.ConfigurationFactory;
+import org.apache.commons.configuration.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 
 /**
@@ -37,12 +40,27 @@ public class BootDataInitializer extends DataInitializer implements ApplicationR
     private String testEmailDomain;
 
     @Override
-    public String getTestEmailDomain() {
-        return this.testEmailDomain;
+    @Transactional(readOnly = false)
+    public void run(ApplicationArguments applicationArguments) throws Exception {
+        super.run();
+        try {
+
+            Configuration config = ConfigurationFactory.getConfiguration();
+            boolean initData = config.getBoolean(ConfigurationFactory.INIT_DATA, true);
+
+        }
+        catch (Exception e){
+            LOGGER.debug("Error initializing, ve: {}", e.toString());
+            e.printStackTrace();
+            throw e;
+        }
+
+
+
     }
 
     @Override
-    public void run(ApplicationArguments applicationArguments) throws Exception {
-        super.run();
+    protected String getTestEmailDomain() {
+        return testEmailDomain;
     }
 }

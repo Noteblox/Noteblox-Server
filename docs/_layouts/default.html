@@ -12,14 +12,14 @@
     <![endif]-->
 
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="{{site.github.url}}/assets/css/docs.min.css" rel="stylesheet">
-    <link href="{{site.github.url}}/assets/css/style.css" rel="stylesheet">
+    <link href="assets/css/docs.min.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
 
 
     <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
     <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.3.0/bootbox.min.js"></script>
-    <script src="{{site.github.url}}/assets/js/docs.min.js"></script>
+    <script src="assets/js/docs.min.js"></script>
 </head>
 
 <body>
@@ -34,7 +34,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{site.github.url}}/index.html">{{site.name}}</a>
+            <a class="navbar-brand" href="index.html">{{site.name}}</a>
         </div>
         <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
             <ul class="nav navbar-nav">
@@ -235,6 +235,28 @@
     ga('send', 'pageview');
 </script>
 {% endif %}
+
+<script src="assets/js/annotator.js"></script>
+<script>
+    console.log("Starting NoteBLOX UI...");
+    var pageUri = function () {
+        return {
+            beforeAnnotationCreated: function (ann) {
+                ann.uri = window.location.href;
+            }
+        };
+    };
+
+    var app = new annotator.App()
+        .include(annotator.ui.main, {element: document.body})
+        .include(annotator.storage.http, {prefix: 'http://noteblox.herokuapp.com/noteblox/api/rest/annotator'})
+        .include(pageUri);
+
+    app.start().then(function () {
+        app.annotations.load({uri: window.location.href});
+    });
+    console.log("NoteBLOX UI 2.0 started");
+</script>
 
 </body>
 </html>

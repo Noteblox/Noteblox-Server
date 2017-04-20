@@ -16,6 +16,7 @@
  */
 package com.noteblox.restdude.config;
 
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.restdude.domain.error.resolver.RestExceptionHandler;
 import com.restdude.mdd.binding.CsvMessageConverter;
 import com.restdude.mdd.binding.CustomEnumConverterFactory;
@@ -36,6 +37,7 @@ import org.springframework.orm.hibernate5.HibernateExceptionTranslator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.util.List;
@@ -46,7 +48,17 @@ public class WebConfig extends WebMvcConfigurerAdapter /*implements WebMvcRegist
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WebConfig.class);
 
-
+    // TODO: refactor to programmatic CORS control
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/api/rest/annotator/**")
+                .allowCredentials(true)
+                .allowedOrigins("*")
+                //.allowedHeaders("*")
+                //.exposedHeaders("*")
+                .allowedMethods("HEAD", "GET", "OPTIONS", "PUT", "PATCH", "POST")
+                .maxAge(3600);
+    }
     /**
      * Automatically collect and persist errors
      */
@@ -80,6 +92,7 @@ public class WebConfig extends WebMvcConfigurerAdapter /*implements WebMvcRegist
         Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
         builder.featuresToEnable(com.fasterxml.jackson.databind.MapperFeature.DEFAULT_VIEW_INCLUSION)
                 .featuresToDisable(
+                        SerializationFeature.FAIL_ON_EMPTY_BEANS,
                         com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
                         com.fasterxml.jackson.databind.DeserializationFeature.READ_DATE_TIMESTAMPS_AS_NANOSECONDS,
                         com.fasterxml.jackson.databind.DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE,

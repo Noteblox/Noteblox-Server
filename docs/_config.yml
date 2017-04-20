@@ -3,7 +3,7 @@ name: "NoteBLOX Server"
 # current version of the software
 version: 2.1.2-SNAPSHOT
 # url of the download button
-downloadUrl: ttps://github.com/Noteblox/Noteblox-Server
+downloadUrl: https://github.com/Noteblox/Noteblox-Server
 # licence of the software
 license: AGPLv3
 licenseUrl: https://opensource.org/licenses/AGPL-3.0

@@ -70,6 +70,15 @@ public class BillableAccount extends AbstractPersistableModel<String> {
     public BillableAccount() {
     }
 
+    public BillableAccount(User contact) {
+        this.contact = contact;
+    }
+
+    public BillableAccount(User contact, BillableAccountPlan plan) {
+        this(contact);
+        this.plan = plan;
+    }
+
     @JsonIgnore
     @Override
     public boolean isNew() {

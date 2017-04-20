@@ -19,6 +19,6 @@ package com.noteblox.restdude.model.enums;
 import io.swagger.annotations.ApiModel;
 
 @ApiModel
-public enum WebsiteVisibilityType {
-	SECRET, CLOSED, OPEN, PUBLIC;
+public enum NoteVisibilityType {
+	PERSONAL, WEBSITE;
 }

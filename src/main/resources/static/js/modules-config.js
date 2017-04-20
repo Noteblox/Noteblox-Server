@@ -33,7 +33,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with NoteBLOX.  If not, see <https://www.gnu.org/licenses/agpl-3.0.en.html>.
  */
-define(['restdude', 'model/BillableAccountModel', 'model/NoteCommentModel', 'model/NoteModel', 'model/WebsiteModel'],
-    function (Restdude, BillableAccountModel, NoteCommentModel, NoteModel, WebsiteModel) {
+define(['restdude', 'model/BillableAccountModel', 'model/NoteModel', 'model/WebsiteModel'],
+    function (Restdude, BillableAccountModel, NoteModel, WebsiteModel) {
 //	HomeLayout
     });

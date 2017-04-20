@@ -14,14 +14,19 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with NoteBLOX.  If not, see <https://www.gnu.org/licenses/agpl-3.0.en.html>.
  */
-package com.noteblox.restdude.model.enums;
+package com.noteblox.restdude.repository;
 
-import io.swagger.annotations.ApiModel;
+import com.noteblox.restdude.model.NoteTarget;
+import com.noteblox.restdude.model.Website;
+import com.restdude.domain.misc.model.Host;
+import com.restdude.mdd.repository.ModelRepository;
+import org.springframework.data.jpa.repository.Query;
 
-/**
- * The types of membership request
- */
-@ApiModel
-public enum WebsiteMembershipRequestType {
-    INVITATION,REQUEST_TO_JOIN;
+import java.util.Optional;
+
+public interface NoteTargetRepository extends ModelRepository<NoteTarget, String> {
+
+
+    @Query("select n from NoteTarget n where n.path = ?1 and n.website = ?2")
+    Optional<NoteTarget> findByPathAndWebsite(String path, Website website);
 }
