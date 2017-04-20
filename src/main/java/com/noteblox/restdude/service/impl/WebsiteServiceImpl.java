@@ -88,12 +88,17 @@ public class WebsiteServiceImpl
 
     protected Host getHost(URL url) {
         StringBuffer hostname =  new StringBuffer(url.getHost());
-        if(url.getPort() != 80){
-            hostname.append(":").append(url.getPort());
-        }
+
         Optional<Host> host = this.hostRepository.findByName(hostname.toString());
+        log.debug("getHost '{}: {}", hostname, host);
         if(!host.isPresent()){
-            throw new IllegalArgumentException("No registered host: te URL: " + url);
+            hostname.append(":").append(url.getPort());
+            host = this.hostRepository.findByName(hostname.toString());
+            log.debug("getHost '{}: {}", hostname, host);
+        }
+
+        if(!host.isPresent()){
+            throw new IllegalArgumentException("No registered host to hostname URL: " + url);
         }
         return host.get();
     }
