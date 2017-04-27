@@ -1,6 +1,9 @@
 language: java
 jdk:
-  - oraclejdk8
+- oraclejdk8
 before_install:
-  - cp HOWTO.txt dev.properties
+- cp HOWTO.txt dev.properties
 script: mvn -U test -B install -P ci
+notifications:
+  slack:
+    secure: EFcrBTQCG5mgbL0cr9WsVioqfy9IbEjSlp3sn03/uRygKO/8KCdjyja3/W/7B8LHmYenP2/ySnPrAJ/QKENdJhv+6Qn2LvgspAWnE/Of3y2bK5+Uf0CUX3cbZQaPQunjO/PQlRmC/Ga/zcc9yoCt7ZhP2LCvAcRuJq2I1PmKGYksJ1SWh1CKhC2d+jAhLZzD7/pjtGX6BZb6fO4PXW+YY3VmKn/qxlsePxHeauKhxyXKePp7Ia29S0LZoXVvQe3oU3yITFMChPh8IX6xyuAJAG4diBSaX6xjSZqBWWvc0Wc4yDTaDkVOxrvLM6J5/WHDBtw/wKGg1p8XSx1Wtf0q8dvT90CnsLf5C1E/9vDywPd+wiFCENVB+CkiRLtKFzNlx4rMGRwA8k0PTdIfntCrG2YUMK3yx5d+fEAL6NuGMeiZzodmQor7lGi/7/SL9G7a+Kx25qj9jNsrgPmbjhvZ7XkgvSM8dNUtNUn46bPOIznZTmcVs+qWLBcqMcmXgMcknt94eMh6t2PrWJ3Jqj+guchN2tXA0I5ODsLqCuLvR2mUNDKyokuH5VKZipg5FS+yX5koRQ7senGFy+9l50g90aUuDvrFVmsfG2B9zMmBCKx/7Y+pbIEdRovHsLXj6wN+iRflUVIkPO553cElmKH+r8ti0XahvFZrJh9WQ0UDkJg=
