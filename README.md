@@ -1,6 +1,6 @@
 NoteBLOX - In Application Ticketing
 ===================================
-We think the job ticketing process is broken. Or at least, it’s limping along. We think that the inbound emails, phones and Jira/GitHub Issues for your GitHub applications can be improved. NoteBLOX is the world's first In Application Ticketing System.
+We think the job ticketing process is broken. Or at least, it’s limping along. We think that the inbound emails, phones and the difficulty in submitting Jira (or GitHub Issues) for your GitHub applications can be improved. NoteBLOX is the world's first In Application Ticketing System.
 
 The whole idea of In Application Ticketing (NoteBLOX) revolves around users not having to leave what they are doing.
 
