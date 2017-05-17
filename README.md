@@ -10,16 +10,15 @@ Let’s say you have written a CRM system (could be any system) in GitHub and th
 ### With In Application Ticketing
 Right from the system (CRM, PO system, Insurance, etc...) the user should be able to just demark the issue and have the technical information captured automatically.
 
-Using NoteBLOX, users can bypass email, calls and portals and submit issues directly. 
+Using NoteBLOX, users can bypass email, calls and Jira/GitHub Issues...and submit issues directly. 
 
-NoteBLOX captures key technical details needed in systems NoteBLOX will integrate with any browser based systems. NoteBLOX brings the ticketing process closer to the user, things are faster and smoother and less problematic. Let’s precisely define the benefits
-
+* NoteBLOX brings the ticketing process closer to the user, things are faster and smoother and less problematic.
 * Users report issues with more accuracy.
 * Users spend less time reporting issues.
 * GitHub Developers spend less time understanding what the user is describing.
 * GitHub Developers ask fewer questions on technical details.
 
-Most of all, Users don't need to leave the application with the issue. They can do it right within yuor application.
+Most of all, Users don't need to leave the application with the issue. They can do it right within your application.
 
 ### This is
 
