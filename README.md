@@ -20,9 +20,15 @@ Using NoteBLOX, users can bypass email, calls and Jira/GitHub Issues...and submi
 
 Most of all, Users don't need to leave the application with the issue. They can do it right within your application.
 
-### This is
+### How to use NoteBLOX
+If your are on GitHub its easy. Simply add the line of code listed below, and fill in your Jira/GitHub Issues authentication and NoteBLOX is activated.
 
+### What do Users see?
+(*animated gif*))
 
+### How do Developers see?
+
+Can 
 
 [![Build Status](https://travis-ci.org/Noteblox/Noteblox-Server.svg?branch=master)](https://travis-ci.org/Noteblox/Noteblox-Server)
 
