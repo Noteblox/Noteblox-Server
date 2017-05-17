@@ -5,7 +5,7 @@ We think the job ticketing process is broken. Or at least, it’s limping along.
 The whole idea of In Application Ticketing (NoteBLOX) revolves around users not having to leave what they are doing.
 
 ### Without In Application Ticketing
-Let’s say you have written a CRM system (could be any system) in GitHub and there is a problem. Does it make sense to have users make a phone call or send an email or log it in Jira or GitHub? It really makes no sense. Fields must be filled out, screenshots made, etc.. I don’t need to go through all the details that must be shared - DOM tree, click path, device, browser and more. It's a PITA (pain in the ass).
+Let’s say you have written a CRM system (could be any system) in GitHub and there is a problem. Does it make sense to have users make a phone call or send an email or log it in Jira or GitHub Issues? It really makes no sense. Fields must be filled out, screenshots made, etc.. I don’t need to go through all the details that must be shared - DOM tree, click path, device, browser and more. It's a PITA (pain in the ass).
 
 ### With In Application Ticketing
 Right from the system (CRM, PO system, Insurance, etc...) the user should be able to just demark the issue and have the technical information captured automatically.
