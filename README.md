@@ -29,6 +29,10 @@ If your are on GitHub its easy. Simply add the line of code listed below, and fi
 ### What do Developers see?
 (*animated gif*)
 
+
+
+Common Questions
+================
 #### How do I submit a ticket into Jira or GitHub Issues?
 You can filter through and curate content in NoteBLOX, deciding what issue are worth ticketing. Or else, you can have Notes (from NoteBLOX) feed Jira or GitHub Issues automatically.
 
