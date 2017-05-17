@@ -14,11 +14,12 @@ Using NoteBLOX, users can bypass email, calls and portals and submit issues dire
 
 NoteBLOX captures key technical details needed in systems NoteBLOX will integrate with any browser based systems. NoteBLOX brings the ticketing process closer to the user, things are faster and smoother and less problematic. Let’s precisely define the benefits
 
-* Users report issues with more accurately.
-* Uses spend less time reporting issues.
-* GitHub Developers spend less time understanding what the user is describing
+* Users report issues with more accuracy.
+* Users spend less time reporting issues.
+* GitHub Developers spend less time understanding what the user is describing.
 * GitHub Developers ask fewer questions on technical details.
 
+Most of all, Users don't need to leave the application with the issue. They can do it right within yuor application.
 
 ### This is
 
