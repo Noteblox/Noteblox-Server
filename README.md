@@ -54,6 +54,14 @@ NoteBLOX is build on an open API. The current version is integrated with GitHub 
 #### Will you or anybody support NoteBLOX for my company?
 If you need help, reach out to us at david.ostrov@noteblox.com  We are happy to help.
 
+Customize
+=========
+You can make a NoteBLOX widget look anyway you want. We use the standard bootstrap library.
+(*animated gif*)
+
+You can collect additional data by adding funcationality. The NoteBLOX API allows for simple easy integration.
+(*link to data collection api*)
+
 
 [![Build Status](https://travis-ci.org/Noteblox/Noteblox-Server.svg?branch=master)](https://travis-ci.org/Noteblox/Noteblox-Server)
 
