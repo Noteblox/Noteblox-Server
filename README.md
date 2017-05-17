@@ -26,9 +26,30 @@ If your are on GitHub its easy. Simply add the line of code listed below, and fi
 ### What do Users see?
 (*animated gif*))
 
-### How do Developers see?
+### What do Developers see?
+(*animated gif*)
 
-Can 
+#### How do I submit a ticket into Jira or GitHub Issues?
+You can filter through and curate content in NoteBLOX, deciding what issue are worth ticketing. Or else, you can have Notes (from NoteBLOX) feed Jira or GitHub Issues automatically.
+
+#### Can NoteBLOX process be added/adjusted?
+Yes, NoteBLOX has an admin console that will allow you to adjust or change processes?
+
+#### Does NoteBLOX allow for two way communication?
+Yes, you can interact with your users right in NoteBLOX and get clarification
+
+#### How much does NoteBLOX cost?
+NoteBLOX is opensource. You can use it here for free or you can download it and use it for free behind your firewall.  
+
+#### Will NoteBLOX only work in a SaaS environment?
+We made NoteBLOX so it can run anywhere. NoteBLOX can run right here on GitHub or behind your firewall
+
+#### Will NoteBLOX work with other job ticketing or help desk systems?
+NoteBLOX is build on an open API. The current version is integrated with GitHub Issues and Jira. However, if you like NoteBLOX and want to use it somewhere else, go right ahead. Use the API or contact us. We would be happy to help.
+
+#### Will you or anybody support NoteBLOX for my company?
+If you need help, reach out to us at david.ostrov@noteblox.com  We are happy to help.
+
 
 [![Build Status](https://travis-ci.org/Noteblox/Noteblox-Server.svg?branch=master)](https://travis-ci.org/Noteblox/Noteblox-Server)
 
