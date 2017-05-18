@@ -36,12 +36,6 @@ Common Questions
 #### How do I submit a ticket into Jira or GitHub Issues?
 You can filter through and curate content in NoteBLOX, deciding what issue are worth ticketing. Or else, you can have Notes (from NoteBLOX) feed Jira or GitHub Issues automatically.
 
-#### Can NoteBLOX process be added/adjusted?
-Yes, NoteBLOX has an admin console that will allow you to adjust or change processes?
-
-#### Does NoteBLOX allow for two way communication?
-Yes, you can interact with your users right in NoteBLOX and get clarification
-
 #### How much does NoteBLOX cost?
 NoteBLOX is opensource. You can use it here for free or you can download it and use it for free behind your firewall.  
 
@@ -53,6 +47,15 @@ NoteBLOX is build on an open API. The current version is integrated with GitHub 
 
 #### Will you or anybody support NoteBLOX for my company?
 If you need help, reach out to us at david.ostrov@noteblox.com  We are happy to help.
+
+Configuration & Use Questions
+========================
+
+#### Can NoteBLOX process be added/adjusted?
+Yes, NoteBLOX has an admin console that will allow you to adjust or change processes.
+
+#### Does NoteBLOX allow for two way communication?
+Yes, you can interact with your users right in NoteBLOX and get clarification.
 
 Customize
 =========
