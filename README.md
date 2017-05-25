@@ -48,6 +48,19 @@ NoteBLOX is build on an open API. The current version is integrated with GitHub 
 #### Will you or anybody support NoteBLOX for my company?
 If you need help, reach out to us at david.ostrov@noteblox.com  We are happy to help.
 
+When to Use NoteBLOX
+========================
+
+NoteBLOX is designed for the entire lifecycle of an application or web site. 
+
+Use NoteBLOX during the QA process
+
+(*animation showing user submitting a QA issue*)
+
+Use NoteBLOX on a deployed application
+(*animation showing a user entering data and asking for a field revision*)
+
+
 Configuration & Use Questions
 ========================
 
@@ -56,6 +69,23 @@ Yes, NoteBLOX has an admin console that will allow you to adjust or change proce
 
 #### Does NoteBLOX allow for two way communication?
 Yes, you can interact with your users right in NoteBLOX and get clarification.
+
+#### How does NoteBLOX work with dynamic system like Sugar CRM?
+
+#### How does NoteBLOX work with breadcrumb systems where every unique page has a URL?
+
+#### Why don't the screenshots always look perfect?
+Screenshots can be a simple thing are are a complicated thing. For most applications the screenshots will look perfect. 
+
+However, realize that a screenshot is a represenation of what we think the user is seeing based on the code. Browser secruity protocoals prevent you seeing exactly what a user is seeing. This is just the way it is. For more information on this feel free to read the details form Google, Firefox, Apple and Microfsoft.(*need links*)
+
+If you are doing web site development and utilize technologies like Javascript for animations and movement a Note in NoteBLOX can be associated to the DOM element, but we don't really know exactly what the user is seeing.
+.and you utilize technologies like The first animation/new techologies is mostly related to new web site development. Some technologies like javascript have movement. There are many others. To capture an image in a screenshot of an animation
+
+visual 
+Realize that browser security settings can prevent you from being seeing everything your users are doing
+If you want an exact representation of your user screenshot we reccomend you thry URL2PNG. Realize that ine
+
 
 Customize
 =========
