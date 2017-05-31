@@ -14,7 +14,9 @@
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/css/docs.min.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
-
+    <link href="assets/css/meltdown.css" rel="stylesheet">
+    <link href="assets/css/annotator.meltdown.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
 
     <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
     <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
@@ -177,6 +179,50 @@
     </div>
 </footer>
 
+<div class="feedback left">
+    <div class="tooltips">
+        <div class="btn-group dropup">
+            <button type="button" class="btn btn-primary dropdown-toggle btn-circle btn-lg" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-bug fa-2x" title="Report Bug"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-form">
+                <li>
+                    <div class="report">
+                        <h2 class="text-center">Report Bug</h2>
+                        <form class="doo" method="post" action="report.php">
+                            <div class="col-sm-12">
+                                <textarea required name="comment" class="form-control" placeholder="Please tell us what bug or issue you've found, provide as much detail as possible."></textarea>
+                                <input name="screenshot" type="hidden" class="screen-uri">
+                                <span class="screenshot pull-right"><i class="fa fa-camera cam" title="Take Screenshot"></i></span>
+                            </div>
+                            <div class="col-sm-12 clearfix">
+                                <button class="btn btn-primary btn-block">Submit Report</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="loading text-center hideme">
+                        <h2>Please wait...</h2>
+                        <h2><i class="fa fa-refresh fa-spin"></i></h2>
+                    </div>
+                    <div class="reported text-center hideme">
+                        <h2>Thank you!</h2>
+                        <p>Your submission has been received, we will review it shortly.</p>
+                        <div class="col-sm-12 clearfix">
+                            <button class="btn btn-success btn-block do-close">Close</button>
+                        </div>
+                    </div>
+                    <div class="failed text-center hideme">
+                        <h2>Oh no!</h2>
+                        <p>It looks like your submission was not sent.<br><br><a href="mailto:">Try contacting us by the old method.</a></p>
+                        <div class="col-sm-12 clearfix">
+                            <button class="btn btn-danger btn-block do-close">Close</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 
 <!-- Async scripts
 =========================================== -->
@@ -237,26 +283,23 @@
 {% endif %}
 
 <script src="assets/js/annotator.js"></script>
-<script>
-    console.log("Starting NoteBLOX UI...");
-    var pageUri = function () {
-        return {
-            beforeAnnotationCreated: function (ann) {
-                ann.uri = window.location.href;
-            }
-        };
-    };
 
-    var app = new annotator.App()
-        .include(annotator.ui.main, {element: document.body})
-        .include(annotator.storage.http, {prefix: 'https://noteblox.herokuapp.com/noteblox/api/rest/annotator'})
-        .include(pageUri);
+<!--
+<script src="js/jquery.meltdown.js"></script>
+-->
 
-    app.start().then(function () {
-        app.annotations.load({uri: window.location.href});
-    });
-    console.log("NoteBLOX UI 2.0 started");
-</script>
+<script src="assets/js/showdown/showdown.js"></script>
+<script src="assets/js/showdown/xss.min.js"></script>
+<script src="assets/js/showdown/footnotes.js"></script>
+
+
+<script src="assets/js/meltdown-lib/rangyinputs-jquery.min.js"></script>
+<script src="assets/js/meltdown-lib/element_resize_detection.js"></script>
+<script src="assets/js/meltdown-lib/js-markdown-extra.js"></script>
+<script src="assets/js/jquery.meltdown.js"></script>
+<script src="assets/js/annotator.noteblox.js"></script>
+<script src="assets/js/script.js"></script>>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
 
 </body>
 </html>
