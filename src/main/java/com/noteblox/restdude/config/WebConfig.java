@@ -51,14 +51,22 @@ public class WebConfig extends WebMvcConfigurerAdapter /*implements WebMvcRegist
     // TODO: refactor to programmatic CORS control
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/api/rest/annotator/**")
+        registry.addMapping("/api/auth/**")
                 .allowCredentials(true)
                 .allowedOrigins("*")
                 //.allowedHeaders("*")
                 //.exposedHeaders("*")
-                .allowedMethods("HEAD", "GET", "OPTIONS", "PUT", "PATCH", "POST")
+                .allowedMethods("HEAD", "GET", "OPTIONS", "PUT", "PATCH", "POST", "DELETE")
+                .maxAge(3600);
+        registry.addMapping("/api/rest/**")
+                .allowCredentials(true)
+                .allowedOrigins("*")
+                //.allowedHeaders("*")
+                //.exposedHeaders("*")
+                .allowedMethods("HEAD", "GET", "OPTIONS", "PUT", "PATCH", "POST", "DELETE")
                 .maxAge(3600);
     }
+
     /**
      * Automatically collect and persist errors
      */
@@ -76,7 +84,7 @@ public class WebConfig extends WebMvcConfigurerAdapter /*implements WebMvcRegist
     public javax.validation.Validator localValidatorFactoryBean() {
         return new LocalValidatorFactoryBean();
     }
-
+/*
     @Bean
     public FilterRegistrationBean filterRegistrationBean() {
         FilterRegistrationBean registrationBean = new FilterRegistrationBean();
@@ -86,7 +94,7 @@ public class WebConfig extends WebMvcConfigurerAdapter /*implements WebMvcRegist
         registrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
         return registrationBean;
     }
-
+*/
     @Bean
     public Jackson2ObjectMapperBuilder jacksonBuilder() {
         Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
@@ -96,7 +104,7 @@ public class WebConfig extends WebMvcConfigurerAdapter /*implements WebMvcRegist
                         com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
                         com.fasterxml.jackson.databind.DeserializationFeature.READ_DATE_TIMESTAMPS_AS_NANOSECONDS,
                         com.fasterxml.jackson.databind.DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE,
-                        com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+                        SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         return builder;
     }
 
@@ -124,7 +132,7 @@ public class WebConfig extends WebMvcConfigurerAdapter /*implements WebMvcRegist
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
         configurer.favorPathExtension(false)
                 .favorParameter(true)
-                .defaultContentType(MediaType.APPLICATION_JSON)
+                .defaultContentType(new MediaType("application", "vnd.api+json"))
                 .mediaType("json", MediaType.APPLICATION_JSON)
                 .mediaType("xml", MediaType.APPLICATION_XML);
     }

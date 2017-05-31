@@ -23,21 +23,40 @@ import com.restdude.domain.users.model.UserDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
+import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface NoteAnnotationMapper {
+
+    NoteAnnotationMapper INSTANCE = Mappers.getMapper( NoteAnnotationMapper.class );
 
     @Mappings({
             @Mapping(source = "pk", target = "id"),
             @Mapping(source = "createdDate", target = "created", dateFormat = "yyyy-MM-dd'T'HH:mm:ssX"),
             @Mapping(source = "lastModifiedDate", target = "updated", dateFormat = "yyyy-MM-dd'T'HH:mm:ssX"),
-            @Mapping(source = "content", target = "text"),
+            @Mapping(source = "detail", target = "text"),
             @Mapping(source = "createdBy", target = "user")
 
     })
-    Annotation noteToAnnotation(Note car);
+    Annotation noteToAnnotation(Note note);
 
-    default UserDTO personToPersonDto(User user){
+    @Mappings({
+            @Mapping(source = "id", target = "pk"),
+            @Mapping(source = "created", target = "createdDate", dateFormat = "yyyy-MM-dd'T'HH:mm:ssX"),
+            @Mapping(source = "updated", target = "lastModifiedDate", dateFormat = "yyyy-MM-dd'T'HH:mm:ssX"),
+            @Mapping(source = "text", target = "detail"),
+            @Mapping(source = "user", target = "createdBy")
+
+    })
+     Note noteToAnnotation(Annotation ann);
+
+    default UserDTO userToCreatedBy(User user){
         return UserDTO.fromUser(user);
+    }
+    default User createdByToUser(UserDTO dto){
+        User user = new User();
+        user.setPk(dto.getId());
+        user.setUsername(dto.getUsername());
+        return user;
     }
 }

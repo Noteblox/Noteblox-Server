@@ -66,23 +66,15 @@ spring:
     password: ${buildfilters.mail.server.password} # Login password of the SMTP server.
   resources:
     add-mappings: true
+
 logging:
   level:
     root: WARN
-    springfox.documentation.schema.property.CachingModelPropertiesProvider: ERROR
     com.yahoo.elide.core: WARN
     org.springframework: WARN
-    com.restdude: WARN
-#      test: WARN
-#      init  : DEBUG
-#      util: WARN
-#      mdd: WARN
-#      jsonapi: WARN
-    com.noteblox: WARN
-
-#        repository: DEBUG
-#        validation: DEBUG
-
+    springfox.documentation.schema.property.CachingModelPropertiesProvider: ERROR
+    com.restdude: debug
+    com.noteblox: debug
 
 server:
   contextPath: /noteblox
@@ -137,8 +129,6 @@ info:
     remote.origin.url: ${git.remote.origin.url}
     commit:
       id: ${git.commit.id}
-#OR (depends on commitIdGenerationMode)
-#      identifier.full: ${git.commit.identifier.full}
       id.abbrev: ${git.commit.id.abbrev}
       id.describe: ${git.commit.id.describe}
       id.describe-short: ${git.commit.id.describe-short}

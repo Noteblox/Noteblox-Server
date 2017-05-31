@@ -48,28 +48,28 @@ public class Note extends AbstractCaseModel<WebsiteNotesApp, Note, NoteComment> 
     public static final String API_PATH = "notes";
     public static final String CLASS_DESCRIPTION = "Entity model for page notes";
 
-    @Getter @Setter
+    
     @ApiModelProperty(value = "The annotated text selection")
     private String quote;
 
-    @Getter @Setter
+    
     @ApiModelProperty(value = "Original given URL of the note target")
     private String originalUrl;
 
     @NotNull
     @Column(name = "visibility", nullable = false)
-    @Getter @Setter
+    
     @ApiModelProperty(value = "Note visibility settings", allowableValues = "PERSONAL, WEBSITE", required = true)
     private NoteVisibilityType visibility = NoteVisibilityType.WEBSITE;
 
     @NotNull
     @ManyToOne
     @JoinColumn(name = "target", nullable = false, updatable = false)
-    @Getter @Setter
+    
     @ApiModelProperty(value = "The website host", required = true)
     private NoteTarget target;
 
-    @Getter @Setter
+    
     @ApiModelProperty(value = "List of tags")
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "note_tags", joinColumns = {@JoinColumn(name = "tag")}, inverseJoinColumns = {
@@ -79,7 +79,7 @@ public class Note extends AbstractCaseModel<WebsiteNotesApp, Note, NoteComment> 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
     @JoinColumn(name="note")
-    @Getter @Setter
+    
     private List<SelectionRange> ranges;
 
     public Note() {
@@ -88,9 +88,56 @@ public class Note extends AbstractCaseModel<WebsiteNotesApp, Note, NoteComment> 
 
     protected Note(String title, String detail) {
        super(title, detail);
-
-
     }
+
+    public String getQuote() {
+        return quote;
+    }
+
+    public void setQuote(String quote) {
+        this.quote = quote;
+    }
+
+    public String getOriginalUrl() {
+        return originalUrl;
+    }
+
+    public void setOriginalUrl(String originalUrl) {
+        this.originalUrl = originalUrl;
+    }
+
+    public NoteVisibilityType getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(NoteVisibilityType visibility) {
+        this.visibility = visibility;
+    }
+
+    public NoteTarget getTarget() {
+        return target;
+    }
+
+    public void setTarget(NoteTarget target) {
+        this.target = target;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
+    }
+
+    public List<SelectionRange> getRanges() {
+        return ranges;
+    }
+
+    public void setRanges(List<SelectionRange> ranges) {
+        this.ranges = ranges;
+    }
+
     public static class Builder {
         private String quote;
         private String title;

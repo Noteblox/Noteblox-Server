@@ -18,6 +18,7 @@ package com.noteblox.restdude.service.impl;
 
 import com.noteblox.restdude.model.*;
 import com.noteblox.restdude.model.dto.Annotation;
+import com.noteblox.restdude.model.mapper.NoteAnnotationMapper;
 import com.noteblox.restdude.repository.NoteCommentRepository;
 import com.noteblox.restdude.repository.NoteRepository;
 import com.noteblox.restdude.repository.NoteTargetRepository;
@@ -99,11 +100,13 @@ public class NoteServiceImpl
                 if(target.isPresent()){
                     List<Note> notes = this.repository.findAnnotationsByTarget(target.get());
                     annotations = new ArrayList<>();
-                    for(Note note : notes){
+                    NoteAnnotationMapper mapper = NoteAnnotationMapper.INSTANCE;
+                    for(Note note : notes){;
                         //(String id, LocalDateTime created, LocalDateTime updated,
                         // String text, String quote, String uri, UserDTO user, String consumer, AnnotationPermissions permissions, List<String> tags, List<SelectionRange> ranges) {
-                        Annotation ann = new Annotation(note.getId(), note.getCreatedDate(), note.getLastModifiedDate(),
-                                note.getDetail(), note.getQuote(), httpUrl, UserDTO.fromUser(note.getCreatedBy()), null, null, null, note.getRanges());
+                        //Annotation ann = new Annotation(note.getId(), note.getCreatedDate(), note.getLastModifiedDate(),
+                        //        note.getDetail(), note.getQuote(), httpUrl, UserDTO.fromUser(note.getCreatedBy()), null, null, null, note.getRanges());
+                        Annotation ann = mapper.noteToAnnotation(note);
                         annotations.add(ann);
                     }
                 }
@@ -130,91 +133,6 @@ public class NoteServiceImpl
         return this.repository.getCaseIndex(persisted);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void initDataOverride(User systemUser) {
-        log.debug("initData");
-        // initialize globals?
-        if (this.repository.count() == 0) {
-
-            // create "business" space
-            Space notbloxSpace = this.spaceService.create(new Space.Builder()
-                    .name("NTBLX")
-                    .title("NoteBLOX, LLC")
-                    .description("Root business space for NoteBLOX, LLC")
-                    .visibility(ContextVisibilityType.CLOSED)
-                    .build());
-
-            // create "website" space
-            Host moteBloxHost = this.hostService.create(new Host.Builder().name("noteblox.github.io").description("Domain for NoteBLOX Server's github pages").aliase("127.0.0.1:4000").build());
-            BillableAccount billableAccount = this.billableAccountService.create(new BillableAccount(systemUser));
-            Website notebloxGithubIo = this.websiteService.create(new Website.Builder()
-                    .billableAccount(billableAccount)
-                    .name("noteblox.github.io")
-                    .title("noteblox.github.io")
-                    .owner(systemUser)
-                    .description("Website space for noteblox.github.io")
-                    .visibility(ContextVisibilityType.CLOSED)
-                    .host(moteBloxHost)
-                    .build());
-
-            // create notes application and workflow
-            // ------------------------------------------
-            CaseWorkflow workflow = this.caseWorkflowService.create(
-                    new CaseWorkflow("Simple UOC", "Workflow configuration for " + this.getDomainClass().getSimpleName() + "entries", notbloxSpace));
-
-            // add custom statuses
-            List<CaseStatus> errorsWorkflowStatuses = new LinkedList<>();
-            CaseStatus unassigned = caseStatusService.create(new CaseStatus(CaseStatus.UNASSIGNED, "Status for cases that have not yet been assigned", workflow));
-            errorsWorkflowStatuses.add(unassigned);
-            errorsWorkflowStatuses.add(caseStatusService.create(new CaseStatus(CaseStatus.OPEN, "Status for pending cases", workflow)));
-            errorsWorkflowStatuses.add(caseStatusService.create(new CaseStatus(CaseStatus.CLOSED, "Status for closed cases", workflow)));
-            workflow.setStatuses(errorsWorkflowStatuses);
-
-            // add notes app
-            WebsiteNotesApp notesApp = this.websiteNotesAppService.create(
-                    new WebsiteNotesApp.Builder()
-                            .space(notebloxGithubIo)
-                            .basePath("/")
-                            .owner(systemUser)
-                            .name(this.getWorkflowName())
-                            .title(this.getWorkflowTitle())
-                            .description(this.getWorkflowDescription())
-                            .workflow(workflow)
-                            .visibility(ContextVisibilityType.CLOSED)
-                            .build());
-
-            // add note target page
-            NoteTarget target = this.noteTargetRepository.persist(new NoteTarget("/Noteblox-Server", notebloxGithubIo));
-
-            // add a few notes
-            Note note1 = this.create(new Note.Builder()
-                    .application(notesApp)
-                    .status(unassigned)
-                    .title("Sample note #1")
-                    .quote("on-page support and collaboration tool")
-                    .detail("This is a comment")
-                    .target(target)
-                    .originalUrl("http://noteblox.github.io/Noteblox-Server/index.html")
-                    .range(new SelectionRange("/div[2]/div[1]/div[1]/section[1]/p[1]", "/div[2]/div[1]/div[1]/section[1]/p[1]", 15, 53))
-                    .build());
-            Note note2 = this.create(new Note.Builder()
-                    .application(notesApp)
-                    .status(unassigned)
-                    .title("Sample note #1")
-                    .quote("ee the RES")
-                    .detail("This is another comment")
-                    .target(target)
-                    .originalUrl("http://noteblox.github.io/Noteblox-Server/index.html")
-                    .range(new SelectionRange("/div[2]/div[1]/div[1]/section[2]/p[1]", "/div[2]/div[1]/div[1]/section[2]/p[1]/a[1]", 2, 3))
-                    .build());
-
-
-        }
-
-    }
 
 
 
