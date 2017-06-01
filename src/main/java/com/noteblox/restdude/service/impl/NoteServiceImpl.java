@@ -192,7 +192,7 @@ public class NoteServiceImpl
             // add notes app
             WebsiteNotesApp notesApp = this.websiteNotesAppService.create(
                     new WebsiteNotesApp.Builder()
-                            .space(notebloxGithubIo)
+                            .space(notbloxSpace)
                             .parent(notbloxSpace)
                             .basePath("/")
                             .owner(systemUser)
