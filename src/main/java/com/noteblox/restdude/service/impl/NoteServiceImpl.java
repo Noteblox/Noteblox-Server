@@ -133,6 +133,105 @@ public class NoteServiceImpl
         return this.repository.getCaseIndex(persisted);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void initDataOverride(User systemUser) {
+        log.debug("initData");
+        // initialize globals?
+        if (this.repository.count() == 0) {
+
+            // create "business" space
+            Space notbloxSpace = this.spaceService.create(new Space.Builder()
+                    .name("NTBLX")
+                    .title("NoteBLOX, LLC")
+                    .description("Root business space for NoteBLOX, LLC")
+                    .visibility(ContextVisibilityType.CLOSED)
+                    .build());
+
+            // create "website" space
+            Host moteBloxHost = this.hostService.create(new Host.Builder().name("noteblox.com").description("Noteblox.com main domain").aliase("www.noteblox.com").build());
+            Host moteBloxGithubHost = this.hostService.create(new Host.Builder().name("noteblox.github.io").description("Domain for NoteBLOX Server's github pages").aliase("127.0.0.1:4000").aliase("localhost:4000").aliase("noteblox.github.io:80").build());
+            BillableAccount billableAccount = this.billableAccountService.create(new BillableAccount(systemUser));
+            Website notebloxCom = this.websiteService.create(new Website.Builder()
+                    .billableAccount(billableAccount)
+                    .parent(notbloxSpace)
+                    .name("noteblox.com")
+                    .title("noteblox.com")
+                    .owner(systemUser)
+                    .description("Website space for noteblox.github.io")
+                    .visibility(ContextVisibilityType.CLOSED)
+                    .host(moteBloxHost)
+                    .build());
+
+            Website notebloxGithubIo = this.websiteService.create(new Website.Builder()
+                    .billableAccount(billableAccount)
+                    .parent(notbloxSpace)
+                    .name("noteblox.github.io")
+                    .title("noteblox.github.io")
+                    .owner(systemUser)
+                    .description("Website space for noteblox.github.io")
+                    .visibility(ContextVisibilityType.CLOSED)
+                    .host(moteBloxGithubHost)
+                    .build());
+
+            // create notes application and workflow
+            // ------------------------------------------
+            CaseWorkflow workflow = this.caseWorkflowService.create(
+                    new CaseWorkflow("Simple UOC", "Workflow configuration for " + this.getDomainClass().getSimpleName() + "entries", notbloxSpace));
+
+            // add custom statuses
+            List<CaseStatus> errorsWorkflowStatuses = new LinkedList<>();
+            CaseStatus unassigned = caseStatusService.create(new CaseStatus(CaseStatus.UNASSIGNED, "Status for cases that have not yet been assigned", workflow));
+            errorsWorkflowStatuses.add(unassigned);
+            errorsWorkflowStatuses.add(caseStatusService.create(new CaseStatus(CaseStatus.OPEN, "Status for pending cases", workflow)));
+            errorsWorkflowStatuses.add(caseStatusService.create(new CaseStatus(CaseStatus.CLOSED, "Status for closed cases", workflow)));
+            workflow.setStatuses(errorsWorkflowStatuses);
+
+            // add notes app
+            WebsiteNotesApp notesApp = this.websiteNotesAppService.create(
+                    new WebsiteNotesApp.Builder()
+                            .space(notebloxGithubIo)
+                            .parent(notbloxSpace)
+                            .basePath("/")
+                            .owner(systemUser)
+                            .name(this.getWorkflowName())
+                            .title(this.getWorkflowTitle())
+                            .description(this.getWorkflowDescription())
+                            .workflow(workflow)
+                            .visibility(ContextVisibilityType.CLOSED)
+                            .build());
+
+            // add note target page
+            NoteTarget target = this.noteTargetRepository.persist(new NoteTarget("/Noteblox-Server", notebloxGithubIo));
+
+            // add a few notes
+            Note note1 = this.create(new Note.Builder()
+                    .application(notesApp)
+                    .status(unassigned)
+                    .title("Sample note #1")
+                    .quote("on-page support and collaboration tool")
+                    .detail("This is a comment")
+                    .target(target)
+                    .originalUrl("http://noteblox.github.io/Noteblox-Server/index.html")
+                    .range(new SelectionRange("/div[2]/div[1]/div[1]/section[1]/p[1]", "/div[2]/div[1]/div[1]/section[1]/p[1]", 15, 53))
+                    .build());
+            Note note2 = this.create(new Note.Builder()
+                    .application(notesApp)
+                    .status(unassigned)
+                    .title("Sample note #1")
+                    .quote("ee the RES")
+                    .detail("This is another comment")
+                    .target(target)
+                    .originalUrl("http://noteblox.github.io/Noteblox-Server/index.html")
+                    .range(new SelectionRange("/div[2]/div[1]/div[1]/section[2]/p[1]", "/div[2]/div[1]/div[1]/section[2]/p[1]/a[1]", 2, 3))
+                    .build());
+
+
+        }
+
+    }
 
 
 

@@ -31,7 +31,7 @@ public interface NoteAnnotationMapper {
     NoteAnnotationMapper INSTANCE = Mappers.getMapper( NoteAnnotationMapper.class );
 
     @Mappings({
-            @Mapping(source = "pk", target = "id"),
+            @Mapping(source = "id", target = "id"),
             @Mapping(source = "createdDate", target = "created", dateFormat = "yyyy-MM-dd'T'HH:mm:ssX"),
             @Mapping(source = "lastModifiedDate", target = "updated", dateFormat = "yyyy-MM-dd'T'HH:mm:ssX"),
             @Mapping(source = "detail", target = "text"),
@@ -41,7 +41,7 @@ public interface NoteAnnotationMapper {
     Annotation noteToAnnotation(Note note);
 
     @Mappings({
-            @Mapping(source = "id", target = "pk"),
+            @Mapping(source = "id", target = "id"),
             @Mapping(source = "created", target = "createdDate", dateFormat = "yyyy-MM-dd'T'HH:mm:ssX"),
             @Mapping(source = "updated", target = "lastModifiedDate", dateFormat = "yyyy-MM-dd'T'HH:mm:ssX"),
             @Mapping(source = "text", target = "detail"),
@@ -55,7 +55,7 @@ public interface NoteAnnotationMapper {
     }
     default User createdByToUser(UserDTO dto){
         User user = new User();
-        user.setPk(dto.getId());
+        user.setId(dto.getId());
         user.setUsername(dto.getUsername());
         return user;
     }

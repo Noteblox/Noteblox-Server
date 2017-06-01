@@ -195,7 +195,7 @@
                             </outputDirectory>
                         </configuration>
                     </execution>
-                    <execution>
+                    <!--execution>
                         <id>unpack-overlay-resources</id>
                         <phase>generate-resources</phase>
                         <goals>
@@ -216,7 +216,7 @@
                             <outputDirectory>${project.build.directory}/generated-resources/restdude-unpacked/static
                             </outputDirectory>
                         </configuration>
-                    </execution>
+                    </execution-->
                 </executions>
             </plugin>
 
@@ -390,13 +390,13 @@
             <artifactId>restdude-resources</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
+        <!--dependency>
             <groupId>com.restdude</groupId>
             <artifactId>restdude-war-overlay</artifactId>
             <version>${project.version}</version>
             <type>war</type>
             <scope>provided</scope>
-        </dependency>
+        </dependency-->
         <dependency>
             <groupId>com.restdude</groupId>
             <artifactId>restdude-tests-integration</artifactId>

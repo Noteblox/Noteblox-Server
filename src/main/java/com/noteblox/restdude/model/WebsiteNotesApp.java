@@ -59,7 +59,7 @@ public class WebsiteNotesApp extends SpaceCasesApp<Note> {
 
 	public WebsiteNotesApp(String id) {
 		this();
-		this.setPk(id);
+		this.setId(id);
 	}
 
 	@Override
@@ -78,9 +78,14 @@ public class WebsiteNotesApp extends SpaceCasesApp<Note> {
 		private String bannerUrl = Constants.DEFAULT_BANNER_URL;
 		private User owner;
 		private ContextVisibilityType visibility = ContextVisibilityType.CLOSED;
+		private Space parent;
 		private Space space;
 		private CaseWorkflow workflow;
 
+		public Builder parent(Space parent) {
+			this.parent = parent;
+			return this;
+		}
 		public Builder basePath(String basePath) {
 			this.basePath = basePath;
 			return this;

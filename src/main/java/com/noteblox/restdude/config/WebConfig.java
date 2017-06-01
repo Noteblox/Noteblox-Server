@@ -18,6 +18,7 @@ package com.noteblox.restdude.config;
 
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.restdude.domain.error.resolver.RestExceptionHandler;
+import com.restdude.hypermedia.util.HypermediaUtils;
 import com.restdude.mdd.binding.CsvMessageConverter;
 import com.restdude.mdd.binding.CustomEnumConverterFactory;
 import com.restdude.mdd.binding.StringToEmbeddableManyToManyIdConverterFactory;
@@ -48,6 +49,25 @@ public class WebConfig extends WebMvcConfigurerAdapter /*implements WebMvcRegist
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WebConfig.class);
 
+
+    /**
+     * Automatically collect and persist errors
+     */
+    @Bean
+    public HandlerExceptionResolver restExceptionHandler() {
+        return new RestExceptionHandler();
+    }
+
+    @Bean
+    public HibernateExceptionTranslator hibernateExceptionTranslator() {
+        return new HibernateExceptionTranslator();
+    }
+
+    @Bean
+    public javax.validation.Validator localValidatorFactoryBean() {
+        return new LocalValidatorFactoryBean();
+    }
+
     // TODO: refactor to programmatic CORS control
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -67,24 +87,6 @@ public class WebConfig extends WebMvcConfigurerAdapter /*implements WebMvcRegist
                 .maxAge(3600);
     }
 
-    /**
-     * Automatically collect and persist errors
-     */
-    @Bean
-    public HandlerExceptionResolver restExceptionHandler() {
-        return new RestExceptionHandler();
-    }
-
-    @Bean
-    public HibernateExceptionTranslator hibernateExceptionTranslator() {
-        return new HibernateExceptionTranslator();
-    }
-
-    @Bean
-    public javax.validation.Validator localValidatorFactoryBean() {
-        return new LocalValidatorFactoryBean();
-    }
-/*
     @Bean
     public FilterRegistrationBean filterRegistrationBean() {
         FilterRegistrationBean registrationBean = new FilterRegistrationBean();
@@ -94,7 +96,7 @@ public class WebConfig extends WebMvcConfigurerAdapter /*implements WebMvcRegist
         registrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
         return registrationBean;
     }
-*/
+
     @Bean
     public Jackson2ObjectMapperBuilder jacksonBuilder() {
         Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
@@ -104,7 +106,7 @@ public class WebConfig extends WebMvcConfigurerAdapter /*implements WebMvcRegist
                         com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
                         com.fasterxml.jackson.databind.DeserializationFeature.READ_DATE_TIMESTAMPS_AS_NANOSECONDS,
                         com.fasterxml.jackson.databind.DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE,
-                        SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+                        com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         return builder;
     }
 
@@ -132,7 +134,7 @@ public class WebConfig extends WebMvcConfigurerAdapter /*implements WebMvcRegist
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
         configurer.favorPathExtension(false)
                 .favorParameter(true)
-                .defaultContentType(new MediaType("application", "vnd.api+json"))
+                .defaultContentType(MediaType.APPLICATION_JSON)
                 .mediaType("json", MediaType.APPLICATION_JSON)
                 .mediaType("xml", MediaType.APPLICATION_XML);
     }

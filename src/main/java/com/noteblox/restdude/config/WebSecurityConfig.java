@@ -55,7 +55,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private String anonymousKey = UUID.randomUUID().toString();
 
-
     @Autowired
     public void setUserDetailsService(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
@@ -120,8 +119,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/signup/**").permitAll()
                 .antMatchers("/api/management/**").hasAnyAuthority(Roles.ROLE_ADMIN)
                 .antMatchers("/v2/api-docs").hasAnyAuthority(Roles.ROLE_USER)
-                .antMatchers(HttpMethod.OPTIONS, "/api/rest/annotator/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/rest/annotator/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/rest/**").hasAnyAuthority(Roles.ROLE_USER)
                 .antMatchers(HttpMethod.PATCH, "/api/rest/**").hasAnyAuthority(Roles.ROLE_USER)
                 .antMatchers(HttpMethod.PUT, "/api/rest/**").hasAnyAuthority(Roles.ROLE_USER)

@@ -49,7 +49,7 @@ public class BillableAccount extends AbstractPersistableModel<String> {
 
     @Id
     @Getter @Setter
-    private String pk;
+    private String id;
 
     @MapsId
     @OneToOne(optional = false, fetch = FetchType.LAZY)
@@ -82,7 +82,7 @@ public class BillableAccount extends AbstractPersistableModel<String> {
     @JsonIgnore
     @Override
     public boolean isNew() {
-        return null == this.getPk();
+        return null == this.getId();
     }
 
     @Override
@@ -103,7 +103,7 @@ public class BillableAccount extends AbstractPersistableModel<String> {
             return false;
         }
         BillableAccount that = (BillableAccount) obj;
-        return null == this.getPk() ? false : this.getPk().equals(that.getPk());
+        return null == this.getId() ? false : this.getId().equals(that.getId());
     }
 
 
