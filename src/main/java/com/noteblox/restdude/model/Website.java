@@ -89,8 +89,6 @@ public class Website extends Space {
 		private String name;
 		private String title;
 		private String description;
-		private String avatarUrl = Constants.DEFAULT_AVATAR_URL;
-		private String bannerUrl = Constants.DEFAULT_BANNER_URL;
 		private Host host;
 		private User owner;
 		private Space parent;
@@ -128,16 +126,6 @@ public class Website extends Space {
 			return this;
 		}
 
-		public Builder avatarUrl(String avatarUrl) {
-			this.avatarUrl = avatarUrl;
-			return this;
-		}
-
-		public Builder bannerUrl(String bannerUrl) {
-			this.bannerUrl = bannerUrl;
-			return this;
-		}
-
 		public Builder host(Host host) {
 			this.host = host;
 			return this;
@@ -165,8 +153,6 @@ public class Website extends Space {
 		this.setBillableAccount(builder.billableAccount);
 		this.setTitle(builder.title);
 		this.setDescription(builder.description);
-		this.setAvatarUrl(builder.avatarUrl);
-		this.setBannerUrl(builder.bannerUrl);
 		this.setOwner(builder.owner);
 		this.setHost(builder.host);
 		this.setVisibility(builder.visibility);
