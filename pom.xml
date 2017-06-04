@@ -39,9 +39,11 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:git@github.com:manosbatsis/restdude.git</connection>
-        <url>scm:git:git@github.com:Noteblox/Noteblox-Server.git</url>
-        <developerConnection>scm:git:git@github.com:Noteblox/Noteblox-Server.git.git</developerConnection>
+
+        <url>http://github.com/Noteblox/Noteblox-Server</url>
+        <connection>scm:git:ssh://github.com/Noteblox/Noteblox-Server.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/Noteblox/Noteblox-Server.git</developerConnection>
+        <tag>HEAD</tag>
     </scm>
 
     <profiles>
