@@ -14,11 +14,13 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with NoteBLOX.  If not, see <https://www.gnu.org/licenses/agpl-3.0.en.html>.
  */
-package com.noteblox.restdude.model.enums;
+package com.noteblox.restdude.service;
 
-import io.swagger.annotations.ApiModel;
+import com.noteblox.restdude.model.CaseTarget;
+import com.restdude.mdd.service.PersistableModelService;
 
-@ApiModel
-public enum NoteVisibilityType {
-	PERSONAL, WEBSITE;
+
+public interface CaseTargetService extends PersistableModelService<CaseTarget, String> {
+
+	public static final String BEAN_ID = "caseTargetService";
 }

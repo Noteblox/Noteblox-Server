@@ -21,6 +21,7 @@ import com.noteblox.restdude.model.NoteComment;
 import com.noteblox.restdude.model.Website;
 import com.restdude.domain.PersistableModel;
 import com.restdude.domain.cases.service.CaseService;
+import com.restdude.domain.misc.model.Host;
 import com.restdude.mdd.service.PersistableModelService;
 
 import java.net.URL;
@@ -29,6 +30,17 @@ import java.util.Optional;
 
 public interface WebsiteService extends PersistableModelService<Website, String> {
     public static final String BEAN_ID = "errorLogService";
+
+
+    /**
+     * Find the website best matching the given host and path, if any
+     *
+     * @param path
+     * @param host
+     * @return
+     */
+    public Optional<Website> findByPathAndHost(String path, Host host);
+
 
     /**
      * Find the website best matching the given URL, if any

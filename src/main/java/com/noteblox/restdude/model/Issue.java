@@ -1,20 +1,35 @@
 /**
- * This file is part of NoteBLOX.
+ * This file is part of IssueBLOX.
  *
- * NoteBLOX is free software: you can redistribute it and/or modify
+ * IssueBLOX is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * NoteBLOX is distributed in the hope that it will be useful,
+ * IssueBLOX is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with NoteBLOX.  If not, see <https://www.gnu.org/licenses/agpl-3.0.en.html>.
+ * along with IssueBLOX.  If not, see <https://www.gnu.org/licenses/agpl-3.0.en.html>.
  */
 package com.noteblox.restdude.model;
+
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.noteblox.restdude.model.enums.CaseVisibilityType;
@@ -26,75 +41,59 @@ import com.restdude.mdd.annotation.model.ModelResource;
 import com.restdude.mdd.controller.AbstractNoDeletePersistableModelController;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * {@value CLASS_DESCRIPTION}
  */
-
 @Entity
-@Table(name = "note")
-@ModelResource(pathFragment = Note.API_PATH, controllerSuperClass = AbstractNoDeletePersistableModelController.class,
-        apiName = "Notes", apiDescription = "Note operations")
-@ApiModel(description = Note.CLASS_DESCRIPTION)
-public class Note extends AbstractCaseModel<WebsiteNotesApp, Note, NoteComment> {
+@Table(name = "issue")
+@ModelResource(pathFragment = Issue.API_PATH, controllerSuperClass = AbstractNoDeletePersistableModelController.class,
+        apiName = "Issues", apiDescription = "Issue operations")
+@ApiModel(description = Issue.CLASS_DESCRIPTION)
+public class Issue extends AbstractCaseModel<WebsiteIssuesApp, Issue, IssueComment> {
 
-    public static final String API_PATH = "notes";
-    public static final String CLASS_DESCRIPTION = "Entity model for page notes";
+    public static final String API_PATH = "issues";
+    public static final String CLASS_DESCRIPTION = "Entity model for page issues";
 
     
     @ApiModelProperty(value = "The annotated text selection")
     private String quote;
 
     
-    @ApiModelProperty(value = "Original given URL of the note target")
+    @ApiModelProperty(value = "Original given URL of the issue target")
     private String originalUrl;
 
     @NotNull
     @Column(name = "visibility", nullable = false)
-    @ApiModelProperty(value = "Note visibility settings", allowableValues = "PERSONAL, WEBSITE", required = true)
+    
+    @ApiModelProperty(value = "Issue visibility settings", allowableValues = "PERSONAL, WEBSITE", required = true)
     private CaseVisibilityType visibility = CaseVisibilityType.WEBSITE;
 
     @NotNull
     @ManyToOne
     @JoinColumn(name = "target", nullable = false, updatable = false)
+    
     @ApiModelProperty(value = "The website host", required = true)
     private CaseTarget target;
 
     
     @ApiModelProperty(value = "List of tags")
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "note_tags", joinColumns = {@JoinColumn(name = "tag")}, inverseJoinColumns = {
-            @JoinColumn(name = "note")})
+    @JoinTable(name = "issue_tags", joinColumns = {@JoinColumn(name = "tag")}, inverseJoinColumns = {
+            @JoinColumn(name = "issue")})
     private List<Tag> tags;
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
-    @JoinColumn(name="note")
+    @JoinColumn(name="issue")
+    
     private List<SelectionRange> ranges;
 
-    public Note() {
+    public Issue() {
 
     }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this).appendSuper(super.toString())
-                .append("quote", this.quote)
-                .append("originalUrl", this.originalUrl)
-                .append("visibility", this.visibility)
-                .append("target", this.target)
-                .append("status", this.getStatus())
-                .toString();
-    }
-
-
-    protected Note(String title, String detail) {
+    protected Issue(String title, String detail) {
        super(title, detail);
     }
 
@@ -150,15 +149,14 @@ public class Note extends AbstractCaseModel<WebsiteNotesApp, Note, NoteComment> 
         private String quote;
         private String title;
         private String originalUrl;
-        private User assignee;
         private String detail;
         private User user;
+        private User assignee;
         private CaseStatus status;
         private CaseTarget target;
-        private WebsiteNotesApp application;
+        private WebsiteIssuesApp application;
 
         private List<SelectionRange> ranges;
-
 
         public Builder assignee(User assignee) {
             this.assignee = assignee;
@@ -170,7 +168,7 @@ public class Note extends AbstractCaseModel<WebsiteNotesApp, Note, NoteComment> 
             return this;
         }
 
-        public Builder application(WebsiteNotesApp application) {
+        public Builder application(WebsiteIssuesApp application) {
             this.application = application;
             return this;
         }
@@ -224,16 +222,17 @@ public class Note extends AbstractCaseModel<WebsiteNotesApp, Note, NoteComment> 
             return this;
         }
 
-        public Note build() {
-            return new Note(this);
+        public Issue build() {
+            return new Issue(this);
         }
     }
 
-    private Note(Builder builder) {
+    private Issue(Builder builder) {
         this.setQuote(builder.quote);
         this.setTitle(builder.title);
         this.setOriginalUrl(builder.originalUrl);
         this.setCreatedBy(builder.user);
+        this.setAssignee(builder.assignee);
         this.setTarget(builder.target);
         this.setDetail(builder.detail);
         this.setApplication(builder.application);

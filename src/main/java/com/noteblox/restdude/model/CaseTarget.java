@@ -16,12 +16,7 @@
  */
 package com.noteblox.restdude.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.noteblox.restdude.model.enums.NoteVisibilityType;
 import com.restdude.domain.cases.model.AbstractCaseModel;
-import com.restdude.domain.cms.model.Tag;
-import com.restdude.domain.misc.model.Host;
-import com.restdude.domain.users.model.User;
 import com.restdude.mdd.annotation.model.ModelResource;
 import com.restdude.mdd.controller.AbstractNoDeletePersistableModelController;
 import com.restdude.mdd.model.AbstractSystemUuidPersistableModel;
@@ -32,18 +27,16 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * {@value CLASS_DESCRIPTION}
  */
 @Entity
 @Table(name = "note_target")
-@ModelResource(pathFragment = NoteTarget.API_PATH, controllerSuperClass = AbstractNoDeletePersistableModelController.class,
-        apiName = "NoteTarget", apiDescription = "Note operations")
-@ApiModel(description = NoteTarget.CLASS_DESCRIPTION)
-public class NoteTarget extends AbstractSystemUuidPersistableModel {
+@ModelResource(pathFragment = CaseTarget.API_PATH, controllerSuperClass = AbstractNoDeletePersistableModelController.class,
+        apiName = "CaseTarget", apiDescription = "Note operations")
+@ApiModel(description = CaseTarget.CLASS_DESCRIPTION)
+public class CaseTarget extends AbstractSystemUuidPersistableModel {
 
     public static final String API_PATH = "noteTargets";
     public static final String CLASS_DESCRIPTION = "Entity model for notes targets, typically web pages";
@@ -59,11 +52,11 @@ public class NoteTarget extends AbstractSystemUuidPersistableModel {
     @ApiModelProperty(value = "The website host", required = true)
     private Website website;
 
-    public NoteTarget() {
+    public CaseTarget() {
 
     }
 
-    public NoteTarget(String path, Website website) {
+    public CaseTarget(String path, Website website) {
         this.path = path;
         this.website = website;
     }
@@ -76,12 +69,12 @@ public class NoteTarget extends AbstractSystemUuidPersistableModel {
             return this;
         }
 
-        public NoteTarget build() {
-            return new NoteTarget(this);
+        public CaseTarget build() {
+            return new CaseTarget(this);
         }
     }
 
-    private NoteTarget(Builder builder) {
+    private CaseTarget(Builder builder) {
         this.setWebsite(builder.website);
     }
 

@@ -16,10 +16,10 @@
  */
 package com.noteblox.restdude.service;
 
-import com.noteblox.restdude.model.WebsiteNotesApp;
+import com.noteblox.restdude.model.WebsiteIssuesApp;
 import com.restdude.mdd.service.PersistableModelService;
 
 
-public interface WebsiteNotesAppService extends PersistableModelService<WebsiteNotesApp, String> {
-    public static final String BEAN_ID = "websiteNotesAppService";
+public interface WebsiteIssuesAppService extends PersistableModelService<WebsiteIssuesApp, String> {
+    public static final String BEAN_ID = "websiteIssuesAppService";
 }

@@ -111,6 +111,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .authorizeRequests()
                 // tmp
+
+                .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/api/rest/**").permitAll()
                 .antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/apiauth/**").permitAll()

@@ -14,12 +14,11 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with NoteBLOX.  If not, see <https://www.gnu.org/licenses/agpl-3.0.en.html>.
  */
-package com.noteblox.restdude.service;
+package com.noteblox.restdude.repository;
 
-import com.noteblox.restdude.model.WebsiteNotesApp;
-import com.restdude.mdd.service.PersistableModelService;
+import com.noteblox.restdude.model.WebsiteIssuesApp;
+import com.restdude.mdd.repository.ModelRepository;
 
+public interface WebsiteIssuesAppRepository extends ModelRepository<WebsiteIssuesApp, String> {
 
-public interface WebsiteNotesAppService extends PersistableModelService<WebsiteNotesApp, String> {
-    public static final String BEAN_ID = "websiteNotesAppService";
 }

@@ -30,7 +30,7 @@ import java.util.List;
 @ApiModel(description = AnnotationPermissions.API_MODEL_DESCRIPTION)
 public class AnnotationPermissions {
 
-    public static final String API_MODEL_DESCRIPTION = "Annotation permissions (for Permissions/AnnotateItPermissions plugin)";
+    public static final String API_MODEL_DESCRIPTION = "fromAnnotation permissions (for Permissions/AnnotateItPermissions plugin)";
 
     @Getter @Setter
     @ApiModelProperty(value = "Read permissions", example = "group:__world__")

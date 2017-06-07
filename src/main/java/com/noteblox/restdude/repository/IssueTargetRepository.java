@@ -17,24 +17,15 @@
 package com.noteblox.restdude.repository;
 
 import com.noteblox.restdude.model.CaseTarget;
-import com.noteblox.restdude.model.Note;
-import com.restdude.domain.cases.repository.AbstractCaseModelRepository;
-
+import com.noteblox.restdude.model.Website;
+import com.restdude.mdd.repository.ModelRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
-import java.util.List;
+import java.util.Optional;
 
-public interface NoteRepository  extends AbstractCaseModelRepository<Note>{
-
-    String WORKFLOW_NAME = "NTBLX-NOTES";
-    String WORKFLOW_TITLE = "Noteblox Website Notes";
-    String WORKFLOW_DESCRIPTION = "Website note entries";
+public interface IssueTargetRepository extends ModelRepository<CaseTarget, String> {
 
 
-    @Query("select n from Note n where n.target = ?1")
-    List<Note> findAnnotationsByTarget(CaseTarget caseTarget);
-
-    @Query(value = "select count(c)+1 from  Note c where c.application = :#{#unIndexed.application}  and c.createdDate  <  :#{#unIndexed.createdDate} ")
-    Integer getCaseIndex( @Param("unIndexed") Note unIndexed);
+    @Query("select n from CaseTarget n where n.path = ?1 and n.website = ?2")
+    Optional<CaseTarget> findByPathAndWebsite(String path, Website website);
 }

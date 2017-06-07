@@ -36,7 +36,9 @@ import com.restdude.domain.users.model.User;
 import com.restdude.domain.users.service.UserService;
 import com.restdude.mdd.service.AbstractPersistableModelServiceImpl;
 import com.restdude.mdd.service.PersistableModelService;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,8 +63,13 @@ public class WebsiteServiceImpl
      * {@inheritDoc}
      */
     @Override
-    public Optional<Website> findByUrl(String url){
+    public Optional<Website> findByUrl(@NonNull String url){
         Optional<Website> website;
+        // add dummy protocol if missing
+        if(!url.startsWith("http")){
+            url = "https://" + url;
+        }
+        log.debug("findByUrl: {}", url);
         try {
             website = this.findByUrl(new URL(url));
         } catch (MalformedURLException e) {
@@ -79,11 +86,23 @@ public class WebsiteServiceImpl
     public Optional<Website> findByUrl(URL url){
 
         String path = url.getPath();
+        // use default path if missing
+        if(StringUtils.isBlank(path)){
+            path = "/";
+        }
         Host host = getHost(url);
-        Optional<Website> website = this.repository.findByPathAndHost(path, host);
+        Optional<Website> website = this.findByPathAndHost(path, host);
         log.debug("findByUrl, path: {}, host: {}, httpUrl: {}, website: {}", path, host, url, website);
 
         return website;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Optional<Website> findByPathAndHost(String path, Host host){
+        return this.repository.findByPathAndHost(path, host);
     }
 
     protected Host getHost(URL url) {

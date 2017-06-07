@@ -1,29 +1,44 @@
 /**
- * This file is part of NoteBLOX.
+ * This file is part of IssueBLOX.
  *
- * NoteBLOX is free software: you can redistribute it and/or modify
+ * IssueBLOX is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * NoteBLOX is distributed in the hope that it will be useful,
+ * IssueBLOX is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with NoteBLOX.  If not, see <https://www.gnu.org/licenses/agpl-3.0.en.html>.
+ * along with IssueBLOX.  If not, see <https://www.gnu.org/licenses/agpl-3.0.en.html>.
  */
 package com.noteblox.restdude.service.impl;
 
-import com.noteblox.restdude.model.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
+
+import javax.inject.Named;
+
+import com.noteblox.restdude.model.BillableAccount;
+import com.noteblox.restdude.model.CaseTarget;
+import com.noteblox.restdude.model.Issue;
+import com.noteblox.restdude.model.IssueComment;
+import com.noteblox.restdude.model.SelectionRange;
+import com.noteblox.restdude.model.Website;
+import com.noteblox.restdude.model.WebsiteIssuesApp;
 import com.noteblox.restdude.model.dto.Annotation;
-import com.noteblox.restdude.model.mapper.NoteAnnotationMapper;
-import com.noteblox.restdude.repository.NoteCommentRepository;
-import com.noteblox.restdude.repository.NoteRepository;
+import com.noteblox.restdude.model.mapper.IssueAnnotationMapper;
+import com.noteblox.restdude.repository.IssueCommentRepository;
+import com.noteblox.restdude.repository.IssueRepository;
 import com.noteblox.restdude.repository.IssueTargetRepository;
-import com.noteblox.restdude.service.NoteService;
-import com.noteblox.restdude.service.WebsiteNotesAppService;
+import com.noteblox.restdude.service.IssueService;
+import com.noteblox.restdude.service.WebsiteIssuesAppService;
 import com.noteblox.restdude.service.WebsiteService;
 import com.restdude.domain.cases.model.CaseStatus;
 import com.restdude.domain.cases.model.CaseWorkflow;
@@ -42,19 +57,11 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.inject.Named;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
-
 @Slf4j
-@Named(NoteService.BEAN_ID)
-public class NoteServiceImpl
-        extends AbstractCaseServiceImpl<Note, NoteComment, NoteRepository>
-        implements NoteService {
+@Named(IssueService.BEAN_ID)
+public class IssueServiceImpl
+        extends AbstractCaseServiceImpl<Issue, IssueComment, IssueRepository>
+        implements IssueService {
 
     public static final char INDEX_CHAR = '-';
 
@@ -63,11 +70,11 @@ public class NoteServiceImpl
     private PersistableModelService<Host, String> hostService;
     private SpaceService spaceService;
     private WebsiteService websiteService;
-    private WebsiteNotesAppService websiteNotesAppService;
-    private NoteService noteService;
+    private WebsiteIssuesAppService websiteIssuesAppService;
+    private IssueService issueService;
     private CaseStatusService caseStatusService;
-    protected NoteCommentRepository noteCommentRepository;
-    protected IssueTargetRepository issueTargetRepository;
+    protected IssueCommentRepository noteCommentRepository;
+    protected IssueTargetRepository noteTargetRepository;
     private CaseWorkflowService caseWorkflowService;
 
 
@@ -76,7 +83,9 @@ public class NoteServiceImpl
      */
     @Override
     public List<Annotation> findAnnotationsForUrl(String httpUrl){
+
         List<Annotation> annotations = null;
+        /*
         try {
             URL url = new URL(httpUrl);
 
@@ -91,23 +100,23 @@ public class NoteServiceImpl
                     path = path.substring(0, path.length() - welcomeFile.length());
                 }
                 log.debug("findAnnotationsForUrl, note target path: {}", path);
-                Optional<CaseTarget> target = this.issueTargetRepository.findByPathAndWebsite(path, website.get());
+                Optional<CaseTarget> target = this.noteTargetRepository.findByPathAndWebsite(path, website.get());
 
                 if(target.isPresent()){
-                    List<Note> notes = this.repository.findAnnotationsByTarget(target.get());
+                    List<Issue> items = this.repository.findAnnotationsByTarget(target.get());
                     annotations = new ArrayList<>();
-                    NoteAnnotationMapper mapper = NoteAnnotationMapper.INSTANCE;
-                    for(Note note : notes){;
+                    IssueAnnotationMapper mapper = IssueAnnotationMapper.INSTANCE;
+                    for(Issue item : items){;
                         //(String id, LocalDateTime created, LocalDateTime updated,
                         // String text, String quote, String uri, UserDTO user, String consumer, AnnotationPermissions permissions, List<String> tags, List<SelectionRange> ranges) {
                         //fromAnnotation ann = new fromAnnotation(note.getId(), note.getCreatedDate(), note.getLastModifiedDate(),
                         //        note.getDetail(), note.getQuote(), httpUrl, UserDTO.fromUser(note.getCreatedBy()), null, null, null, note.getRanges());
-                        Annotation ann = mapper.toAnnotation(note);
+                        Annotation ann = mapper.toAnnotation(item);
                         annotations.add(ann);
                     }
                 }
                 else{
-                    log.debug("findAnnotationsForUrl, Note target not found for URL: {}", httpUrl);
+                    log.debug("findAnnotationsForUrl, Issue target not found for URL: {}", httpUrl);
                 }
             }
             else{
@@ -117,7 +126,7 @@ public class NoteServiceImpl
         } catch (MalformedURLException e) {
             throw new IllegalArgumentException(e);
         }
-
+        */
         return annotations != null ? annotations : new ArrayList<>();
     }
 
@@ -125,7 +134,7 @@ public class NoteServiceImpl
      * {@inheritDoc}
      */
     @Override
-    public Integer getCaseIndex(Note persisted){
+    public Integer getCaseIndex(Issue persisted){
         return this.repository.getCaseIndex(persisted);
     }
 
@@ -139,51 +148,14 @@ public class NoteServiceImpl
         if (this.repository.count() == 0) {
 
             // create "business" space
-            Space notbloxSpace = this.spaceService.create(new Space.Builder()
-                    .name("NTBLX")
-                    .title("NoteBLOX, LLC")
-                    .description("Root business space for NoteBLOX, LLC")
-                    .visibility(ContextVisibilityType.CLOSED)
-                    .build());
-            for(int i=0; i < 1000; i++){
-                this.spaceService.create(new Space.Builder()
-                        .name("NTBLX"+i)
-                        .title("NoteBLOX "+i)
-                        .description("Root business space for NoteBLOX" + i)
-                        .visibility(ContextVisibilityType.CLOSED)
-                        .build());
-            }
+            Space notbloxSpace = this.spaceService.findByName("NTBLX");
+            Website notebloxCom = this.websiteService.findByUrl("noteblox.com").get();
+            Website notebloxGithubIo = this.websiteService.findByUrl("noteblox.github.io").get();
 
-            // create "website" space
-            Host moteBloxHost = this.hostService.create(new Host.Builder().name("noteblox.com").description("Noteblox.com main domain").aliase("www.noteblox.com").build());
-            Host moteBloxGithubHost = this.hostService.create(new Host.Builder().name("noteblox.github.io").description("Domain for NoteBLOX Server's github pages").aliase("127.0.0.1:4000").aliase("localhost:4000").aliase("noteblox.github.io:80").build());
-            BillableAccount billableAccount = this.billableAccountService.create(new BillableAccount(systemUser));
-            Website notebloxCom = this.websiteService.create(new Website.Builder()
-                    .billableAccount(billableAccount)
-                    .parent(notbloxSpace)
-                    .name("noteblox.com")
-                    .title("noteblox.com")
-                    .owner(systemUser)
-                    .description("Website space for noteblox.github.io")
-                    .visibility(ContextVisibilityType.CLOSED)
-                    .host(moteBloxHost)
-                    .build());
-
-            Website notebloxGithubIo = this.websiteService.create(new Website.Builder()
-                    .billableAccount(billableAccount)
-                    .parent(notbloxSpace)
-                    .name("noteblox.github.io")
-                    .title("noteblox.github.io")
-                    .owner(systemUser)
-                    .description("Website space for noteblox.github.io")
-                    .visibility(ContextVisibilityType.CLOSED)
-                    .host(moteBloxGithubHost)
-                    .build());
-
-            // create notes application and workflow
+            // create issues application and workflow
             // ------------------------------------------
             CaseWorkflow workflow = this.caseWorkflowService.create(
-                    new CaseWorkflow("Simple UOC", "Workflow configuration for " + this.getDomainClass().getSimpleName() + "entries", notbloxSpace));
+                    new CaseWorkflow("NTBLX Issues Workflow", "Workflow configuration for " + this.getDomainClass().getSimpleName() + "entries", notbloxSpace));
 
             // add custom statuses
             List<CaseStatus> workflowStatuses = new LinkedList<>();
@@ -195,8 +167,8 @@ public class NoteServiceImpl
             workflow.setStatuses(workflowStatuses);
 
             // add notes app
-            WebsiteNotesApp notesApp = this.websiteNotesAppService.create(
-                    new WebsiteNotesApp.Builder()
+            WebsiteIssuesApp notesApp = this.websiteIssuesAppService.create(
+                    new WebsiteIssuesApp.Builder()
                             .space(notbloxSpace)
                             .parent(notbloxSpace)
                             .basePath("/")
@@ -209,31 +181,28 @@ public class NoteServiceImpl
                             .build());
 
             // add note target page
-            CaseTarget target = this.issueTargetRepository.persist(new CaseTarget("/Noteblox-Server", notebloxGithubIo));
-
-
+            CaseTarget target = this.noteTargetRepository.persist(new CaseTarget("/Issueblox-Server", notebloxGithubIo));
 
             // add a few notes
-            Note note1 = this.create(new Note.Builder()
+            Issue note1 = this.create(new Issue.Builder()
                     .application(notesApp)
                     .status(unassigned)
-                    .title("Sample note #1")
+                    .title("Sample issue #1")
                     .quote("on-page support and collaboration tool")
-                    .detail("This is a comment")
                     .assignee(systemUser)
+                    .detail("This is a comment")
                     .target(target)
-                    .originalUrl("http://noteblox.github.io/Noteblox-Server/index.html")
+                    .originalUrl("http://noteblox.github.io/Issueblox-Server/index.html")
                     .range(new SelectionRange("/div[2]/div[1]/div[1]/section[1]/p[1]", "/div[2]/div[1]/div[1]/section[1]/p[1]", 15, 53))
                     .build());
-
-            Note note2 = this.create(new Note.Builder()
+            Issue note2 = this.create(new Issue.Builder()
                     .application(notesApp)
                     .status(unassigned)
-                    .title("Sample note #1")
+                    .title("Sample issue #1")
                     .quote("ee the RES")
                     .detail("This is another comment")
                     .target(target)
-                    .originalUrl("http://noteblox.github.io/Noteblox-Server/index.html")
+                    .originalUrl("http://noteblox.github.io/Issueblox-Server/index.html")
                     .range(new SelectionRange("/div[2]/div[1]/div[1]/section[2]/p[1]", "/div[2]/div[1]/div[1]/section[2]/p[1]/a[1]", 2, 3))
                     .build());
 
@@ -250,7 +219,7 @@ public class NoteServiceImpl
     }
 
     @Override
-    public List<CaseCommenttInfo> getCompactCommentsBySubject(Note note) {
+    public List<CaseCommenttInfo> getCompactCommentsBySubject(Issue note) {
         return null;
     }
 
@@ -296,13 +265,13 @@ public class NoteServiceImpl
     }
 
     @Autowired
-    public void setWebsiteNotesAppService(WebsiteNotesAppService websiteNotesAppService) {
-        this.websiteNotesAppService = websiteNotesAppService;
+    public void setWebsiteIssuesAppService(WebsiteIssuesAppService websiteIssuesAppService) {
+        this.websiteIssuesAppService = websiteIssuesAppService;
     }
 
     @Autowired
-    public void setNoteService(NoteService noteService) {
-        this.noteService = noteService;
+    public void setIssueService(IssueService noteService) {
+        this.issueService = noteService;
     }
 
     @Autowired
@@ -311,13 +280,13 @@ public class NoteServiceImpl
     }
 
     @Autowired
-    public void setNoteCommentRepository(NoteCommentRepository noteCommentRepository) {
+    public void setIssueCommentRepository(IssueCommentRepository noteCommentRepository) {
         this.noteCommentRepository = noteCommentRepository;
     }
 
     @Autowired
-    public void setIssueTargetRepository(IssueTargetRepository issueTargetRepository) {
-        this.issueTargetRepository = issueTargetRepository;
+    public void setIssueTargetRepository(IssueTargetRepository noteTargetRepository) {
+        this.noteTargetRepository = noteTargetRepository;
     }
 
     @Autowired

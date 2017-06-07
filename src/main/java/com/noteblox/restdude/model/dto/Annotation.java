@@ -33,7 +33,7 @@ import java.util.List;
 @ApiModel(description = Annotation.API_MODEL_DESCRIPTION)
 @ModelResource(pathFragment = Annotation.API_PATH_FRAGMENT,
         apiName = "Annotations",
-        apiDescription = "Annotation Operations")
+        apiDescription = "fromAnnotation Operations")
 public class Annotation {
 
     public static final String API_MODEL_DESCRIPTION = "An annotation is a JSON document that contains a number of fields describing the position and content of an annotation within a specified document. Data Transfer Object compatible with Annotator JS library ";
@@ -72,7 +72,7 @@ public class Annotation {
     private String uri;
 
     
-    @ApiModelProperty(value = "Annotation owner", readOnly = true)
+    @ApiModelProperty(value = "fromAnnotation owner", readOnly = true)
     private UserDTO user;
 
     
@@ -80,7 +80,7 @@ public class Annotation {
     private String consumer;
 
     
-    @ApiModelProperty(value = "Annotation permissions (from Permissions/AnnotateItPermissions plugin)")
+    @ApiModelProperty(value = "fromAnnotation permissions (from Permissions/AnnotateItPermissions plugin)")
     private AnnotationPermissions permissions;
 
     @ApiModelProperty(value = "List of ranges covered by annotation (usually only one entry)")

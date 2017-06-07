@@ -14,19 +14,20 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with NoteBLOX.  If not, see <https://www.gnu.org/licenses/agpl-3.0.en.html>.
  */
-package com.noteblox.restdude.repository;
+package com.noteblox.restdude.service.impl;
 
-import com.noteblox.restdude.model.NoteTarget;
-import com.noteblox.restdude.model.Website;
-import com.restdude.domain.misc.model.Host;
-import com.restdude.mdd.repository.ModelRepository;
-import org.springframework.data.jpa.repository.Query;
+import com.noteblox.restdude.model.*;
+import com.noteblox.restdude.repository.IssueTargetRepository;
+import com.noteblox.restdude.service.CaseTargetService;
+import com.restdude.mdd.service.AbstractPersistableModelServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 
-import java.util.Optional;
+import javax.inject.Named;
 
-public interface NoteTargetRepository extends ModelRepository<NoteTarget, String> {
+@Slf4j
+@Named(CaseTargetService.BEAN_ID)
+public class CaseTargetServiceImpl
+        extends AbstractPersistableModelServiceImpl<CaseTarget, String, IssueTargetRepository>
+        implements CaseTargetService {
 
-
-    @Query("select n from NoteTarget n where n.path = ?1 and n.website = ?2")
-    Optional<NoteTarget> findByPathAndWebsite(String path, Website website);
 }

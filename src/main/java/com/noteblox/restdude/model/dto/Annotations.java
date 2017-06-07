@@ -39,7 +39,7 @@ import java.util.List;
 @ApiModel(description = Annotations.API_MODEL_DESCRIPTION)
 public class Annotations implements Serializable{
 
-    public static final String API_MODEL_DESCRIPTION = "A list of Annotation entries ";
+    public static final String API_MODEL_DESCRIPTION = "A list of fromAnnotation entries ";
 
     @Getter @Setter
     List<Annotation> rows;

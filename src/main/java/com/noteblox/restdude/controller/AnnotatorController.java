@@ -27,7 +27,6 @@ import com.restdude.mdd.annotation.model.ModelDrivenPreAuth;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,7 +44,7 @@ public class AnnotatorController {
     NoteService noteService;
 
     @RequestMapping(method = RequestMethod.GET)
-    @ApiOperation(value = "Get annotations for URL", notes = "Get all notes annotating the given URL as Annotation DTO instances.")
+    @ApiOperation(value = "Get annotations for URL", notes = "Get all notes annotating the given URL as fromAnnotation DTO instances.")
     public Annotations getAnnotationsFor(@RequestParam(value = "uri", required = false) String uri, HttpServletRequest request, HttpServletResponse response) {
         //http://localhost:8080/noteblox/api/rest/notes/search?uri=http%3A%2F%2F127.0.0.1%3A4000%2FNoteblox-Server%2Findex.html
         List<Annotation> annotations = new LinkedList<>();
@@ -62,14 +61,14 @@ public class AnnotatorController {
     @JsonView({Model.ItemView.class})
     @ModelDrivenPreAuth
     public Annotation create(@RequestBody Annotation model) {
-        Note note = NoteAnnotationMapper.INSTANCE.noteToAnnotation(model);
+        Note note = NoteAnnotationMapper.INSTANCE.fromAnnotation(model);
         note = this.noteService.create(note);
-        return NoteAnnotationMapper.INSTANCE.noteToAnnotation(note);
+        return NoteAnnotationMapper.INSTANCE.toAnnotation(note);
     }
 
 
     @RequestMapping(method = RequestMethod.OPTIONS)
-    @ApiOperation(value = "Get annotations for URL", notes = "Get all notes annotating the given URL as Annotation DTO instances.")
+    @ApiOperation(value = "Get annotations for URL", notes = "Get all notes annotating the given URL as fromAnnotation DTO instances.")
     public void getAnnotationsForPreFlight(@RequestParam(value = "uri", required = false) String uri, HttpServletRequest request, HttpServletResponse response) {
         //http://example.com/api/search?uri=http%3A%2F%2F127.0.0.1%3A4000%2FNoteblox-Server%2F
         log.debug("getAnnotationsForPreFlight uri: {}", uri);

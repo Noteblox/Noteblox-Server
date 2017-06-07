@@ -40,7 +40,7 @@ import javax.inject.Named;
 import java.util.LinkedList;
 import java.util.List;
 
-@Named("websiteNotesAppService")
+@Named(WebsiteNotesAppService.BEAN_ID)
 public class WebsiteNotesAppServiceImpl
         extends AbstractPersistableModelServiceImpl< WebsiteNotesApp, String, WebsiteNotesAppRepository>
         implements WebsiteNotesAppService {
