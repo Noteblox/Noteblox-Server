@@ -85,7 +85,7 @@ public class IssueServiceImpl
     public List<Annotation> findAnnotationsForUrl(String httpUrl){
 
         List<Annotation> annotations = null;
-        /*
+
         try {
             URL url = new URL(httpUrl);
 
@@ -107,10 +107,6 @@ public class IssueServiceImpl
                     annotations = new ArrayList<>();
                     IssueAnnotationMapper mapper = IssueAnnotationMapper.INSTANCE;
                     for(Issue item : items){;
-                        //(String id, LocalDateTime created, LocalDateTime updated,
-                        // String text, String quote, String uri, UserDTO user, String consumer, AnnotationPermissions permissions, List<String> tags, List<SelectionRange> ranges) {
-                        //fromAnnotation ann = new fromAnnotation(note.getId(), note.getCreatedDate(), note.getLastModifiedDate(),
-                        //        note.getDetail(), note.getQuote(), httpUrl, UserDTO.fromUser(note.getCreatedBy()), null, null, null, note.getRanges());
                         Annotation ann = mapper.toAnnotation(item);
                         annotations.add(ann);
                     }
@@ -126,7 +122,7 @@ public class IssueServiceImpl
         } catch (MalformedURLException e) {
             throw new IllegalArgumentException(e);
         }
-        */
+
         return annotations != null ? annotations : new ArrayList<>();
     }
 

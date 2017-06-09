@@ -147,9 +147,9 @@ public class NoteServiceImpl
                     .build());
             for(int i=0; i < 1000; i++){
                 this.spaceService.create(new Space.Builder()
-                        .name("NTBLX"+i)
-                        .title("NoteBLOX "+i)
-                        .description("Root business space for NoteBLOX" + i)
+                        .name("TEST "+i)
+                        .title("Test "+i + " title")
+                        .description("Organization space for test" + i)
                         .visibility(ContextVisibilityType.CLOSED)
                         .build());
             }
