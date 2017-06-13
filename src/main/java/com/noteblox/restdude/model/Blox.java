@@ -25,6 +25,7 @@ import com.restdude.mdd.annotation.model.ModelResource;
 import com.restdude.util.Constants;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -37,15 +38,15 @@ import java.util.Set;
  * {@value #API_MODEL_DESCRIPTION}
  */
 @Entity
-@Table(name = "context_website")
-@ModelResource(pathFragment = Website.API_PATH_FRAGMENT,
-		apiName = "Website",
+@Table(name = "blox")
+@ModelResource(pathFragment = Blox.API_PATH_FRAGMENT,
+		apiName = "Blox",
 		apiDescription = "Website Operations")
-@ApiModel(description = Website.API_MODEL_DESCRIPTION)
-public class Website extends Space {
+@ApiModel(description = Blox.API_MODEL_DESCRIPTION)
+public class Blox extends Space {
 
-	public static final String API_PATH_FRAGMENT = "websites";
-	public static final String API_MODEL_DESCRIPTION = "A model representing a Website, essentially a group of resources under a base path.";
+	public static final String API_PATH_FRAGMENT = "blocks";
+	public static final String API_MODEL_DESCRIPTION = "A model representing an organization, community, team or wWebsite";
 
 	@NotNull
 	@Column(name = "base_path", nullable = false)
@@ -57,21 +58,21 @@ public class Website extends Space {
 	@ManyToOne
 	@JoinColumn(name = "owner", nullable = false, updatable = false)
 	@Getter @Setter
-	@ApiModelProperty(value = "The account this website belongs to", required = true)
+	@ApiModelProperty(value = "The account this blox belongs to", required = true)
 	private BillableAccount billableAccount;
 
 	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "host", nullable = false, updatable = false)
 	@Getter @Setter
-	@ApiModelProperty(value = "The website host", required = true)
+	@ApiModelProperty(value = "The blox host", required = true)
 	private Host host;
 
-	public Website() {
+	public Blox() {
 		super();
 	}
 	
-	public Website(String id) {
+	public Blox(String id) {
 		this();
 		this.setId(id);
 	}
@@ -85,31 +86,19 @@ public class Website extends Space {
 	}
 
 	public static class Builder {
-		private String basePath = "/";
+
 		private String name;
 		private String title;
 		private String description;
-		private Host host;
+		private String avatarUrl;
+		private String bannerUrl;
 		private User owner;
+		private String basePath = "/";
+		private Host host;
 		private Space parent;
 		private BillableAccount billableAccount;
 		private ContextVisibilityType visibility;
 		private Set<Membership> memberships;
-
-		public Builder parent(Space parent) {
-			this.parent = parent;
-			return this;
-		}
-
-		public Builder billableAccount(BillableAccount billableAccount) {
-			this.billableAccount = billableAccount;
-			return this;
-		}
-
-		public Builder basePath(String basePath) {
-			this.basePath = basePath;
-			return this;
-		}
 
 		public Builder name(String name) {
 			this.name = name;
@@ -126,8 +115,14 @@ public class Website extends Space {
 			return this;
 		}
 
-		public Builder host(Host host) {
-			this.host = host;
+
+		public Builder avatarUrl(String avatarUrl) {
+			this.avatarUrl = avatarUrl;
+			return this;
+		}
+
+		public Builder bannerUrl(String bannerUrl) {
+			this.bannerUrl = bannerUrl;
 			return this;
 		}
 
@@ -136,23 +131,47 @@ public class Website extends Space {
 			return this;
 		}
 
+		public Builder parent(Space parent) {
+			this.parent = parent;
+			return this;
+		}
+
+		public Builder billableAccount(BillableAccount billableAccount) {
+			this.billableAccount = billableAccount;
+			return this;
+		}
+
+		public Builder basePath(String basePath) {
+			this.basePath = basePath;
+			return this;
+		}
+
+
+		public Builder host(Host host) {
+			this.host = host;
+			return this;
+		}
+
+
 		public Builder visibility(ContextVisibilityType visibility) {
 			this.visibility = visibility;
 			return this;
 		}
 
-		public Website build() {
-			return new Website(this);
+		public Blox build() {
+			return new Blox(this);
 		}
 	}
 
-	private Website(Builder builder) {
-		this.setParent(builder.parent);
-		this.setBasePath(builder.basePath);
+	private Blox(Builder builder) {
 		this.setName(builder.name);
-		this.setBillableAccount(builder.billableAccount);
 		this.setTitle(builder.title);
 		this.setDescription(builder.description);
+		this.setAvatarUrl(builder.avatarUrl);
+		this.setBannerUrl(builder.bannerUrl);
+		this.setParent(builder.parent);
+		this.setBasePath(builder.basePath);
+		this.setBillableAccount(builder.billableAccount);
 		this.setOwner(builder.owner);
 		this.setHost(builder.host);
 		this.setVisibility(builder.visibility);

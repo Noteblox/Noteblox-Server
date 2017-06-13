@@ -16,9 +16,10 @@
  */
 package com.noteblox.restdude.service;
 
+import com.noteblox.restdude.model.Blox;
 import com.noteblox.restdude.model.Note;
 import com.noteblox.restdude.model.NoteComment;
-import com.noteblox.restdude.model.Website;
+import com.noteblox.restdude.model.Blox;
 import com.restdude.domain.PersistableModel;
 import com.restdude.domain.cases.service.CaseService;
 import com.restdude.domain.misc.model.Host;
@@ -28,33 +29,33 @@ import java.net.URL;
 import java.util.Optional;
 
 
-public interface WebsiteService extends PersistableModelService<Website, String> {
+public interface BloxService extends PersistableModelService<Blox, String> {
     public static final String BEAN_ID = "errorLogService";
 
 
     /**
-     * Find the website best matching the given host and path, if any
+     * Find the blox best matching the given host and path, if any
      *
      * @param path
      * @param host
      * @return
      */
-    public Optional<Website> findByPathAndHost(String path, Host host);
+    public Optional<Blox> findByPathAndHost(String path, Host host);
 
 
     /**
-     * Find the website best matching the given URL, if any
+     * Find the blox best matching the given URL, if any
      *
      * @param url
      * @return
      */
-    public Optional<Website> findByUrl(String url);
+    public Optional<Blox> findByUrl(String url);
 
     /**
-     * Find the website best matching the given URL, if any
+     * Find the blox best matching the given URL, if any
      *
      * @param url
      * @return
      */
-    public Optional<Website> findByUrl(URL url);
+    public Optional<Blox> findByUrl(URL url);
 }

@@ -16,46 +16,28 @@
  */
 package com.noteblox.restdude.service.impl;
 
-import com.noteblox.restdude.model.Website;
-import com.noteblox.restdude.model.WebsiteNotesApp;
-import com.noteblox.restdude.repository.NoteCommentRepository;
-import com.noteblox.restdude.repository.WebsiteNotesAppRepository;
-import com.noteblox.restdude.repository.WebsiteRepository;
-import com.noteblox.restdude.service.WebsiteNotesAppService;
-import com.noteblox.restdude.service.WebsiteService;
-import com.restdude.domain.cases.model.CaseStatus;
-import com.restdude.domain.cases.model.CaseWorkflow;
-import com.restdude.domain.cases.model.Space;
-import com.restdude.domain.cases.service.CaseStatusService;
-import com.restdude.domain.cases.service.CaseWorkflowService;
-import com.restdude.domain.cases.service.SpaceService;
-import com.restdude.domain.error.service.impl.AbstractErrorServiceImpl;
+import com.noteblox.restdude.model.Blox;
+import com.noteblox.restdude.repository.BloxRepository;
+import com.noteblox.restdude.service.BloxService;
 import com.restdude.domain.misc.model.Host;
 import com.restdude.domain.misc.repository.HostRepository;
-import com.restdude.domain.users.model.User;
-import com.restdude.domain.users.service.UserService;
 import com.restdude.mdd.service.AbstractPersistableModelServiceImpl;
-import com.restdude.mdd.service.PersistableModelService;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.thymeleaf.util.ObjectUtils;
 
 import javax.inject.Named;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
 
 @Slf4j
-@Named("websiteService")
-public class WebsiteServiceImpl
-        extends AbstractPersistableModelServiceImpl<Website, String, WebsiteRepository>
-        implements WebsiteService {
+@Named("bloxService")
+public class BloxServiceImpl
+        extends AbstractPersistableModelServiceImpl<Blox, String, BloxRepository>
+        implements BloxService {
 
     HostRepository hostRepository;
 
@@ -63,8 +45,8 @@ public class WebsiteServiceImpl
      * {@inheritDoc}
      */
     @Override
-    public Optional<Website> findByUrl(@NonNull String url){
-        Optional<Website> website;
+    public Optional<Blox> findByUrl(@NonNull String url){
+        Optional<Blox> website;
         // add dummy protocol if missing
         if(!url.startsWith("http")){
             url = "https://" + url;
@@ -73,7 +55,7 @@ public class WebsiteServiceImpl
         try {
             website = this.findByUrl(new URL(url));
         } catch (MalformedURLException e) {
-            throw new IllegalArgumentException("Could not process website URL: " + url, e);
+            throw new IllegalArgumentException("Could not process blox URL: " + url, e);
         }
 
         return website;
@@ -83,7 +65,7 @@ public class WebsiteServiceImpl
      * {@inheritDoc}
      */
     @Override
-    public Optional<Website> findByUrl(URL url){
+    public Optional<Blox> findByUrl(URL url){
 
         String path = url.getPath();
         // use default path if missing
@@ -91,8 +73,8 @@ public class WebsiteServiceImpl
             path = "/";
         }
         Host host = getHost(url);
-        Optional<Website> website = this.findByPathAndHost(path, host);
-        log.debug("findByUrl, path: {}, host: {}, httpUrl: {}, website: {}", path, host, url, website);
+        Optional<Blox> website = this.findByPathAndHost(path, host);
+        log.debug("findByUrl, path: {}, host: {}, httpUrl: {}, blox: {}", path, host, url, website);
 
         return website;
     }
@@ -101,7 +83,7 @@ public class WebsiteServiceImpl
      * {@inheritDoc}
      */
     @Override
-    public Optional<Website> findByPathAndHost(String path, Host host){
+    public Optional<Blox> findByPathAndHost(String path, Host host){
         return this.repository.findByPathAndHost(path, host);
     }
 

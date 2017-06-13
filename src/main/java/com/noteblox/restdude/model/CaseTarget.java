@@ -42,30 +42,30 @@ public class CaseTarget extends AbstractSystemUuidPersistableModel {
     public static final String CLASS_DESCRIPTION = "Entity model for notes targets, typically web pages";
 
     @Getter @Setter
-    @ApiModelProperty(value = "Path of this target within it's parent website")
+    @ApiModelProperty(value = "Path of this target within it's parent blox")
     private String path;
 
     @NotNull
     @ManyToOne
     @JoinColumn(name = "host", nullable = false, updatable = false)
     @Getter @Setter
-    @ApiModelProperty(value = "The website host", required = true)
-    private Website website;
+    @ApiModelProperty(value = "The blox host", required = true)
+    private Blox blox;
 
     public CaseTarget() {
 
     }
 
-    public CaseTarget(String path, Website website) {
+    public CaseTarget(String path, Blox blox) {
         this.path = path;
-        this.website = website;
+        this.blox = blox;
     }
 
     public static class Builder {
-        private Website website;
+        private Blox blox;
 
-        public Builder website(Website website) {
-            this.website = website;
+        public Builder blox(Blox blox) {
+            this.blox = blox;
             return this;
         }
 
@@ -75,7 +75,7 @@ public class CaseTarget extends AbstractSystemUuidPersistableModel {
     }
 
     private CaseTarget(Builder builder) {
-        this.setWebsite(builder.website);
+        this.setBlox(builder.blox);
     }
 
 

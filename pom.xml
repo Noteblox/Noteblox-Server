@@ -121,6 +121,10 @@
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <configuration>
+                    <delimiters>
+                        <delimiter>@</delimiter>
+                    </delimiters>
+                    <useDefaultDelimiters>false</useDefaultDelimiters>
                     <nonFilteredFileExtensions>
                         <nonFilteredFileExtension>js</nonFilteredFileExtension>
                         <nonFilteredFileExtension>css</nonFilteredFileExtension>

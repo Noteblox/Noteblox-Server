@@ -65,7 +65,7 @@ public class BillableAccount extends AbstractPersistableModel<String> {
     @JsonIgnore
     @OneToMany(mappedBy="billableAccount", fetch=FetchType.LAZY)
     @Getter @Setter
-    private List<Website> sites = new ArrayList<Website>(0);
+    private List<Blox> sites = new ArrayList<Blox>(0);
 
     public BillableAccount() {
     }

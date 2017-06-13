@@ -10,6 +10,7 @@
 # CONFIG PROPERTIES
 # ----------------------------------------------
 buildfilters.restdude.appName=NoteBLOX
+buildfilters.restdude.host=localhost:8080
 buildfilters.restdude.contextPath=/noteblox
 # Note: Google Chrome does not save cookies from localhost
 buildfilters.restdude.initData=true

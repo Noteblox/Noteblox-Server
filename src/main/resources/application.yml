@@ -21,6 +21,8 @@ management:
 #    binders:
 #      enabled: true
 spring:
+#jdbc:h2:mem:testdb
+  h2.console.enabled: true
   application:
     name: noteblox
   # profiles:
@@ -56,14 +58,14 @@ spring:
     mode: HTML
   mail:
     default-encoding: UTF-8 # Default MimeMessage encoding.
-    host: ${buildfilters.mail.server.host} # SMTP server host. For instance `smtp.example.com`
+    host: @buildfilters.mail.server.host@ # SMTP server host. For instance `smtp.example.com`
 #    jndi-name: # Session JNDI name. When set, takes precedence to others mail settings.
-    port: ${buildfilters.mail.server.port} # SMTP server port.
+    port: @buildfilters.mail.server.port@ # SMTP server port.
 #    properties.*= # Additional JavaMail session properties.
-    protocol: ${buildfilters.mail.server.protocol} # Protocol used by the SMTP server.
+    protocol: @buildfilters.mail.server.protocol@ # Protocol used by the SMTP server.
     test-connection: false # Test that the mail server is available on startup.
-    username: ${buildfilters.mail.server.username} # Login user of the SMTP server.
-    password: ${buildfilters.mail.server.password} # Login password of the SMTP server.
+    username: @buildfilters.mail.server.username@ # Login user of the SMTP server.
+    password: @buildfilters.mail.server.password@ # Login password of the SMTP server.
   resources:
     add-mappings: true
 
@@ -73,8 +75,10 @@ logging:
     com.yahoo.elide.core: WARN
     org.springframework: WARN
     springfox.documentation.schema.property.CachingModelPropertiesProvider: ERROR
-    com.restdude: WARN
-    com.noteblox: WARN
+    com.noteblox: debug
+    com.restdude: debug
+#      domain.cases: debug
+#      mdd.controller: debug
 
 server:
   contextPath: /noteblox
@@ -98,9 +102,9 @@ restdude:
     defaultParentPath:
     prepend:
       excludes: /api/rest, /api/auth, /apiauth, /ws, /app, /queue, /topic
-  testEmailDomain: "noteblox.com"
-  baseurl: http://localhost:8080/noteblox
-  appVersion: ${project.version}
+  testEmailDomain: "test.noteblox.com"
+  baseurl: //@buildfilters.restdude.host@@buildfilters.restdude.contextPath@
+  appVersion: @project.version@
   contact:
     name: NoteBLOX Team
     url: https://github.com/Noteblox
@@ -109,43 +113,43 @@ restdude:
     name: AGPLv3
     url: https://www.gnu.org/licenses/agpl-3.0.en.html
 mail:
-  enabled: ${buildfilters.mail.enabled}
+  enabled: @buildfilters.mail.enabled@
   test:
-    enabled: ${buildfilters.mail.test.enable}
-    user: ${buildfilters.mail.test.user}
+    enabled: @buildfilters.mail.test.enable@
+    user: @buildfilters.mail.test.user@
   server:
-    from: ${buildfilters.mail.server.from}
+    from: @buildfilters.mail.server.from@
 
 info:
   app:
-    encoding: ${project.build.sourceEncoding}
+    encoding: @project.build.sourceEncoding@
     java:
-      source: ${maven.compiler.source}
-      target: ${maven.compiler.target}
+      source: @maven.compiler.source@
+      target: @maven.compiler.target@
   git:
-    tags: ${git.tags}
-    branch: ${git.branch}
-    dirty: ${git.dirty}
-    remote.origin.url: ${git.remote.origin.url}
+    tags: @git.tags@
+    branch: @git.branch@
+    dirty: @git.dirty@
+    remote.origin.url: @git.remote.origin.url@
     commit:
-      id: ${git.commit.id}
-      id.abbrev: ${git.commit.id.abbrev}
-      id.describe: ${git.commit.id.describe}
-      id.describe-short: ${git.commit.id.describe-short}
+      id: @git.commit.id@
+      id.abbrev: @git.commit.id.abbrev@
+      id.describe: @git.commit.id.describe@
+      id.describe-short: @git.commit.id.describe-short@
       user:
-        name: ${git.commit.user.name}
-        email: ${git.commit.user.email}
+        name: @git.commit.user.name@
+        email: @git.commit.user.email@
       message:
-        full: ${git.commit.message.full}
-        short: ${git.commit.message.short}
-      time: ${git.commit.time}
+        full: @git.commit.message.full@
+        short: @git.commit.message.short@
+      time: @git.commit.time@
     closest.tag:
-      name: ${git.closest.tag.name}
-      commit.count: ${git.closest.tag.commit.count}
+      name: @git.closest.tag.name@
+      commit.count: @git.closest.tag.commit.count@
     build:
       user:
-        name: ${git.build.user.name}
-        email: ${git.build.user.email}
-      time: ${git.build.time}
-      host: ${git.build.host}
-      version: ${git.build.version}
+        name: @git.build.user.name@
+        email: @git.build.user.email@
+      time: @git.build.time@
+      host: @git.build.host@
+      version: @git.build.version@

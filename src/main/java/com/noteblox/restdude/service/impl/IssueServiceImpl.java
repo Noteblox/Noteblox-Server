@@ -26,20 +26,20 @@ import java.util.Optional;
 import javax.inject.Named;
 
 import com.noteblox.restdude.model.BillableAccount;
+import com.noteblox.restdude.model.Blox;
 import com.noteblox.restdude.model.CaseTarget;
 import com.noteblox.restdude.model.Issue;
 import com.noteblox.restdude.model.IssueComment;
 import com.noteblox.restdude.model.SelectionRange;
-import com.noteblox.restdude.model.Website;
 import com.noteblox.restdude.model.WebsiteIssuesApp;
 import com.noteblox.restdude.model.dto.Annotation;
 import com.noteblox.restdude.model.mapper.IssueAnnotationMapper;
 import com.noteblox.restdude.repository.IssueCommentRepository;
 import com.noteblox.restdude.repository.IssueRepository;
-import com.noteblox.restdude.repository.IssueTargetRepository;
+import com.noteblox.restdude.repository.CaseTargetRepository;
 import com.noteblox.restdude.service.IssueService;
 import com.noteblox.restdude.service.WebsiteIssuesAppService;
-import com.noteblox.restdude.service.WebsiteService;
+import com.noteblox.restdude.service.BloxService;
 import com.restdude.domain.cases.model.CaseStatus;
 import com.restdude.domain.cases.model.CaseWorkflow;
 import com.restdude.domain.cases.model.Space;
@@ -69,12 +69,12 @@ public class IssueServiceImpl
     private UserService userService;
     private PersistableModelService<Host, String> hostService;
     private SpaceService spaceService;
-    private WebsiteService websiteService;
+    private BloxService bloxService;
     private WebsiteIssuesAppService websiteIssuesAppService;
     private IssueService issueService;
     private CaseStatusService caseStatusService;
     protected IssueCommentRepository noteCommentRepository;
-    protected IssueTargetRepository noteTargetRepository;
+    protected CaseTargetRepository noteTargetRepository;
     private CaseWorkflowService caseWorkflowService;
 
 
@@ -89,8 +89,8 @@ public class IssueServiceImpl
         try {
             URL url = new URL(httpUrl);
 
-            // get the website
-            Optional<Website> website = this.websiteService.findByUrl(url);
+            // get the blox
+            Optional<Blox> website = this.bloxService.findByUrl(url);
             if(website.isPresent()){
                 String path = url.getPath();
                 String welcomeFile = "/index.html";
@@ -144,19 +144,17 @@ public class IssueServiceImpl
         if (this.repository.count() == 0) {
 
             // create "business" space
-            Space notbloxSpace = this.spaceService.findByName("NTBLX");
-            Website notebloxCom = this.websiteService.findByUrl("noteblox.com").get();
-            Website notebloxGithubIo = this.websiteService.findByUrl("noteblox.github.io").get();
+            Blox notebloxGithubIo = this.bloxService.findByUrl("noteblox.github.io").get();
 
             // create issues application and workflow
             // ------------------------------------------
             CaseWorkflow workflow = this.caseWorkflowService.create(
-                    new CaseWorkflow("NTBLX Issues Workflow", "Workflow configuration for " + this.getDomainClass().getSimpleName() + "entries", notbloxSpace));
+                    new CaseWorkflow("SRV-ISSUES", "Issues workflow configuration for Noteblox-Server github pages", notebloxGithubIo));
 
             // add custom statuses
             List<CaseStatus> workflowStatuses = new LinkedList<>();
             CaseStatus unassigned = caseStatusService.create(new CaseStatus(CaseStatus.UNASSIGNED, "Status for cases that have not yet been assigned", workflow));
-            CaseStatus open = caseStatusService.create(new CaseStatus(CaseStatus.OPEN, "Status for pending cases", workflow));
+            CaseStatus open = caseStatusService.create(new CaseStatus(CaseStatus.OPEN, "Status for open cases", workflow));
             workflowStatuses.add(unassigned);
             workflowStatuses.add(open);
             workflowStatuses.add(caseStatusService.create(new CaseStatus(CaseStatus.CLOSED, "Status for closed cases", workflow)));
@@ -165,13 +163,13 @@ public class IssueServiceImpl
             // add notes app
             WebsiteIssuesApp notesApp = this.websiteIssuesAppService.create(
                     new WebsiteIssuesApp.Builder()
-                            .space(notbloxSpace)
-                            .parent(notbloxSpace)
-                            .basePath("/")
+                            .space(notebloxGithubIo)
+                            .parent(notebloxGithubIo)
+                            .basePath("/Noteblox-Server")
                             .owner(systemUser)
                             .name(this.getWorkflowName())
-                            .title(this.getWorkflowTitle())
-                            .description(this.getWorkflowDescription())
+                            .title("Noteblox-Server Issues")
+                            .description("Issues for Noteblox-Server Github pages")
                             .workflow(workflow)
                             .visibility(ContextVisibilityType.CLOSED)
                             .build());
@@ -256,8 +254,8 @@ public class IssueServiceImpl
     }
 
     @Autowired
-    public void setWebsiteService(WebsiteService websiteService) {
-        this.websiteService = websiteService;
+    public void setBloxService(BloxService bloxService) {
+        this.bloxService = bloxService;
     }
 
     @Autowired
@@ -281,7 +279,7 @@ public class IssueServiceImpl
     }
 
     @Autowired
-    public void setIssueTargetRepository(IssueTargetRepository noteTargetRepository) {
+    public void setIssueTargetRepository(CaseTargetRepository noteTargetRepository) {
         this.noteTargetRepository = noteTargetRepository;
     }
 

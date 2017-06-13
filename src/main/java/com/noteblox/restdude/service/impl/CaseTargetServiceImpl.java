@@ -17,7 +17,7 @@
 package com.noteblox.restdude.service.impl;
 
 import com.noteblox.restdude.model.*;
-import com.noteblox.restdude.repository.IssueTargetRepository;
+import com.noteblox.restdude.repository.CaseTargetRepository;
 import com.noteblox.restdude.service.CaseTargetService;
 import com.restdude.mdd.service.AbstractPersistableModelServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ import javax.inject.Named;
 @Slf4j
 @Named(CaseTargetService.BEAN_ID)
 public class CaseTargetServiceImpl
-        extends AbstractPersistableModelServiceImpl<CaseTarget, String, IssueTargetRepository>
+        extends AbstractPersistableModelServiceImpl<CaseTarget, String, CaseTargetRepository>
         implements CaseTargetService {
 
 }

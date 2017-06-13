@@ -1,0 +1,14 @@
+# ===================================================================
+# NoteBLOX Spring Boot configuration for demo deployment
+# ===================================================================
+
+# ===================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+
+
+#spring.profiles.include: default
+restdude:
+  baseurl: https://noteblox.herokuapp.com@buildfilters.restdude.contextPath@

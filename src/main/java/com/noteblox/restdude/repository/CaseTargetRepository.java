@@ -16,16 +16,16 @@
  */
 package com.noteblox.restdude.repository;
 
-import com.noteblox.restdude.model.Website;
-import com.noteblox.restdude.model.WebsiteNotesApp;
-import com.restdude.domain.misc.model.Host;
+import com.noteblox.restdude.model.CaseTarget;
+import com.noteblox.restdude.model.Blox;
 import com.restdude.mdd.repository.ModelRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 
-public interface WebsiteRepository extends ModelRepository<Website, String> {
+public interface CaseTargetRepository extends ModelRepository<CaseTarget, String> {
 
-    @Query("select w from Website w where w.host = ?2 and ?1 like CONCAT(w.basePath, '%') order by w.basePath DESC")
-    public Optional<Website> findByPathAndHost(String path, Host host);
+
+    @Query("select n from CaseTarget n where n.path = ?1 and n.blox = ?2")
+    Optional<CaseTarget> findByPathAndWebsite(String path, Blox blox);
 }

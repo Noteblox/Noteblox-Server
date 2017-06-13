@@ -73,7 +73,7 @@ public class Issue extends AbstractCaseModel<WebsiteIssuesApp, Issue, IssueComme
     @ManyToOne
     @JoinColumn(name = "target", nullable = false, updatable = false)
     
-    @ApiModelProperty(value = "The website host", required = true)
+    @ApiModelProperty(value = "The blox host", required = true)
     private CaseTarget target;
 
     
