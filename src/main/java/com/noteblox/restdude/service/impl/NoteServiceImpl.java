@@ -36,6 +36,7 @@ import com.restdude.domain.misc.model.Host;
 import com.restdude.domain.users.model.User;
 import com.restdude.domain.users.service.UserService;
 import com.restdude.mdd.service.PersistableModelService;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,23 +127,23 @@ public class NoteServiceImpl
      * {@inheritDoc}
      */
     @Override
-    public Integer getCaseIndex(Note persisted){
-        return this.repository.getCaseIndex(persisted);
+    public Integer getEntryIndex(Note persisted){
+        return this.repository.getEntryIndex(persisted);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void initDataOverride(User systemUser) {
+    protected void initDataOverride(@NonNull User systemUser) {
         log.debug("initData");
 
         // create "blox" space
         Host moteBloxHost = this.hostService.create(new Host.Builder().name("noteblox.com").description("Noteblox.com main domain").aliase("www.noteblox.com").build());
         Host moteBloxGithubHost = this.hostService.create(new Host.Builder().name("noteblox.github.io").description("Domain for NoteBLOX Server's github pages").aliase("127.0.0.1:4000").aliase("localhost:4000").aliase("noteblox.github.io:80").build());
-        BillableAccount billableAccount = this.billableAccountService.create(new BillableAccount(systemUser));
+        //BillableAccount billableAccount = this.billableAccountService.create(new BillableAccount(systemUser));
         Blox notebloxCom = this.bloxService.create(new Blox.Builder()
-                .billableAccount(billableAccount)
+                //.billableAccount(billableAccount)
                 .name("NTBLX-COM")
                 .title("noteblox.com")
                 .avatarUrl(baseUrl + "/img/demo/noteblox.com/avatar.png")
@@ -154,7 +155,7 @@ public class NoteServiceImpl
                 .build());
 
         Blox notebloxGithubIo = this.bloxService.create(new Blox.Builder()
-                .billableAccount(billableAccount)
+                //.billableAccount(billableAccount)
                 .name("NTBLX-GH-PAGES")
                 .title("noteblox.github.io")
                 .avatarUrl(baseUrl + "/img/demo/noteblox.io/avatar.png")
@@ -184,6 +185,8 @@ public class NoteServiceImpl
                 new WebsiteNotesApp.Builder()
                         .space(notebloxGithubIo)
                         .parent(notebloxGithubIo)
+                        .avatarUrl(baseUrl + "/img/demo/noteblox.io/avatar.png")
+                        .bannerUrl(baseUrl + "/img/demo/noteblox.io/banner.png")
                         .basePath("/Noteblox-Server")
                         .owner(systemUser)
                         .name(this.getWorkflowName())

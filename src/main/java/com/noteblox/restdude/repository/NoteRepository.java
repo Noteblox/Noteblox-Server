@@ -36,5 +36,5 @@ public interface NoteRepository  extends AbstractCaseModelRepository<Note>{
     List<Note> findAnnotationsByTarget(CaseTarget caseTarget);
 
     @Query(value = "select count(c)+1 from  Note c where c.application = :#{#unIndexed.application}  and c.createdDate  <  :#{#unIndexed.createdDate} ")
-    Integer getCaseIndex( @Param("unIndexed") Note unIndexed);
+    Integer getEntryIndex( @Param("unIndexed") Note unIndexed);
 }

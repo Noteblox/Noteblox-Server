@@ -16,7 +16,7 @@
  */
 package com.noteblox.restdude.model;
 
-import com.restdude.domain.cases.model.AbstractCaseCommentModel;
+import com.restdude.domain.cases.model.AbstractCaseComment;
 import com.restdude.mdd.annotation.model.ModelResource;
 import com.restdude.mdd.controller.AbstractNoDeletePersistableModelController;
 import io.swagger.annotations.ApiModel;
@@ -31,7 +31,7 @@ import javax.persistence.*;
 @ModelResource(pathFragment = NoteComment.API_PATH, controllerSuperClass = AbstractNoDeletePersistableModelController.class,
         apiName = "Note Comments", apiDescription = "Note comment operations")
 @ApiModel(description = NoteComment.CLASS_DESCRIPTION)
-public class NoteComment extends AbstractCaseCommentModel<Note, NoteComment> {
+public class NoteComment extends AbstractCaseComment<Note, NoteComment> {
 
     public static final String API_PATH = "noteComments";
     public static final String CLASS_DESCRIPTION = "Comments for discussing notes";

@@ -53,14 +53,14 @@ public class Blox extends Space {
 	@Getter @Setter
 	@ApiModelProperty(value = "The base path of applicable resources, default is '/'", required = true)
 	private String basePath = "/";
-
+/*
 	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "owner", nullable = false, updatable = false)
 	@Getter @Setter
 	@ApiModelProperty(value = "The account this blox belongs to", required = true)
 	private BillableAccount billableAccount;
-
+*/
 	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "host", nullable = false, updatable = false)
@@ -136,11 +136,6 @@ public class Blox extends Space {
 			return this;
 		}
 
-		public Builder billableAccount(BillableAccount billableAccount) {
-			this.billableAccount = billableAccount;
-			return this;
-		}
-
 		public Builder basePath(String basePath) {
 			this.basePath = basePath;
 			return this;
@@ -171,7 +166,6 @@ public class Blox extends Space {
 		this.setBannerUrl(builder.bannerUrl);
 		this.setParent(builder.parent);
 		this.setBasePath(builder.basePath);
-		this.setBillableAccount(builder.billableAccount);
 		this.setOwner(builder.owner);
 		this.setHost(builder.host);
 		this.setVisibility(builder.visibility);

@@ -14,19 +14,15 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with NoteBLOX.  If not, see <https://www.gnu.org/licenses/agpl-3.0.en.html>.
  */
-package com.noteblox.restdude.repository;
+package com.noteblox.restdude.config;
 
-import com.noteblox.restdude.model.IssueComment;
-import com.noteblox.restdude.model.NoteComment;
-import com.restdude.mdd.repository.ModelRepository;
+import com.restdude.domain.cases.listener.AbstractEntityEventsHandler;
 
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-import org.springframework.security.access.method.P;
+import org.springframework.stereotype.Component;
 
-public interface IssueCommentRepository extends ModelRepository<IssueComment, String> {
-
-	@Query(value = "select count(c)+1 from  IssueComment c where c.subject = :#{#unIndexed.subject}  and c.createdDate  <  :#{#unIndexed.createdDate} ")
-	Integer getEntryIndex(@P("unIndexed") @Param("unIndexed") IssueComment unIndexed);
-
+/**
+ * Initializes sample data
+ */
+@Component
+public class EntityEventsHandler extends AbstractEntityEventsHandler {
 }

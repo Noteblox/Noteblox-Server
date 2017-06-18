@@ -36,5 +36,5 @@ public interface IssueRepository extends AbstractCaseModelRepository<Issue>{
     List<Issue> findAnnotationsByTarget(CaseTarget caseTarget);
 
     @Query(value = "select count(c)+1 from  Issue c where c.application = :#{#unIndexed.application}  and c.createdDate  <  :#{#unIndexed.createdDate} ")
-    Integer getCaseIndex(@Param("unIndexed") Issue unIndexed);
+    Integer getEntryIndex(@Param("unIndexed") Issue unIndexed);
 }

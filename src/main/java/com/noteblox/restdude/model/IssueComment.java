@@ -19,7 +19,7 @@ package com.noteblox.restdude.model;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import com.restdude.domain.cases.model.AbstractCaseCommentModel;
+import com.restdude.domain.cases.model.AbstractCaseComment;
 import com.restdude.mdd.annotation.model.ModelResource;
 import com.restdude.mdd.controller.AbstractNoDeletePersistableModelController;
 import io.swagger.annotations.ApiModel;
@@ -32,7 +32,7 @@ import io.swagger.annotations.ApiModel;
 @ModelResource(pathFragment = IssueComment.API_PATH, controllerSuperClass = AbstractNoDeletePersistableModelController.class,
         apiName = "Issue Comments", apiDescription = "Issue comment operations")
 @ApiModel(description = IssueComment.CLASS_DESCRIPTION)
-public class IssueComment extends AbstractCaseCommentModel<Issue, IssueComment> {
+public class IssueComment extends AbstractCaseComment<Issue, IssueComment> {
 
     public static final String API_PATH = "issueComments";
     public static final String CLASS_DESCRIPTION = "Comments for discussing issues";

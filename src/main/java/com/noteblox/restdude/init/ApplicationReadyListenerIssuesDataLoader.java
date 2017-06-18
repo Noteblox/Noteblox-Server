@@ -16,41 +16,40 @@
  */
 package com.noteblox.restdude.init;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import com.noteblox.restdude.service.IssueService;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Initial data
+ * Creates initial data for issues upon receiving an {@link ApplicationReadyEvent}. Listener order set to 30, i.e. after {@link ApplicationReadyListenerNotesDataLoader}
  */
 @Slf4j
 @Component
-@Named("issuesDataLoader")
-public class IssuesDataLoader {
+public class ApplicationReadyListenerIssuesDataLoader {
 
-    private NotesDataLoader notesDataLoader;
     private IssueService issueService;
-
-    @Autowired
-    public void setNotesDataLoader(NotesDataLoader notesDataLoader) {
-        this.notesDataLoader = notesDataLoader;
-    }
 
     @Autowired
     public void setIssueService(IssueService issueService) {
         this.issueService = issueService;
     }
 
-    @PostConstruct
+    /**
+     * Handle an application event.
+
+     * @param event the event to respond to
+     */
     @Transactional(readOnly = false)
-    public void run() {
-        log.debug("run");
+    @EventListener
+    @Order(30)
+    public void onApplicationEvent(ApplicationReadyEvent event) {
+        log.warn("onApplicationEvent, event: {}", event);
         issueService.initData();
     }
 }

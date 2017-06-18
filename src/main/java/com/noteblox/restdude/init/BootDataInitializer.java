@@ -17,10 +17,10 @@
 package com.noteblox.restdude.init;
 
 import com.restdude.init.DataInitializer;
-import com.restdude.util.ConfigurationFactory;
-import org.apache.commons.configuration.Configuration;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -31,8 +31,9 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * {@inheritDoc}
  */
+@Slf4j
 @Component
-public class BootDataInitializer extends DataInitializer implements ApplicationRunner {
+public class BootDataInitializer extends DataInitializer implements ApplicationRunner, InitializingBean {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BootDataInitializer.class);
 
@@ -40,27 +41,28 @@ public class BootDataInitializer extends DataInitializer implements ApplicationR
     private String testEmailDomain;
 
     @Override
-    @Transactional(readOnly = false)
-    public void run(ApplicationArguments applicationArguments) throws Exception {
-        super.run();
-        try {
-
-            Configuration config = ConfigurationFactory.getConfiguration();
-            boolean initData = config.getBoolean(ConfigurationFactory.INIT_DATA, true);
-
-        }
-        catch (Exception e){
-            LOGGER.debug("Error initializing, ve: {}", e.toString());
-            e.printStackTrace();
-            throw e;
-        }
-
-
-
+    public String getTestEmailDomain() {
+        return this.testEmailDomain;
     }
 
     @Override
-    protected String getTestEmailDomain() {
-        return testEmailDomain;
+    @Transactional(readOnly = false)
+    public void run(ApplicationArguments applicationArguments) throws Exception {
+        super.run();
+    }
+
+    /**
+     * Invoked by a BeanFactory after it has set all bean properties supplied
+     * (and satisfied BeanFactoryAware and ApplicationContextAware).
+     * <p>This method allows the bean instance to perform initialization only
+     * possible when all bean properties have been set and to throw an
+     * exception in the event of misconfiguration.
+     *
+     * @throws Exception in the event of misconfiguration (such
+     *                   as failure to set an essential property) or if initialization fails.
+     */
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        log.debug("testEmailDomain: {}", testEmailDomain);
     }
 }

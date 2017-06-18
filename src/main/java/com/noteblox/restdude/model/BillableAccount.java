@@ -61,12 +61,12 @@ public class BillableAccount extends AbstractPersistableModel<String> {
     @Getter @Setter
     @ApiModelProperty(value = "The account purchased plan", required = true)
     private BillableAccountPlan plan = BillableAccountPlan.FREE;
-
+/*
     @JsonIgnore
     @OneToMany(mappedBy="billableAccount", fetch=FetchType.LAZY)
     @Getter @Setter
     private List<Blox> sites = new ArrayList<Blox>(0);
-
+*/
     public BillableAccount() {
     }
 

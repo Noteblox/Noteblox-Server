@@ -75,8 +75,10 @@ logging:
     com.yahoo.elide.core: WARN
     org.springframework: WARN
     springfox.documentation.schema.property.CachingModelPropertiesProvider: ERROR
-    com.noteblox: debug
-    com.restdude: debug
+    com.noteblox.restdude.init: debug
+    com.restdude:
+      init: debug
+      mdd.service.AbstractPersistableModelServiceImpl:  debug
 #      domain.cases: debug
 #      mdd.controller: debug
 
@@ -102,7 +104,7 @@ restdude:
     defaultParentPath:
     prepend:
       excludes: /api/rest, /api/auth, /apiauth, /ws, /app, /queue, /topic
-  testEmailDomain: "test.noteblox.com"
+  testEmailDomain: "noteblox.com"
   baseurl: //@buildfilters.restdude.host@@buildfilters.restdude.contextPath@
   appVersion: @project.version@
   contact:

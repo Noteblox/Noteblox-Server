@@ -42,7 +42,6 @@ import com.noteblox.restdude.service.WebsiteIssuesAppService;
 import com.noteblox.restdude.service.BloxService;
 import com.restdude.domain.cases.model.CaseStatus;
 import com.restdude.domain.cases.model.CaseWorkflow;
-import com.restdude.domain.cases.model.Space;
 import com.restdude.domain.cases.model.dto.CaseCommenttInfo;
 import com.restdude.domain.cases.model.enums.ContextVisibilityType;
 import com.restdude.domain.cases.service.CaseStatusService;
@@ -53,6 +52,7 @@ import com.restdude.domain.misc.model.Host;
 import com.restdude.domain.users.model.User;
 import com.restdude.domain.users.service.UserService;
 import com.restdude.mdd.service.PersistableModelService;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -130,15 +130,15 @@ public class IssueServiceImpl
      * {@inheritDoc}
      */
     @Override
-    public Integer getCaseIndex(Issue persisted){
-        return this.repository.getCaseIndex(persisted);
+    public Integer getEntryIndex(Issue persisted){
+        return this.repository.getEntryIndex(persisted);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void initDataOverride(User systemUser) {
+    protected void initDataOverride(@NonNull User systemUser) {
         log.debug("initData");
         // initialize globals?
         if (this.repository.count() == 0) {
@@ -233,6 +233,7 @@ public class IssueServiceImpl
     }
 
 
+    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     public void setBillableAccountService(PersistableModelService<BillableAccount, String> billableAccountService) {
         this.billableAccountService = billableAccountService;
@@ -243,6 +244,7 @@ public class IssueServiceImpl
         this.userService = userService;
     }
 
+    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     public void setHostService(PersistableModelService<Host, String> hostService) {
         this.hostService = hostService;

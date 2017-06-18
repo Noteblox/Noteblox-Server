@@ -17,44 +17,39 @@
 package com.noteblox.restdude.init;
 
 import com.noteblox.restdude.service.NoteService;
-import com.restdude.domain.cases.init.SpaceDataLoader;
-import com.restdude.domain.error.init.ErrorDataLoader;
-import com.restdude.domain.error.service.BaseErrorService;
-import com.restdude.domain.error.service.ClientErrorService;
-import com.restdude.domain.error.service.SystemErrorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Named;
 
 /**
- * Initial data
+ * Creates sample {@Notes} upon receiving an {@link ApplicationReadyEvent}. Listener order set to 20, i.e. after core spaces have been created.
  */
 @Slf4j
 @Component
-@Named("notesDataLoader")
-public class NotesDataLoader {
+public class ApplicationReadyListenerNotesDataLoader {
 
-    private ErrorDataLoader spaceDataLoader;
     private NoteService noteService;
-
-    @Autowired
-    public void setSpaceDataLoader(ErrorDataLoader spaceDataLoader) {
-        this.spaceDataLoader = spaceDataLoader;
-    }
 
     @Autowired
     public void setNoteService(NoteService noteService) {
         this.noteService = noteService;
     }
 
-    @PostConstruct
+    /**
+     * Handle an application event.
+
+     * @param event the event to respond to
+     */
     @Transactional(readOnly = false)
-    public void run() {
-        log.debug("run");
+    @EventListener
+    @Order(20)
+    public void onApplicationEvent(ApplicationReadyEvent event) {
+        log.warn("onApplicationEvent, event: {}", event);
         noteService.initData();
     }
 }

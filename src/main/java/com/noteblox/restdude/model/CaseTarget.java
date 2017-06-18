@@ -16,7 +16,12 @@
  */
 package com.noteblox.restdude.model;
 
-import com.restdude.domain.cases.model.AbstractCaseModel;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
 import com.restdude.mdd.annotation.model.ModelResource;
 import com.restdude.mdd.controller.AbstractNoDeletePersistableModelController;
 import com.restdude.mdd.model.AbstractSystemUuidPersistableModel;
@@ -24,9 +29,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 /**
  * {@value CLASS_DESCRIPTION}

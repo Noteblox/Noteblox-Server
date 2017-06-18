@@ -21,6 +21,12 @@ import com.noteblox.restdude.model.NoteComment;
 import com.restdude.domain.cases.repository.AbstractCaseModelRepository;
 import com.restdude.mdd.repository.ModelRepository;
 
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.security.access.method.P;
+
 public interface NoteCommentRepository extends ModelRepository<NoteComment, String> {
 
+	@Query(value = "select count(c)+1 from  NoteComment c where c.subject = :#{#unIndexed.subject}  and c.createdDate  <  :#{#unIndexed.createdDate} ")
+	Integer getEntryIndex(@P("unIndexed") @Param("unIndexed") NoteComment unIndexed);
 }

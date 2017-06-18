@@ -33,7 +33,7 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.noteblox.restdude.model.enums.CaseVisibilityType;
-import com.restdude.domain.cases.model.AbstractCaseModel;
+import com.restdude.domain.cases.model.AbstractCase;
 import com.restdude.domain.cases.model.CaseStatus;
 import com.restdude.domain.cms.model.Tag;
 import com.restdude.domain.users.model.User;
@@ -50,7 +50,7 @@ import io.swagger.annotations.ApiModelProperty;
 @ModelResource(pathFragment = Issue.API_PATH, controllerSuperClass = AbstractNoDeletePersistableModelController.class,
         apiName = "Issues", apiDescription = "Issue operations")
 @ApiModel(description = Issue.CLASS_DESCRIPTION)
-public class Issue extends AbstractCaseModel<WebsiteIssuesApp, Issue, IssueComment> {
+public class Issue extends AbstractCase<WebsiteIssuesApp, Issue, IssueComment> {
 
     public static final String API_PATH = "issues";
     public static final String CLASS_DESCRIPTION = "Entity model for page issues";

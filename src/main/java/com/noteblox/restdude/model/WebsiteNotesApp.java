@@ -74,6 +74,8 @@ public class WebsiteNotesApp extends SpaceCasesApp<Note> {
 		private String name;
 		private String title;
 		private String description;
+		private String avatarUrl;
+		private String bannerUrl;
 		private User owner;
 		private ContextVisibilityType visibility = ContextVisibilityType.CLOSED;
 		private Space parent;
@@ -101,6 +103,16 @@ public class WebsiteNotesApp extends SpaceCasesApp<Note> {
 
 		public Builder description(String description) {
 			this.description = description;
+			return this;
+		}
+
+		public Builder avatarUrl(String avatarUrl) {
+			this.avatarUrl = avatarUrl;
+			return this;
+		}
+
+		public Builder bannerUrl(String bannerUrl) {
+			this.bannerUrl = bannerUrl;
 			return this;
 		}
 
