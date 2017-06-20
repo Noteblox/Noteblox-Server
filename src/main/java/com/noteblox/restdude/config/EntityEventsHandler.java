@@ -16,8 +16,19 @@
  */
 package com.noteblox.restdude.config;
 
+import com.noteblox.restdude.model.Issue;
+import com.noteblox.restdude.model.enums.BloxActivity;
 import com.restdude.domain.cases.listener.AbstractEntityEventsHandler;
+import com.restdude.domain.cases.model.BaseCase;
+import com.restdude.domain.cases.model.BaseContext;
+import com.restdude.domain.cases.model.dto.CaseInfo;
+import com.restdude.domain.cases.model.enums.CasesActivity;
+import com.restdude.domain.event.EntityCreatedEvent;
+import com.restdude.domain.event.EntityUpdatedEvent;
+import com.restdude.domain.users.model.User;
+import com.restdude.websocket.message.MessageResource;
 
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 /**
@@ -25,4 +36,89 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class EntityEventsHandler extends AbstractEntityEventsHandler {
+/*
+	@EventListener
+	public void onIssueCreated(EntityUpdatedEvent<Issue> event) {
+		super.onIssueCreated((EntityUpdatedEvent<Issue>) event);
+	}
+
+	@EventListener
+	public void onIssueUpdated(EntityCreatedEvent<Issue> event) {
+
+		BaseCase model = event.getModel();
+		User user = model.getCreatedBy();
+		BaseContext context = model.getApplication();
+		Enum predicate = CasesActivity.UPDATED;
+		MessageResource objectMessageResource = CaseInfo.from(model);
+
+		createLog(model, user, context, predicate, objectMessageResource);
+	}
+	*/
+	@EventListener
+	public final void onIssueCreatedListener(EntityCreatedEvent<Issue> event) {
+		this.onIssueCreated(event);
+	}
+
+	public void onIssueCreated(EntityCreatedEvent<Issue> event) {
+
+		BaseCase model = event.getModel();
+		User user = model.getCreatedBy();
+		BaseContext context = model.getApplication();
+		Enum predicate = BloxActivity.CREATED_ISSUE;
+		MessageResource objectMessageResource = CaseInfo.from(model);
+
+		createLog(model, user, context, predicate, objectMessageResource);
+
+	}
+
+	@EventListener
+	public final void onIssueUpdatedListener(EntityUpdatedEvent<Issue> event) {
+		this.onIssueUpdated(event);
+	}
+
+	public void onIssueUpdated(EntityUpdatedEvent<Issue> event) {
+
+		BaseCase model = event.getModel();
+		User user = model.getCreatedBy();
+		BaseContext context = model.getApplication();
+		Enum predicate = BloxActivity.UPDATED_ISSUE;
+		MessageResource objectMessageResource = CaseInfo.from(model);
+
+		createLog(model, user, context, predicate, objectMessageResource);
+
+	}
+
+	@EventListener
+	public final void onNoteCreatedListener(EntityCreatedEvent<Issue> event) {
+		this.onNoteCreated(event);
+	}
+
+	public void onNoteCreated(EntityCreatedEvent<Issue> event) {
+
+		BaseCase model = event.getModel();
+		User user = model.getCreatedBy();
+		BaseContext context = model.getApplication();
+		Enum predicate = BloxActivity.CREATED_NOTE;
+		MessageResource objectMessageResource = CaseInfo.from(model);
+
+		createLog(model, user, context, predicate, objectMessageResource);
+
+	}
+
+	@EventListener
+	public final void onNoteUpdatedListener(EntityUpdatedEvent<Issue> event) {
+		this.onNoteUpdated(event);
+	}
+
+	public void onNoteUpdated(EntityUpdatedEvent<Issue> event) {
+
+		BaseCase model = event.getModel();
+		User user = model.getCreatedBy();
+		BaseContext context = model.getApplication();
+		Enum predicate = BloxActivity.UPDATED_NOTE;
+		MessageResource objectMessageResource = CaseInfo.from(model);
+
+		createLog(model, user, context, predicate, objectMessageResource);
+
+	}
 }

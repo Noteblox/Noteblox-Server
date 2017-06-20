@@ -38,6 +38,7 @@ import com.restdude.domain.users.service.UserService;
 import com.restdude.mdd.service.PersistableModelService;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+import net._01001111.text.LoremIpsum;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -137,6 +138,7 @@ public class NoteServiceImpl
     @Override
     protected void initDataOverride(@NonNull User systemUser) {
         log.debug("initData");
+        LoremIpsum jlorem = new LoremIpsum();
 
         // create "blox" space
         Host moteBloxHost = this.hostService.create(new Host.Builder().name("noteblox.com").description("Noteblox.com main domain").aliase("www.noteblox.com").build());
@@ -148,6 +150,7 @@ public class NoteServiceImpl
                 .title("noteblox.com")
                 .avatarUrl(baseUrl + "/img/demo/noteblox.com/avatar.png")
                 .bannerUrl(baseUrl + "/img/demo/noteblox.com/banner.png")
+                .description(jlorem.paragraphs(2, true))
                 .owner(systemUser)
                 .description("Noteblox LLC: information about the company, it's offerings, career opportunities, case studies and more.")
                 .visibility(ContextVisibilityType.CLOSED)
@@ -159,7 +162,7 @@ public class NoteServiceImpl
                 .name("NTBLX-GH-PAGES")
                 .title("noteblox.github.io")
                 .avatarUrl(baseUrl + "/img/demo/noteblox.io/avatar.png")
-                .bannerUrl(baseUrl + "/img/demo/noteblox.io/banner.png")
+                .description(jlorem.paragraphs(2, true))
                 .owner(systemUser)
                 .description("Central Github pages site for Noteblox Open Source projects. Provides access to source code, technical documentation and community support.")
                 .visibility(ContextVisibilityType.CLOSED)
@@ -189,9 +192,10 @@ public class NoteServiceImpl
                         .bannerUrl(baseUrl + "/img/demo/noteblox.io/banner.png")
                         .basePath("/Noteblox-Server")
                         .owner(systemUser)
-                        .name(this.getWorkflowName())
+                        .name(workflow.getName())
                         .title("Noteblox-Server Notes")
-                        .description("Notes for Noteblox-Server Github pages")
+                        .description("Notes for Noteblox-Server Github pages. \n" +
+                                jlorem.paragraphs(1, true))
                         .workflow(workflow)
                         .visibility(ContextVisibilityType.CLOSED)
                         .build());
@@ -205,7 +209,7 @@ public class NoteServiceImpl
                 .status(open)
                 .title("Sample note #1")
                 .quote("on-page support and collaboration tool")
-                .detail("This is a comment")
+                .detail(jlorem.paragraphs(4, true))
                 .assignee(systemUser)
                 .target(target)
                 .originalUrl("http://noteblox.github.io/Noteblox-Server/index.html")
@@ -215,9 +219,9 @@ public class NoteServiceImpl
         Note note2 = this.create(new Note.Builder()
                 .application(notesApp)
                 .status(open)
-                .title("Sample note #1")
+                .title("Sample note #2")
                 .quote("ee the RES")
-                .detail("This is another comment")
+                .detail(jlorem.paragraphs(4, true))
                 .target(target)
                 .originalUrl("http://noteblox.github.io/Noteblox-Server/index.html")
                 .range(new SelectionRange("/div[2]/div[1]/div[1]/section[2]/p[1]", "/div[2]/div[1]/div[1]/section[2]/p[1]/a[1]", 2, 3))

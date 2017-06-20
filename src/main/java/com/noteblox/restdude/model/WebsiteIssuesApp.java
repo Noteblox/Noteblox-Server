@@ -42,7 +42,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 		apiName = "Website",
 		apiDescription = "Website Operations")
 @ApiModel(description = WebsiteIssuesApp.API_MODEL_DESCRIPTION)
-public class WebsiteIssuesApp extends SpaceCasesApp<Issue> {
+public class WebsiteIssuesApp extends SpaceCasesApp {
 
 	public static final String API_PATH_FRAGMENT = "websiteIssueApps";
 	public static final String API_MODEL_DESCRIPTION = "A model representing a Website notes application.";

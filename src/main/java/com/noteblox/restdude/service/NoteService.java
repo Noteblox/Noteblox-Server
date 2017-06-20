@@ -19,14 +19,12 @@ package com.noteblox.restdude.service;
 import com.noteblox.restdude.model.Note;
 import com.noteblox.restdude.model.NoteComment;
 import com.noteblox.restdude.model.dto.Annotation;
-import com.restdude.domain.cases.service.CaseService;
-import com.restdude.domain.error.model.ErrorLog;
-import com.restdude.mdd.service.AbstractAssignedIdModelService;
+import com.restdude.domain.cases.service.AbstractCaseService;
 
 import java.util.List;
 
 
-public interface NoteService  extends CaseService<Note, NoteComment> {
+public interface NoteService  extends AbstractCaseService<Note, NoteComment> {
     public static final String BEAN_ID = "noteService";
 
     /**

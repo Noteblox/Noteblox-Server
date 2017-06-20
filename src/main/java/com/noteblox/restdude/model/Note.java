@@ -18,7 +18,7 @@ package com.noteblox.restdude.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.noteblox.restdude.model.enums.CaseVisibilityType;
-import com.restdude.domain.cases.model.AbstractCase;
+import com.restdude.domain.cases.model.BaseCase;
 import com.restdude.domain.cases.model.CaseStatus;
 import com.restdude.domain.cms.model.Tag;
 import com.restdude.domain.users.model.User;
@@ -42,7 +42,7 @@ import java.util.List;
 @ModelResource(pathFragment = Note.API_PATH, controllerSuperClass = AbstractNoDeletePersistableModelController.class,
         apiName = "Notes", apiDescription = "Note operations")
 @ApiModel(description = Note.CLASS_DESCRIPTION)
-public class Note extends AbstractCase<WebsiteNotesApp, Note, NoteComment> {
+public class Note extends BaseCase<Note, NoteComment> {
 
     public static final String API_PATH = "notes";
     public static final String CLASS_DESCRIPTION = "Entity model for page notes";

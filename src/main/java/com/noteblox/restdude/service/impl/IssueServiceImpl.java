@@ -54,6 +54,7 @@ import com.restdude.domain.users.service.UserService;
 import com.restdude.mdd.service.PersistableModelService;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+import net._01001111.text.LoremIpsum;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -143,6 +144,8 @@ public class IssueServiceImpl
         // initialize globals?
         if (this.repository.count() == 0) {
 
+            LoremIpsum jlorem = new LoremIpsum();
+
             // create "business" space
             Blox notebloxGithubIo = this.bloxService.findByUrl("noteblox.github.io").get();
 
@@ -167,9 +170,9 @@ public class IssueServiceImpl
                             .parent(notebloxGithubIo)
                             .basePath("/Noteblox-Server")
                             .owner(systemUser)
-                            .name(this.getWorkflowName())
+                            .name(workflow.getName())
                             .title("Noteblox-Server Issues")
-                            .description("Issues for Noteblox-Server Github pages")
+                            .description("Issues for Noteblox-Server Github pages. " + jlorem.paragraphs(1, false))
                             .workflow(workflow)
                             .visibility(ContextVisibilityType.CLOSED)
                             .build());
@@ -184,7 +187,7 @@ public class IssueServiceImpl
                     .title("Sample issue #1")
                     .quote("on-page support and collaboration tool")
                     .assignee(systemUser)
-                    .detail("This is a comment")
+                    .detail(jlorem.paragraphs(3, false))
                     .target(target)
                     .originalUrl("http://noteblox.github.io/Issueblox-Server/index.html")
                     .range(new SelectionRange("/div[2]/div[1]/div[1]/section[1]/p[1]", "/div[2]/div[1]/div[1]/section[1]/p[1]", 15, 53))
@@ -192,9 +195,9 @@ public class IssueServiceImpl
             Issue note2 = this.create(new Issue.Builder()
                     .application(notesApp)
                     .status(unassigned)
-                    .title("Sample issue #1")
+                    .title("Sample issue #2")
                     .quote("ee the RES")
-                    .detail("This is another comment")
+                    .detail(jlorem.paragraphs(3, false))
                     .target(target)
                     .originalUrl("http://noteblox.github.io/Issueblox-Server/index.html")
                     .range(new SelectionRange("/div[2]/div[1]/div[1]/section[2]/p[1]", "/div[2]/div[1]/div[1]/section[2]/p[1]/a[1]", 2, 3))

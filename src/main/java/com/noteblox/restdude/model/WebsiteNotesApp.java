@@ -41,7 +41,7 @@ import javax.validation.constraints.NotNull;
 		apiName = "Website",
 		apiDescription = "Website Operations")
 @ApiModel(description = WebsiteNotesApp.API_MODEL_DESCRIPTION)
-public class WebsiteNotesApp extends SpaceCasesApp<Note> {
+public class WebsiteNotesApp extends SpaceCasesApp {
 
 	public static final String API_PATH_FRAGMENT = "websiteNoteApps";
 	public static final String API_MODEL_DESCRIPTION = "A model representing a Website notes application.";

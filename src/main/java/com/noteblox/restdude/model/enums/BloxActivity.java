@@ -14,23 +14,12 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with NoteBLOX.  If not, see <https://www.gnu.org/licenses/agpl-3.0.en.html>.
  */
-package com.noteblox.restdude.service;
+package com.noteblox.restdude.model.enums;
 
-import java.util.List;
+import io.swagger.annotations.ApiModel;
 
-import com.noteblox.restdude.model.Issue;
-import com.noteblox.restdude.model.IssueComment;
-import com.noteblox.restdude.model.dto.Annotation;
-import com.restdude.domain.cases.service.AbstractCaseService;
+@ApiModel
+public enum BloxActivity {
 
-
-public interface IssueService  extends AbstractCaseService<Issue, IssueComment> {
-    public static final String BEAN_ID = "issueService";
-
-    /**
-     * Find all annotations for the given URL
-     * @param httpUrl
-     * @return
-     */
-    List<Annotation> findAnnotationsForUrl(String httpUrl);
+	CREATED_ISSUE, UPDATED_ISSUE, CREATED_NOTE, UPDATED_NOTE, COMMENTED;
 }

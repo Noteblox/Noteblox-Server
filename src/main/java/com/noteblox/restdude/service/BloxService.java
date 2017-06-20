@@ -17,11 +17,6 @@
 package com.noteblox.restdude.service;
 
 import com.noteblox.restdude.model.Blox;
-import com.noteblox.restdude.model.Note;
-import com.noteblox.restdude.model.NoteComment;
-import com.noteblox.restdude.model.Blox;
-import com.restdude.domain.PersistableModel;
-import com.restdude.domain.cases.service.CaseService;
 import com.restdude.domain.misc.model.Host;
 import com.restdude.mdd.service.PersistableModelService;
 
