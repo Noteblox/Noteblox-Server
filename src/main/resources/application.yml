@@ -2,7 +2,7 @@
 # NoteBLOX Spring Boot configuration.
 #
 # This configuration will be overridden by the Spring profile you use,
-# for example application-dev.yml if you use the "dev" profile.
+# for example parent-dev.yml if you use the "dev" profile.
 # ===================================================================
 
 # ===================================================================
@@ -75,10 +75,10 @@ logging:
     com.yahoo.elide.core: WARN
     org.springframework: WARN
     springfox.documentation.schema.property.CachingModelPropertiesProvider: ERROR
-    com.noteblox.restdude.init: debug
+    com.noteblox.restdude.init: WARN
     com.restdude:
-      init: debug
-      mdd.service.AbstractPersistableModelServiceImpl:  debug
+      init: WARN
+      mdd.service.AbstractPersistableModelServiceImpl:  WARN
 #      domain.cases: debug
 #      mdd.controller: debug
 

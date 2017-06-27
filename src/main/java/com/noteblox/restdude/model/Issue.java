@@ -55,11 +55,6 @@ public class Issue extends BaseCase<Issue, IssueComment> {
     public static final String API_PATH = "issues";
     public static final String CLASS_DESCRIPTION = "Entity model for page issues";
 
-    
-    @ApiModelProperty(value = "The annotated text selection")
-    private String quote;
-
-    
     @ApiModelProperty(value = "Original given URL of the issue target")
     private String originalUrl;
 
@@ -76,33 +71,12 @@ public class Issue extends BaseCase<Issue, IssueComment> {
     @ApiModelProperty(value = "The blox host", required = true)
     private CaseTarget target;
 
-    
-    @ApiModelProperty(value = "List of tags")
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "issue_tags", joinColumns = {@JoinColumn(name = "tag")}, inverseJoinColumns = {
-            @JoinColumn(name = "issue")})
-    private List<Tag> tags;
-
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
-    @JoinColumn(name="issue")
-    
-    private List<SelectionRange> ranges;
-
     public Issue() {
 
     }
 
     protected Issue(String title, String detail) {
        super(title, detail);
-    }
-
-    public String getQuote() {
-        return quote;
-    }
-
-    public void setQuote(String quote) {
-        this.quote = quote;
     }
 
     public String getOriginalUrl() {
@@ -129,22 +103,6 @@ public class Issue extends BaseCase<Issue, IssueComment> {
         this.target = target;
     }
 
-    public List<Tag> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<Tag> tags) {
-        this.tags = tags;
-    }
-
-    public List<SelectionRange> getRanges() {
-        return ranges;
-    }
-
-    public void setRanges(List<SelectionRange> ranges) {
-        this.ranges = ranges;
-    }
-
     public static class Builder {
         private String quote;
         private String title;
@@ -154,7 +112,7 @@ public class Issue extends BaseCase<Issue, IssueComment> {
         private User assignee;
         private CaseStatus status;
         private CaseTarget target;
-        private WebsiteIssuesApp application;
+        private WebsiteIssuesApp parent;
 
         private List<SelectionRange> ranges;
 
@@ -168,8 +126,8 @@ public class Issue extends BaseCase<Issue, IssueComment> {
             return this;
         }
 
-        public Builder application(WebsiteIssuesApp application) {
-            this.application = application;
+        public Builder parent(WebsiteIssuesApp application) {
+            this.parent = application;
             return this;
         }
 
@@ -217,27 +175,20 @@ public class Issue extends BaseCase<Issue, IssueComment> {
             return this;
         }
 
-        public Builder description(String description) {
-            this.detail = description;
-            return this;
-        }
-
         public Issue build() {
             return new Issue(this);
         }
     }
 
     private Issue(Builder builder) {
-        this.setQuote(builder.quote);
         this.setTitle(builder.title);
         this.setOriginalUrl(builder.originalUrl);
         this.setCreatedBy(builder.user);
         this.setAssignee(builder.assignee);
         this.setTarget(builder.target);
         this.setDetail(builder.detail);
-        this.setApplication(builder.application);
+        this.setParent(builder.parent);
         this.setStatus(builder.status);
-        this.setRanges(builder.ranges);
     }
 
 

@@ -16,6 +16,7 @@
  */
 package com.noteblox.restdude.config;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.restdude.domain.error.resolver.RestExceptionHandler;
 import com.restdude.hypermedia.util.HypermediaUtils;
@@ -100,7 +101,8 @@ public class WebConfig extends WebMvcConfigurerAdapter /*implements WebMvcRegist
     @Bean
     public Jackson2ObjectMapperBuilder jacksonBuilder() {
         Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
-        builder.featuresToEnable(com.fasterxml.jackson.databind.MapperFeature.DEFAULT_VIEW_INCLUSION)
+        builder.featuresToEnable(
+                com.fasterxml.jackson.databind.MapperFeature.DEFAULT_VIEW_INCLUSION)
                 .featuresToDisable(
                         SerializationFeature.FAIL_ON_EMPTY_BEANS,
                         com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,

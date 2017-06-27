@@ -155,7 +155,7 @@ public class Note extends BaseCase<Note, NoteComment> {
         private User user;
         private CaseStatus status;
         private CaseTarget target;
-        private WebsiteNotesApp application;
+        private WebsiteNotesApp parent;
 
         private List<SelectionRange> ranges;
 
@@ -170,8 +170,8 @@ public class Note extends BaseCase<Note, NoteComment> {
             return this;
         }
 
-        public Builder application(WebsiteNotesApp application) {
-            this.application = application;
+        public Builder parent(WebsiteNotesApp application) {
+            this.parent = application;
             return this;
         }
 
@@ -219,11 +219,6 @@ public class Note extends BaseCase<Note, NoteComment> {
             return this;
         }
 
-        public Builder description(String description) {
-            this.detail = description;
-            return this;
-        }
-
         public Note build() {
             return new Note(this);
         }
@@ -236,7 +231,7 @@ public class Note extends BaseCase<Note, NoteComment> {
         this.setCreatedBy(builder.user);
         this.setTarget(builder.target);
         this.setDetail(builder.detail);
-        this.setApplication(builder.application);
+        this.setParent(builder.parent);
         this.setStatus(builder.status);
         this.setRanges(builder.ranges);
     }

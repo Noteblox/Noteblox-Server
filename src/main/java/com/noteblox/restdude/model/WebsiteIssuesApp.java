@@ -45,7 +45,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class WebsiteIssuesApp extends SpaceCasesApp {
 
 	public static final String API_PATH_FRAGMENT = "websiteIssueApps";
-	public static final String API_MODEL_DESCRIPTION = "A model representing a Website notes application.";
+	public static final String API_MODEL_DESCRIPTION = "A model representing a Website notes parent.";
 
 	@NotNull
 	@Column(name = "base_path", nullable = false, unique = true)
@@ -74,7 +74,7 @@ public class WebsiteIssuesApp extends SpaceCasesApp {
 		private String basePath = "/";
 		private String name;
 		private String title;
-		private String description;
+		private String detail;
 		private User owner;
 		private ContextVisibilityType visibility = ContextVisibilityType.CLOSED;
 		private Space parent;
@@ -100,8 +100,8 @@ public class WebsiteIssuesApp extends SpaceCasesApp {
 			return this;
 		}
 
-		public Builder description(String description) {
-			this.description = description;
+		public Builder detail(String detail) {
+			this.detail = detail;
 			return this;
 		}
 
@@ -134,7 +134,7 @@ public class WebsiteIssuesApp extends SpaceCasesApp {
 		this.setBasePath(builder.basePath);
 		this.setName(builder.name);
 		this.setTitle(builder.title);
-		this.setDescription(builder.description);
+		this.setDetail(builder.detail);
 		this.setOwner(builder.owner);
 		this.setSpace(builder.space);
 		this.setVisibility(builder.visibility);

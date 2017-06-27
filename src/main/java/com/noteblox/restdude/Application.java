@@ -44,10 +44,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.TimeZone;
 
 @SpringBootApplication(scanBasePackages = {"com.restdude", "com.noteblox"}, exclude = {ErrorMvcAutoConfiguration.class})
 @EnableTransactionManagement
@@ -65,6 +69,14 @@ public class Application implements EmbeddedServletContainerCustomizer {
 
         AnnotationConfigEmbeddedWebApplicationContext ctx = (AnnotationConfigEmbeddedWebApplicationContext) SpringApplication.run(Application.class, args);
         LOGGER.debug("main, context: {}", ctx);
+    }
+
+    /**
+     * Use UTC for {@link LocalDate} and {@link LocalDateTime}
+     */
+    @PostConstruct
+    void started() {
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
     }
 
     @Bean(AuditorBean.BEAN_NAME)

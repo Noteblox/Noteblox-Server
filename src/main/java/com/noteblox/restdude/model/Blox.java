@@ -89,7 +89,7 @@ public class Blox extends Space {
 
 		private String name;
 		private String title;
-		private String description;
+		private String detail;
 		private String avatarUrl;
 		private String bannerUrl;
 		private User owner;
@@ -110,8 +110,8 @@ public class Blox extends Space {
 			return this;
 		}
 
-		public Builder description(String description) {
-			this.description = description;
+		public Builder detail(String detail) {
+			this.detail = detail;
 			return this;
 		}
 
@@ -161,7 +161,7 @@ public class Blox extends Space {
 	private Blox(Builder builder) {
 		this.setName(builder.name);
 		this.setTitle(builder.title);
-		this.setDescription(builder.description);
+		this.setDetail(builder.detail);
 		this.setAvatarUrl(builder.avatarUrl);
 		this.setBannerUrl(builder.bannerUrl);
 		this.setParent(builder.parent);

@@ -19,7 +19,7 @@
 				@MetaValue(value = "1", targetEntity = Space.class),
 				@MetaValue(value = "2", targetEntity = SpaceApp.class),
 				@MetaValue(value = "3", targetEntity = BaseCase.class),
-				@MetaValue(value = "4", targetEntity = AbstractCaseComment.class),
+				@MetaValue(value = "4", targetEntity = BaseCaseComment.class),
 				@MetaValue(value = "5", targetEntity = Membership.class),
 				@MetaValue(value = "6", targetEntity = MembershipRequest.class),
 				@MetaValue(value = "7", targetEntity = Issue.class),
@@ -27,7 +27,7 @@
 		}
 )
 package com.noteblox.restdude.model;
-import com.restdude.domain.cases.model.AbstractCaseComment;
+import com.restdude.domain.cases.model.BaseCaseComment;
 import com.restdude.domain.cases.model.BaseCase;
 import com.restdude.domain.cases.model.Membership;
 import com.restdude.domain.cases.model.MembershipRequest;

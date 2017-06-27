@@ -538,7 +538,7 @@ the entity model, id class and service interface types respectively.
 
 ```java
 @Controller
-@RequestMapping(value = "/api/rest/books", produces = { "application/json", "application/xml" })
+@RequestMapping(value = "/api/rest/books", produces = { parent, parent })
 public class BookController extends AbstractModelController<Book, String, BookService> {
 
 }

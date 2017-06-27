@@ -18,14 +18,14 @@ package com.noteblox.restdude.repository;
 
 import com.noteblox.restdude.model.CaseTarget;
 import com.noteblox.restdude.model.Note;
-import com.restdude.domain.cases.repository.AbstractCaseModelRepository;
+import com.restdude.domain.cases.repository.CaseNoRepositoryBean;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface NoteRepository  extends AbstractCaseModelRepository<Note>{
+public interface NoteRepository  extends CaseNoRepositoryBean<Note>{
 
     String WORKFLOW_NAME = "NTBLX-NOTES";
     String WORKFLOW_TITLE = "Noteblox Website Notes";
@@ -34,7 +34,4 @@ public interface NoteRepository  extends AbstractCaseModelRepository<Note>{
 
     @Query("select n from Note n where n.target = ?1")
     List<Note> findAnnotationsByTarget(CaseTarget caseTarget);
-
-    @Query(value = "select count(c)+1 from  Note c where c.application = :#{#unIndexed.application}  and c.createdDate  <  :#{#unIndexed.createdDate} ")
-    Integer getEntryIndex( @Param("unIndexed") Note unIndexed);
 }

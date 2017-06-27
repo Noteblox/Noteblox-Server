@@ -20,12 +20,12 @@ import java.util.List;
 
 import com.noteblox.restdude.model.CaseTarget;
 import com.noteblox.restdude.model.Issue;
-import com.restdude.domain.cases.repository.AbstractCaseModelRepository;
+import com.restdude.domain.cases.repository.CaseNoRepositoryBean;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface IssueRepository extends AbstractCaseModelRepository<Issue>{
+public interface IssueRepository extends CaseNoRepositoryBean<Issue> {
 
     String WORKFLOW_NAME = "NTBLX-NOTES";
     String WORKFLOW_TITLE = "Issueblox Website Issues";
@@ -35,6 +35,4 @@ public interface IssueRepository extends AbstractCaseModelRepository<Issue>{
     @Query("select n from Issue n where n.target = ?1")
     List<Issue> findAnnotationsByTarget(CaseTarget caseTarget);
 
-    @Query(value = "select count(c)+1 from  Issue c where c.application = :#{#unIndexed.application}  and c.createdDate  <  :#{#unIndexed.createdDate} ")
-    Integer getEntryIndex(@Param("unIndexed") Issue unIndexed);
 }

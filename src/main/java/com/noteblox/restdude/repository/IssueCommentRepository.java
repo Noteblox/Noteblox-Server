@@ -17,16 +17,9 @@
 package com.noteblox.restdude.repository;
 
 import com.noteblox.restdude.model.IssueComment;
-import com.noteblox.restdude.model.NoteComment;
-import com.restdude.mdd.repository.ModelRepository;
+import com.restdude.domain.cases.repository.CaseCommentNoRepositoryBean;
 
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-import org.springframework.security.access.method.P;
+public interface IssueCommentRepository extends CaseCommentNoRepositoryBean<IssueComment> {
 
-public interface IssueCommentRepository extends ModelRepository<IssueComment, String> {
-
-	@Query(value = "select count(c)+1 from  IssueComment c where c.subject = :#{#unIndexed.subject}  and c.createdDate  <  :#{#unIndexed.createdDate} ")
-	Integer getEntryIndex(@P("unIndexed") @Param("unIndexed") IssueComment unIndexed);
 
 }

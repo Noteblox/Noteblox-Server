@@ -17,6 +17,7 @@
 package com.noteblox.restdude.config;
 
 import com.noteblox.restdude.model.Issue;
+import com.noteblox.restdude.model.Note;
 import com.noteblox.restdude.model.enums.BloxActivity;
 import com.restdude.domain.cases.listener.AbstractEntityEventsHandler;
 import com.restdude.domain.cases.model.BaseCase;
@@ -61,9 +62,9 @@ public class EntityEventsHandler extends AbstractEntityEventsHandler {
 
 	public void onIssueCreated(EntityCreatedEvent<Issue> event) {
 
-		BaseCase model = event.getModel();
+		Issue model = event.getModel();
 		User user = model.getCreatedBy();
-		BaseContext context = model.getApplication();
+		BaseContext context = model.getParentCasted();
 		Enum predicate = BloxActivity.CREATED_ISSUE;
 		MessageResource objectMessageResource = CaseInfo.from(model);
 
@@ -78,9 +79,9 @@ public class EntityEventsHandler extends AbstractEntityEventsHandler {
 
 	public void onIssueUpdated(EntityUpdatedEvent<Issue> event) {
 
-		BaseCase model = event.getModel();
+		Issue model = event.getModel();
 		User user = model.getCreatedBy();
-		BaseContext context = model.getApplication();
+		BaseContext context = model.getParentCasted();
 		Enum predicate = BloxActivity.UPDATED_ISSUE;
 		MessageResource objectMessageResource = CaseInfo.from(model);
 
@@ -89,15 +90,15 @@ public class EntityEventsHandler extends AbstractEntityEventsHandler {
 	}
 
 	@EventListener
-	public final void onNoteCreatedListener(EntityCreatedEvent<Issue> event) {
+	public final void onNoteCreatedListener(EntityCreatedEvent<Note> event) {
 		this.onNoteCreated(event);
 	}
 
-	public void onNoteCreated(EntityCreatedEvent<Issue> event) {
+	public void onNoteCreated(EntityCreatedEvent<Note> event) {
 
-		BaseCase model = event.getModel();
+		Note model = event.getModel();
 		User user = model.getCreatedBy();
-		BaseContext context = model.getApplication();
+		BaseContext context = model.getParentCasted();
 		Enum predicate = BloxActivity.CREATED_NOTE;
 		MessageResource objectMessageResource = CaseInfo.from(model);
 
@@ -106,15 +107,15 @@ public class EntityEventsHandler extends AbstractEntityEventsHandler {
 	}
 
 	@EventListener
-	public final void onNoteUpdatedListener(EntityUpdatedEvent<Issue> event) {
+	public final void onNoteUpdatedListener(EntityUpdatedEvent<Note> event) {
 		this.onNoteUpdated(event);
 	}
 
-	public void onNoteUpdated(EntityUpdatedEvent<Issue> event) {
+	public void onNoteUpdated(EntityUpdatedEvent<Note> event) {
 
-		BaseCase model = event.getModel();
+		Note model = event.getModel();
 		User user = model.getCreatedBy();
-		BaseContext context = model.getApplication();
+		BaseContext context = model.getParentCasted();
 		Enum predicate = BloxActivity.UPDATED_NOTE;
 		MessageResource objectMessageResource = CaseInfo.from(model);
 

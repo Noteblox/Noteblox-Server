@@ -62,6 +62,7 @@ public class NoteServiceImpl
     @Value("${restdude.baseurl}")
     private String baseUrl;
 
+    private PersistableModelService<NoteComment, String> noteCommentService;
     private PersistableModelService<BillableAccount, String> billableAccountService;
     private UserService userService;
     private PersistableModelService<Host, String> hostService;
@@ -128,14 +129,6 @@ public class NoteServiceImpl
      * {@inheritDoc}
      */
     @Override
-    public Integer getEntryIndex(Note persisted){
-        return this.repository.getEntryIndex(persisted);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     protected void initDataOverride(@NonNull User systemUser) {
         log.debug("initData");
         LoremIpsum jlorem = new LoremIpsum();
@@ -150,9 +143,8 @@ public class NoteServiceImpl
                 .title("noteblox.com")
                 .avatarUrl(baseUrl + "/img/demo/noteblox.com/avatar.png")
                 .bannerUrl(baseUrl + "/img/demo/noteblox.com/banner.png")
-                .description(jlorem.paragraphs(2, true))
                 .owner(systemUser)
-                .description("Noteblox LLC: information about the company, it's offerings, career opportunities, case studies and more.")
+                .detail("Noteblox LLC: information about the company, it's offerings, career opportunities, case studies and more.")
                 .visibility(ContextVisibilityType.CLOSED)
                 .host(moteBloxHost)
                 .build());
@@ -162,14 +154,13 @@ public class NoteServiceImpl
                 .name("NTBLX-GH-PAGES")
                 .title("noteblox.github.io")
                 .avatarUrl(baseUrl + "/img/demo/noteblox.io/avatar.png")
-                .description(jlorem.paragraphs(2, true))
                 .owner(systemUser)
-                .description("Central Github pages site for Noteblox Open Source projects. Provides access to source code, technical documentation and community support.")
+                .detail("Central Github pages site for Noteblox Open Source projects. Provides access to source code, technical documentation and community support.")
                 .visibility(ContextVisibilityType.CLOSED)
                 .host(moteBloxGithubHost)
                 .build());
 
-        // create notes application and workflow
+        // create notes parent and workflow
         // ------------------------------------------
         CaseWorkflow workflow = this.caseWorkflowService.create(
                 new CaseWorkflow("SRV-NOTES", "Notes workflow configuration for Noteblox-Server github pages", notebloxGithubIo));
@@ -194,7 +185,7 @@ public class NoteServiceImpl
                         .owner(systemUser)
                         .name(workflow.getName())
                         .title("Noteblox-Server Notes")
-                        .description("Notes for Noteblox-Server Github pages. \n" +
+                        .detail("Notes for Noteblox-Server Github pages. \n" +
                                 jlorem.paragraphs(1, true))
                         .workflow(workflow)
                         .visibility(ContextVisibilityType.CLOSED)
@@ -205,9 +196,9 @@ public class NoteServiceImpl
 
         // add a few notes
         Note note1 = this.create(new Note.Builder()
-                .application(notesApp)
+                .parent(notesApp)
                 .status(open)
-                .title("Sample note #1")
+                .title(jlorem.sentence())
                 .quote("on-page support and collaboration tool")
                 .detail(jlorem.paragraphs(4, true))
                 .assignee(systemUser)
@@ -217,15 +208,21 @@ public class NoteServiceImpl
                 .build());
 
         Note note2 = this.create(new Note.Builder()
-                .application(notesApp)
+                .parent(notesApp)
                 .status(open)
-                .title("Sample note #2")
+                .title(jlorem.sentence())
                 .quote("ee the RES")
                 .detail(jlorem.paragraphs(4, true))
                 .target(target)
                 .originalUrl("http://noteblox.github.io/Noteblox-Server/index.html")
                 .range(new SelectionRange("/div[2]/div[1]/div[1]/section[2]/p[1]", "/div[2]/div[1]/div[1]/section[2]/p[1]/a[1]", 2, 3))
                 .build());
+
+        for(Note issue : new Note[]{note1, note2}){
+            for (int i = 0; i < 4; i++) {
+                this.noteCommentService.create(new NoteComment(jlorem.paragraphs(2), issue));
+            }
+        }
 
 
     }
@@ -262,6 +259,12 @@ public class NoteServiceImpl
     @Autowired
     public void setBillableAccountService(PersistableModelService<BillableAccount, String> billableAccountService) {
         this.billableAccountService = billableAccountService;
+    }
+
+    @SuppressWarnings("SpringJavaAutowiringInspection")
+    @Autowired
+    public void setNoteCommentService(PersistableModelService<NoteComment, String> noteCommentService) {
+        this.noteCommentService = noteCommentService;
     }
 
     @Autowired

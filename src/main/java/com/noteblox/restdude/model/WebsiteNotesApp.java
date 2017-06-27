@@ -44,7 +44,7 @@ import javax.validation.constraints.NotNull;
 public class WebsiteNotesApp extends SpaceCasesApp {
 
 	public static final String API_PATH_FRAGMENT = "websiteNoteApps";
-	public static final String API_MODEL_DESCRIPTION = "A model representing a Website notes application.";
+	public static final String API_MODEL_DESCRIPTION = "A model representing a Website notes parent.";
 
 	@NotNull
 	@Column(name = "base_path", nullable = false, unique = true)
@@ -73,7 +73,7 @@ public class WebsiteNotesApp extends SpaceCasesApp {
 		private String basePath = "/";
 		private String name;
 		private String title;
-		private String description;
+		private String detail;
 		private String avatarUrl;
 		private String bannerUrl;
 		private User owner;
@@ -101,8 +101,8 @@ public class WebsiteNotesApp extends SpaceCasesApp {
 			return this;
 		}
 
-		public Builder description(String description) {
-			this.description = description;
+		public Builder detail(String detail) {
+			this.detail = detail;
 			return this;
 		}
 
@@ -145,7 +145,7 @@ public class WebsiteNotesApp extends SpaceCasesApp {
 		this.setBasePath(builder.basePath);
 		this.setName(builder.name);
 		this.setTitle(builder.title);
-		this.setDescription(builder.description);
+		this.setDetail(builder.detail);
 		this.setOwner(builder.owner);
 		this.setSpace(builder.space);
 		this.setVisibility(builder.visibility);

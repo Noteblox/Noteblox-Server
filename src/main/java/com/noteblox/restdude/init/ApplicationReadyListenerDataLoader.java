@@ -62,7 +62,7 @@ public class ApplicationReadyListenerDataLoader {
     }
 
     /**
-     * Handle an application event.
+     * Handle an parent event.
 
      * @param event the event to respond to
      */

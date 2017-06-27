@@ -19,7 +19,8 @@ package com.noteblox.restdude.model;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import com.restdude.domain.cases.model.AbstractCaseComment;
+import com.fasterxml.jackson.annotation.JsonRootName;
+import com.restdude.domain.cases.model.BaseCaseComment;
 import com.restdude.mdd.annotation.model.ModelResource;
 import com.restdude.mdd.controller.AbstractNoDeletePersistableModelController;
 import io.swagger.annotations.ApiModel;
@@ -27,22 +28,26 @@ import io.swagger.annotations.ApiModel;
 /**
  * {@value CLASS_DESCRIPTION}
  */
+@JsonRootName("issueComment")
 @Entity
 @Table(name = "issue_comment")
 @ModelResource(pathFragment = IssueComment.API_PATH, controllerSuperClass = AbstractNoDeletePersistableModelController.class,
         apiName = "Issue Comments", apiDescription = "Issue comment operations")
 @ApiModel(description = IssueComment.CLASS_DESCRIPTION)
-public class IssueComment extends AbstractCaseComment<Issue, IssueComment> {
+public class IssueComment extends BaseCaseComment<Issue, IssueComment> {
 
     public static final String API_PATH = "issueComments";
     public static final String CLASS_DESCRIPTION = "Comments for discussing issues";
-
-
+    
     public IssueComment() {
-
+        super();
     }
 
-    public IssueComment(Issue issue, String me) {
-        this.setSubject(issue);
+    public IssueComment(String content, Issue parent) {
+        super(content, parent);
+    }
+
+    public IssueComment(String name, String content, Issue parent) {
+        super(name, content, parent);
     }
 }

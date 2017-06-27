@@ -30,6 +30,8 @@ import com.noteblox.restdude.model.Blox;
 import com.noteblox.restdude.model.CaseTarget;
 import com.noteblox.restdude.model.Issue;
 import com.noteblox.restdude.model.IssueComment;
+import com.noteblox.restdude.model.Note;
+import com.noteblox.restdude.model.NoteComment;
 import com.noteblox.restdude.model.SelectionRange;
 import com.noteblox.restdude.model.WebsiteIssuesApp;
 import com.noteblox.restdude.model.dto.Annotation;
@@ -66,6 +68,7 @@ public class IssueServiceImpl
 
     public static final char INDEX_CHAR = '-';
 
+    private PersistableModelService<IssueComment, String> issueCommentService;
     private PersistableModelService<BillableAccount, String> billableAccountService;
     private UserService userService;
     private PersistableModelService<Host, String> hostService;
@@ -131,14 +134,6 @@ public class IssueServiceImpl
      * {@inheritDoc}
      */
     @Override
-    public Integer getEntryIndex(Issue persisted){
-        return this.repository.getEntryIndex(persisted);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     protected void initDataOverride(@NonNull User systemUser) {
         log.debug("initData");
         // initialize globals?
@@ -149,7 +144,7 @@ public class IssueServiceImpl
             // create "business" space
             Blox notebloxGithubIo = this.bloxService.findByUrl("noteblox.github.io").get();
 
-            // create issues application and workflow
+            // create issues parent and workflow
             // ------------------------------------------
             CaseWorkflow workflow = this.caseWorkflowService.create(
                     new CaseWorkflow("SRV-ISSUES", "Issues workflow configuration for Noteblox-Server github pages", notebloxGithubIo));
@@ -172,7 +167,7 @@ public class IssueServiceImpl
                             .owner(systemUser)
                             .name(workflow.getName())
                             .title("Noteblox-Server Issues")
-                            .description("Issues for Noteblox-Server Github pages. " + jlorem.paragraphs(1, false))
+                            .detail("Issues for Noteblox-Server Github pages. " + jlorem.paragraphs(1, false))
                             .workflow(workflow)
                             .visibility(ContextVisibilityType.CLOSED)
                             .build());
@@ -182,9 +177,9 @@ public class IssueServiceImpl
 
             // add a few notes
             Issue note1 = this.create(new Issue.Builder()
-                    .application(notesApp)
+                    .parent(notesApp)
                     .status(unassigned)
-                    .title("Sample issue #1")
+                    .title(jlorem.sentence())
                     .quote("on-page support and collaboration tool")
                     .assignee(systemUser)
                     .detail(jlorem.paragraphs(3, false))
@@ -193,9 +188,9 @@ public class IssueServiceImpl
                     .range(new SelectionRange("/div[2]/div[1]/div[1]/section[1]/p[1]", "/div[2]/div[1]/div[1]/section[1]/p[1]", 15, 53))
                     .build());
             Issue note2 = this.create(new Issue.Builder()
-                    .application(notesApp)
+                    .parent(notesApp)
                     .status(unassigned)
-                    .title("Sample issue #2")
+                    .title(jlorem.sentence())
                     .quote("ee the RES")
                     .detail(jlorem.paragraphs(3, false))
                     .target(target)
@@ -203,12 +198,14 @@ public class IssueServiceImpl
                     .range(new SelectionRange("/div[2]/div[1]/div[1]/section[2]/p[1]", "/div[2]/div[1]/div[1]/section[2]/p[1]/a[1]", 2, 3))
                     .build());
 
-
+            for(Issue issue : new Issue[]{note1, note2}){
+                for (int i = 0; i < 4; i++) {
+                    this.issueCommentService.create(new IssueComment(jlorem.paragraphs(2), issue));
+                }
+            }
         }
 
     }
-
-
 
     @Override
     public String getWorkflowDescription() {
@@ -235,6 +232,12 @@ public class IssueServiceImpl
         return this.repository.WORKFLOW_NAME;
     }
 
+
+    @SuppressWarnings("SpringJavaAutowiringInspection")
+    @Autowired
+    public void setIssueCommentService(PersistableModelService<IssueComment, String> issueCommentService) {
+        this.issueCommentService = issueCommentService;
+    }
 
     @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
