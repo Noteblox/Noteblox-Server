@@ -16,17 +16,13 @@
  */
 package com.noteblox.restdude.repository;
 
-import com.noteblox.restdude.model.Blox;
-import com.noteblox.restdude.model.Blox;
-import com.noteblox.restdude.model.WebsiteNotesApp;
-import com.restdude.domain.misc.model.Host;
-import com.restdude.mdd.repository.ModelRepository;
-import org.springframework.data.jpa.repository.Query;
-
 import java.util.Optional;
 
-public interface BloxRepository extends ModelRepository<Blox, String> {
+import com.noteblox.restdude.model.SpaceBlock;
+import com.restdude.domain.cases.repository.ContextNpRepositoryBean;
+import com.restdude.domain.misc.model.Host;
 
-    @Query("select w from Blox w where w.host = ?2 and ?1 like CONCAT(w.basePath, '%') order by w.basePath DESC")
-    public Optional<Blox> findByPathAndHost(String path, Host host);
+import org.springframework.data.jpa.repository.Query;
+
+public interface BloxRepository extends ContextNpRepositoryBean<SpaceBlock> {
 }

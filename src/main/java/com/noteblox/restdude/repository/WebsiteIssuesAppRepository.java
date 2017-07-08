@@ -17,8 +17,8 @@
 package com.noteblox.restdude.repository;
 
 import com.noteblox.restdude.model.WebsiteIssuesApp;
-import com.restdude.mdd.repository.ModelRepository;
+import com.restdude.domain.cases.repository.ContextNpRepositoryBean;
 
-public interface WebsiteIssuesAppRepository extends ModelRepository<WebsiteIssuesApp, String> {
+public interface WebsiteIssuesAppRepository extends ContextNpRepositoryBean<WebsiteIssuesApp> {
 
 }

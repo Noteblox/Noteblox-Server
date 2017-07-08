@@ -17,15 +17,19 @@
 package com.noteblox.restdude.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.noteblox.restdude.model.enums.CaseVisibilityType;
 import com.restdude.domain.cases.model.BaseCase;
 import com.restdude.domain.cases.model.CaseStatus;
+import com.restdude.domain.cases.model.CaseTarget;
 import com.restdude.domain.cms.model.Tag;
 import com.restdude.domain.users.model.User;
 import com.restdude.mdd.annotation.model.ModelResource;
 import com.restdude.mdd.controller.AbstractNoDeletePersistableModelController;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
@@ -47,25 +51,13 @@ public class Note extends BaseCase<Note, NoteComment> {
     public static final String API_PATH = "notes";
     public static final String CLASS_DESCRIPTION = "Entity model for page notes";
 
-    
     @ApiModelProperty(value = "The annotated text selection")
     private String quote;
-
-    
-    @ApiModelProperty(value = "Original given URL of the note target")
-    private String originalUrl;
 
     @NotNull
     @Column(name = "visibility", nullable = false)
     @ApiModelProperty(value = "Note visibility settings", allowableValues = "PERSONAL, WEBSITE", required = true)
     private CaseVisibilityType visibility = CaseVisibilityType.WEBSITE;
-
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "target", nullable = false, updatable = false)
-    @ApiModelProperty(value = "The blox host", required = true)
-    private CaseTarget target;
-
     
     @ApiModelProperty(value = "List of tags")
     @ManyToMany(fetch = FetchType.LAZY)
@@ -86,9 +78,7 @@ public class Note extends BaseCase<Note, NoteComment> {
     public String toString() {
         return new ToStringBuilder(this).appendSuper(super.toString())
                 .append("quote", this.quote)
-                .append("originalUrl", this.originalUrl)
                 .append("visibility", this.visibility)
-                .append("target", this.target)
                 .append("status", this.getStatus())
                 .toString();
     }
@@ -106,28 +96,12 @@ public class Note extends BaseCase<Note, NoteComment> {
         this.quote = quote;
     }
 
-    public String getOriginalUrl() {
-        return originalUrl;
-    }
-
-    public void setOriginalUrl(String originalUrl) {
-        this.originalUrl = originalUrl;
-    }
-
     public CaseVisibilityType getVisibility() {
         return visibility;
     }
 
     public void setVisibility(CaseVisibilityType visibility) {
         this.visibility = visibility;
-    }
-
-    public CaseTarget getTarget() {
-        return target;
-    }
-
-    public void setTarget(CaseTarget target) {
-        this.target = target;
     }
 
     public List<Tag> getTags() {
@@ -149,9 +123,9 @@ public class Note extends BaseCase<Note, NoteComment> {
     public static class Builder {
         private String quote;
         private String title;
-        private String originalUrl;
         private User assignee;
         private String detail;
+        private String remoteAddress;
         private User user;
         private CaseStatus status;
         private CaseTarget target;
@@ -203,8 +177,8 @@ public class Note extends BaseCase<Note, NoteComment> {
             return this;
         }
 
-        public Builder originalUrl(String url) {
-            this.originalUrl = url;
+        public Builder remoteAddress(String remoteAddress) {
+            this.remoteAddress = remoteAddress;
             return this;
         }
 
@@ -227,8 +201,9 @@ public class Note extends BaseCase<Note, NoteComment> {
     private Note(Builder builder) {
         this.setQuote(builder.quote);
         this.setTitle(builder.title);
-        this.setOriginalUrl(builder.originalUrl);
+        this.setRemoteAddress(builder.remoteAddress);
         this.setCreatedBy(builder.user);
+        this.setAssignee(builder.assignee);
         this.setTarget(builder.target);
         this.setDetail(builder.detail);
         this.setParent(builder.parent);

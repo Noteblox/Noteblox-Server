@@ -16,12 +16,11 @@
  */
 package com.noteblox.restdude.repository;
 
-import com.noteblox.restdude.model.CaseTarget;
 import com.noteblox.restdude.model.Note;
+import com.restdude.domain.cases.model.CaseTarget;
 import com.restdude.domain.cases.repository.CaseNoRepositoryBean;
 
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -32,6 +31,7 @@ public interface NoteRepository  extends CaseNoRepositoryBean<Note>{
     String WORKFLOW_DESCRIPTION = "Website note entries";
 
 
+    // TODO: generalize to super
     @Query("select n from Note n where n.target = ?1")
     List<Note> findAnnotationsByTarget(CaseTarget caseTarget);
 }

@@ -21,11 +21,11 @@ import com.noteblox.restdude.model.dto.Annotation;
 import com.noteblox.restdude.model.mapper.NoteAnnotationMapper;
 import com.noteblox.restdude.repository.NoteCommentRepository;
 import com.noteblox.restdude.repository.NoteRepository;
-import com.noteblox.restdude.repository.CaseTargetRepository;
 import com.noteblox.restdude.service.NoteService;
 import com.noteblox.restdude.service.WebsiteNotesAppService;
-import com.noteblox.restdude.service.BloxService;
+import com.noteblox.restdude.service.SpaceBlockService;
 import com.restdude.domain.cases.model.CaseStatus;
+import com.restdude.domain.cases.model.CaseTarget;
 import com.restdude.domain.cases.model.CaseWorkflow;
 import com.restdude.domain.cases.model.dto.CaseCommenttInfo;
 import com.restdude.domain.cases.model.enums.ContextVisibilityType;
@@ -66,15 +66,15 @@ public class NoteServiceImpl
     private PersistableModelService<BillableAccount, String> billableAccountService;
     private UserService userService;
     private PersistableModelService<Host, String> hostService;
-    private BloxService bloxService;
+    private SpaceBlockService spaceBlockService;
     private WebsiteNotesAppService websiteNotesAppService;
     private NoteService noteService;
     private CaseStatusService caseStatusService;
     protected NoteCommentRepository noteCommentRepository;
-    protected CaseTargetRepository caseTargetRepository;
     private CaseWorkflowService caseWorkflowService;
 
 
+    // TODO: generalize to super
     /**
      * {@inheritDoc}
      */
@@ -85,7 +85,7 @@ public class NoteServiceImpl
             URL url = new URL(httpUrl);
 
             // get the blox
-            Optional<Blox> website = this.bloxService.findByUrl(url);
+            Optional<SpaceBlock> website = Optional.empty();//this.spaceBlockService.findByUrl(url);
             if(website.isPresent()){
                 String path = url.getPath();
                 String welcomeFile = "/index.html";
@@ -95,7 +95,7 @@ public class NoteServiceImpl
                     path = path.substring(0, path.length() - welcomeFile.length());
                 }
                 log.debug("findAnnotationsForUrl, note target path: {}", path);
-                Optional<CaseTarget> target = this.caseTargetRepository.findByPathAndWebsite(path, website.get());
+                Optional<CaseTarget> target = Optional.empty();//this.caseTargetRepository.find(path, website.get());
 
                 if(target.isPresent()){
                     List<Note> notes = this.repository.findAnnotationsByTarget(target.get());
@@ -137,7 +137,7 @@ public class NoteServiceImpl
         Host moteBloxHost = this.hostService.create(new Host.Builder().name("noteblox.com").description("Noteblox.com main domain").aliase("www.noteblox.com").build());
         Host moteBloxGithubHost = this.hostService.create(new Host.Builder().name("noteblox.github.io").description("Domain for NoteBLOX Server's github pages").aliase("127.0.0.1:4000").aliase("localhost:4000").aliase("noteblox.github.io:80").build());
         //BillableAccount billableAccount = this.billableAccountService.create(new BillableAccount(systemUser));
-        Blox notebloxCom = this.bloxService.create(new Blox.Builder()
+        SpaceBlock notebloxCom = this.spaceBlockService.create(new SpaceBlock.Builder()
                 //.billableAccount(billableAccount)
                 .name("NTBLX-COM")
                 .title("noteblox.com")
@@ -146,10 +146,10 @@ public class NoteServiceImpl
                 .owner(systemUser)
                 .detail("Noteblox LLC: information about the company, it's offerings, career opportunities, case studies and more.")
                 .visibility(ContextVisibilityType.CLOSED)
-                .host(moteBloxHost)
+                .domain(moteBloxHost)
                 .build());
 
-        Blox notebloxGithubIo = this.bloxService.create(new Blox.Builder()
+        SpaceBlock notebloxGithubIo = this.spaceBlockService.create(new SpaceBlock.Builder()
                 //.billableAccount(billableAccount)
                 .name("NTBLX-GH-PAGES")
                 .title("noteblox.github.io")
@@ -157,7 +157,7 @@ public class NoteServiceImpl
                 .owner(systemUser)
                 .detail("Central Github pages site for Noteblox Open Source projects. Provides access to source code, technical documentation and community support.")
                 .visibility(ContextVisibilityType.CLOSED)
-                .host(moteBloxGithubHost)
+                .domain(moteBloxGithubHost)
                 .build());
 
         // create notes parent and workflow
@@ -172,6 +172,8 @@ public class NoteServiceImpl
         //workflowStatuses.add(unassigned);
         workflowStatuses.add(open);
         workflowStatuses.add(caseStatusService.create(new CaseStatus(CaseStatus.CLOSED, "Status for closed notes", workflow)));
+        workflowStatuses.add(caseStatusService.create(new CaseStatus(CaseStatus.CLOSED, "Status for closed notes", workflow)));
+        workflowStatuses.add(caseStatusService.create(new CaseStatus(CaseStatus.ARCHIVED, "Status for archived cases", workflow)));
         workflow.setStatuses(workflowStatuses);
 
         // add notes app
@@ -192,7 +194,7 @@ public class NoteServiceImpl
                         .build());
 
         // add note target page
-        CaseTarget target = this.caseTargetRepository.persist(new CaseTarget("/Noteblox-Server", notebloxGithubIo));
+        CaseTarget target = this.getCaseTargetRepository().persist(new CaseTarget("/Noteblox-Server", moteBloxGithubHost, notebloxGithubIo));
 
         // add a few notes
         Note note1 = this.create(new Note.Builder()
@@ -203,7 +205,7 @@ public class NoteServiceImpl
                 .detail(jlorem.paragraphs(4, true))
                 .assignee(systemUser)
                 .target(target)
-                .originalUrl("http://noteblox.github.io/Noteblox-Server/index.html")
+                .remoteAddress("http://noteblox.github.io/Noteblox-Server/index.html")
                 .range(new SelectionRange("/div[2]/div[1]/div[1]/section[1]/p[1]", "/div[2]/div[1]/div[1]/section[1]/p[1]", 15, 53))
                 .build());
 
@@ -214,7 +216,7 @@ public class NoteServiceImpl
                 .quote("ee the RES")
                 .detail(jlorem.paragraphs(4, true))
                 .target(target)
-                .originalUrl("http://noteblox.github.io/Noteblox-Server/index.html")
+                .remoteAddress("http://noteblox.github.io/Noteblox-Server/index.html")
                 .range(new SelectionRange("/div[2]/div[1]/div[1]/section[2]/p[1]", "/div[2]/div[1]/div[1]/section[2]/p[1]/a[1]", 2, 3))
                 .build());
 
@@ -279,8 +281,8 @@ public class NoteServiceImpl
     }
 
     @Autowired
-    public void setBloxService(BloxService bloxService) {
-        this.bloxService = bloxService;
+    public void setSpaceBlockService(SpaceBlockService spaceBlockService) {
+        this.spaceBlockService = spaceBlockService;
     }
 
     @Autowired
@@ -301,11 +303,6 @@ public class NoteServiceImpl
     @Autowired
     public void setNoteCommentRepository(NoteCommentRepository noteCommentRepository) {
         this.noteCommentRepository = noteCommentRepository;
-    }
-
-    @Autowired
-    public void setCaseTargetRepository(CaseTargetRepository caseTargetRepository) {
-        this.caseTargetRepository = caseTargetRepository;
     }
 
     @Autowired

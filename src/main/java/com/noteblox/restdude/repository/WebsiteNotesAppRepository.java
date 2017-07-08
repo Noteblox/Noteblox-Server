@@ -16,10 +16,9 @@
  */
 package com.noteblox.restdude.repository;
 
-import com.noteblox.restdude.model.NoteComment;
 import com.noteblox.restdude.model.WebsiteNotesApp;
-import com.restdude.mdd.repository.ModelRepository;
+import com.restdude.domain.cases.repository.ContextNpRepositoryBean;
 
-public interface WebsiteNotesAppRepository extends ModelRepository<WebsiteNotesApp, String> {
+public interface WebsiteNotesAppRepository extends ContextNpRepositoryBean<WebsiteNotesApp> {
 
 }

@@ -41,6 +41,9 @@ import com.restdude.mdd.annotation.model.ModelResource;
 import com.restdude.mdd.controller.AbstractNoDeletePersistableModelController;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * {@value CLASS_DESCRIPTION}
@@ -55,21 +58,11 @@ public class Issue extends BaseCase<Issue, IssueComment> {
     public static final String API_PATH = "issues";
     public static final String CLASS_DESCRIPTION = "Entity model for page issues";
 
-    @ApiModelProperty(value = "Original given URL of the issue target")
-    private String originalUrl;
-
     @NotNull
     @Column(name = "visibility", nullable = false)
-    
-    @ApiModelProperty(value = "Issue visibility settings", allowableValues = "PERSONAL, WEBSITE", required = true)
+    @ApiModelProperty(value = "Note visibility settings", allowableValues = "PERSONAL, WEBSITE", required = true)
+    @Getter @Setter
     private CaseVisibilityType visibility = CaseVisibilityType.WEBSITE;
-
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "target", nullable = false, updatable = false)
-    
-    @ApiModelProperty(value = "The blox host", required = true)
-    private CaseTarget target;
 
     public Issue() {
 
@@ -79,39 +72,23 @@ public class Issue extends BaseCase<Issue, IssueComment> {
        super(title, detail);
     }
 
-    public String getOriginalUrl() {
-        return originalUrl;
-    }
-
-    public void setOriginalUrl(String originalUrl) {
-        this.originalUrl = originalUrl;
-    }
-
-    public CaseVisibilityType getVisibility() {
-        return visibility;
-    }
-
-    public void setVisibility(CaseVisibilityType visibility) {
-        this.visibility = visibility;
-    }
-
-    public CaseTarget getTarget() {
-        return target;
-    }
-
-    public void setTarget(CaseTarget target) {
-        this.target = target;
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this).appendSuper(super.toString())
+                .append("visibility", this.visibility)
+                .append("status", this.getStatus())
+                .append("status", this.getStatus())
+                .toString();
     }
 
     public static class Builder {
         private String quote;
         private String title;
-        private String originalUrl;
+        private String remoteAddress;
         private String detail;
         private User user;
         private User assignee;
         private CaseStatus status;
-        private CaseTarget target;
         private WebsiteIssuesApp parent;
 
         private List<SelectionRange> ranges;
@@ -128,11 +105,6 @@ public class Issue extends BaseCase<Issue, IssueComment> {
 
         public Builder parent(WebsiteIssuesApp application) {
             this.parent = application;
-            return this;
-        }
-
-        public Builder target(CaseTarget target) {
-            this.target = target;
             return this;
         }
 
@@ -159,8 +131,8 @@ public class Issue extends BaseCase<Issue, IssueComment> {
             return this;
         }
 
-        public Builder originalUrl(String url) {
-            this.originalUrl = url;
+        public Builder remoteAddress(String url) {
+            this.remoteAddress = url;
             return this;
         }
 
@@ -182,10 +154,9 @@ public class Issue extends BaseCase<Issue, IssueComment> {
 
     private Issue(Builder builder) {
         this.setTitle(builder.title);
-        this.setOriginalUrl(builder.originalUrl);
+        this.setRemoteAddress(builder.remoteAddress);
         this.setCreatedBy(builder.user);
         this.setAssignee(builder.assignee);
-        this.setTarget(builder.target);
         this.setDetail(builder.detail);
         this.setParent(builder.parent);
         this.setStatus(builder.status);

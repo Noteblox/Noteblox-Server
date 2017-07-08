@@ -16,11 +16,16 @@
  */
 package com.noteblox.restdude.service;
 
-import com.noteblox.restdude.model.CaseTarget;
+import com.noteblox.restdude.model.SpaceBlock;
+import com.noteblox.restdude.model.SpaceBlock;
+import com.restdude.domain.cases.service.ContextService;
+import com.restdude.domain.misc.model.Host;
 import com.restdude.mdd.service.PersistableModelService;
 
+import java.net.URL;
+import java.util.Optional;
 
-public interface CaseTargetService extends PersistableModelService<CaseTarget, String> {
 
-	public static final String BEAN_ID = "caseTargetService";
+public interface SpaceBlockService extends ContextService<SpaceBlock> {
+    public static final String BEAN_ID = "spaceBlockService";
 }

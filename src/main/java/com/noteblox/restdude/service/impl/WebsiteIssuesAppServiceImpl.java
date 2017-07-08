@@ -21,6 +21,7 @@ import javax.inject.Named;
 import com.noteblox.restdude.model.WebsiteIssuesApp;
 import com.noteblox.restdude.repository.WebsiteIssuesAppRepository;
 import com.noteblox.restdude.service.WebsiteIssuesAppService;
+import com.restdude.domain.cases.service.impl.AbstractContextServiceImpl;
 import com.restdude.domain.error.service.impl.AbstractErrorServiceImpl;
 import com.restdude.mdd.service.AbstractPersistableModelServiceImpl;
 import org.slf4j.Logger;
@@ -28,11 +29,9 @@ import org.slf4j.LoggerFactory;
 
 @Named(WebsiteIssuesAppService.BEAN_ID)
 public class WebsiteIssuesAppServiceImpl
-        extends AbstractPersistableModelServiceImpl< WebsiteIssuesApp, String, WebsiteIssuesAppRepository>
+        extends AbstractContextServiceImpl< WebsiteIssuesApp, WebsiteIssuesAppRepository>
         implements WebsiteIssuesAppService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractErrorServiceImpl.class);
-    public static final char INDEX_CHAR = '-';
 
 
 

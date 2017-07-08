@@ -16,8 +16,10 @@
  */
 package com.noteblox.restdude.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.restdude.domain.cases.model.Membership;
 import com.restdude.domain.cases.model.Space;
+import com.restdude.domain.cases.model.SpaceApp;
 import com.restdude.domain.cases.model.enums.ContextVisibilityType;
 import com.restdude.domain.misc.model.Host;
 import com.restdude.domain.users.model.User;
@@ -32,6 +34,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -39,11 +44,11 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "blox")
-@ModelResource(pathFragment = Blox.API_PATH_FRAGMENT,
+@ModelResource(pathFragment = SpaceBlock.API_PATH_FRAGMENT,
 		apiName = "Blox",
 		apiDescription = "Website Operations")
-@ApiModel(description = Blox.API_MODEL_DESCRIPTION)
-public class Blox extends Space {
+@ApiModel(description = SpaceBlock.API_MODEL_DESCRIPTION)
+public class SpaceBlock extends Space {
 
 	public static final String API_PATH_FRAGMENT = "blocks";
 	public static final String API_MODEL_DESCRIPTION = "A model representing an organization, community, team or wWebsite";
@@ -61,18 +66,19 @@ public class Blox extends Space {
 	@ApiModelProperty(value = "The account this blox belongs to", required = true)
 	private BillableAccount billableAccount;
 */
-	@NotNull
-	@ManyToOne
-	@JoinColumn(name = "host", nullable = false, updatable = false)
-	@Getter @Setter
-	@ApiModelProperty(value = "The blox host", required = true)
-	private Host host;
 
-	public Blox() {
+	@ManyToMany(cascade = {CascadeType.ALL})
+	@JoinTable(name="context_domain_hosts")
+	@ApiModelProperty("The domains registered with this block")
+	@Getter @Setter
+	private List<Host> domains;
+
+
+	public SpaceBlock() {
 		super();
 	}
 	
-	public Blox(String id) {
+	public SpaceBlock(String id) {
 		this();
 		this.setId(id);
 	}
@@ -94,7 +100,7 @@ public class Blox extends Space {
 		private String bannerUrl;
 		private User owner;
 		private String basePath = "/";
-		private Host host;
+		private List<Host> domains;
 		private Space parent;
 		private BillableAccount billableAccount;
 		private ContextVisibilityType visibility;
@@ -142,8 +148,11 @@ public class Blox extends Space {
 		}
 
 
-		public Builder host(Host host) {
-			this.host = host;
+		public Builder domain(Host host) {
+			if(this.domains == null){
+				this.domains = new LinkedList<>();
+			}
+			this.domains.add(host);
 			return this;
 		}
 
@@ -153,12 +162,12 @@ public class Blox extends Space {
 			return this;
 		}
 
-		public Blox build() {
-			return new Blox(this);
+		public SpaceBlock build() {
+			return new SpaceBlock(this);
 		}
 	}
 
-	private Blox(Builder builder) {
+	private SpaceBlock(Builder builder) {
 		this.setName(builder.name);
 		this.setTitle(builder.title);
 		this.setDetail(builder.detail);
@@ -167,7 +176,7 @@ public class Blox extends Space {
 		this.setParent(builder.parent);
 		this.setBasePath(builder.basePath);
 		this.setOwner(builder.owner);
-		this.setHost(builder.host);
+		this.setDomains(builder.domains);
 		this.setVisibility(builder.visibility);
 	}
 }

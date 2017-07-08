@@ -18,12 +18,11 @@ package com.noteblox.restdude.repository;
 
 import java.util.List;
 
-import com.noteblox.restdude.model.CaseTarget;
 import com.noteblox.restdude.model.Issue;
+import com.restdude.domain.cases.model.CaseTarget;
 import com.restdude.domain.cases.repository.CaseNoRepositoryBean;
 
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 public interface IssueRepository extends CaseNoRepositoryBean<Issue> {
 

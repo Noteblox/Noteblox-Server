@@ -26,6 +26,7 @@ import com.restdude.domain.cases.model.Space;
 import com.restdude.domain.cases.service.CaseStatusService;
 import com.restdude.domain.cases.service.CaseWorkflowService;
 import com.restdude.domain.cases.service.SpaceService;
+import com.restdude.domain.cases.service.impl.AbstractContextServiceImpl;
 import com.restdude.domain.error.service.impl.AbstractErrorServiceImpl;
 import com.restdude.domain.misc.model.Host;
 import com.restdude.domain.users.model.User;
@@ -42,11 +43,9 @@ import java.util.List;
 
 @Named(WebsiteNotesAppService.BEAN_ID)
 public class WebsiteNotesAppServiceImpl
-        extends AbstractPersistableModelServiceImpl< WebsiteNotesApp, String, WebsiteNotesAppRepository>
+        extends AbstractContextServiceImpl< WebsiteNotesApp, WebsiteNotesAppRepository>
         implements WebsiteNotesAppService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractErrorServiceImpl.class);
-    public static final char INDEX_CHAR = '-';
 
 
 

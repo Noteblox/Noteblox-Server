@@ -16,32 +16,23 @@
  */
 package com.noteblox.restdude.service.impl;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
 import javax.inject.Named;
 
 import com.noteblox.restdude.model.BillableAccount;
-import com.noteblox.restdude.model.Blox;
-import com.noteblox.restdude.model.CaseTarget;
+import com.noteblox.restdude.model.SpaceBlock;
 import com.noteblox.restdude.model.Issue;
 import com.noteblox.restdude.model.IssueComment;
-import com.noteblox.restdude.model.Note;
-import com.noteblox.restdude.model.NoteComment;
 import com.noteblox.restdude.model.SelectionRange;
 import com.noteblox.restdude.model.WebsiteIssuesApp;
 import com.noteblox.restdude.model.dto.Annotation;
-import com.noteblox.restdude.model.mapper.IssueAnnotationMapper;
 import com.noteblox.restdude.repository.IssueCommentRepository;
 import com.noteblox.restdude.repository.IssueRepository;
-import com.noteblox.restdude.repository.CaseTargetRepository;
 import com.noteblox.restdude.service.IssueService;
 import com.noteblox.restdude.service.WebsiteIssuesAppService;
-import com.noteblox.restdude.service.BloxService;
+import com.noteblox.restdude.service.SpaceBlockService;
 import com.restdude.domain.cases.model.CaseStatus;
 import com.restdude.domain.cases.model.CaseWorkflow;
 import com.restdude.domain.cases.model.dto.CaseCommenttInfo;
@@ -73,61 +64,23 @@ public class IssueServiceImpl
     private UserService userService;
     private PersistableModelService<Host, String> hostService;
     private SpaceService spaceService;
-    private BloxService bloxService;
+    private SpaceBlockService spaceBlockService;
     private WebsiteIssuesAppService websiteIssuesAppService;
     private IssueService issueService;
     private CaseStatusService caseStatusService;
     protected IssueCommentRepository noteCommentRepository;
-    protected CaseTargetRepository noteTargetRepository;
     private CaseWorkflowService caseWorkflowService;
 
 
+    // TODO
     /**
-     * {@inheritDoc}
+     * Find all annotations for the given URL
+     * @param httpUrl
+     * @return
      */
     @Override
-    public List<Annotation> findAnnotationsForUrl(String httpUrl){
-
-        List<Annotation> annotations = null;
-
-        try {
-            URL url = new URL(httpUrl);
-
-            // get the blox
-            Optional<Blox> website = this.bloxService.findByUrl(url);
-            if(website.isPresent()){
-                String path = url.getPath();
-                String welcomeFile = "/index.html";
-
-                // index/welcome file?
-                if(path.endsWith(welcomeFile)){
-                    path = path.substring(0, path.length() - welcomeFile.length());
-                }
-                log.debug("findAnnotationsForUrl, note target path: {}", path);
-                Optional<CaseTarget> target = this.noteTargetRepository.findByPathAndWebsite(path, website.get());
-
-                if(target.isPresent()){
-                    List<Issue> items = this.repository.findAnnotationsByTarget(target.get());
-                    annotations = new ArrayList<>();
-                    IssueAnnotationMapper mapper = IssueAnnotationMapper.INSTANCE;
-                    for(Issue item : items){;
-                        Annotation ann = mapper.toAnnotation(item);
-                        annotations.add(ann);
-                    }
-                }
-                else{
-                    log.debug("findAnnotationsForUrl, Issue target not found for URL: {}", httpUrl);
-                }
-            }
-            else{
-                log.debug("findAnnotationsForUrl, Website not found for URL: {}", httpUrl);
-            }
-
-        } catch (MalformedURLException e) {
-            throw new IllegalArgumentException(e);
-        }
-
-        return annotations != null ? annotations : new ArrayList<>();
+    public List<Annotation> findAnnotationsForUrl(String httpUrl) {
+        return null;
     }
 
     /**
@@ -142,7 +95,7 @@ public class IssueServiceImpl
             LoremIpsum jlorem = new LoremIpsum();
 
             // create "business" space
-            Blox notebloxGithubIo = this.bloxService.findByUrl("noteblox.github.io").get();
+            SpaceBlock notebloxGithubIo = this.spaceBlockService.findByName("NTBLX-GH-PAGES");
 
             // create issues parent and workflow
             // ------------------------------------------
@@ -151,11 +104,13 @@ public class IssueServiceImpl
 
             // add custom statuses
             List<CaseStatus> workflowStatuses = new LinkedList<>();
-            CaseStatus unassigned = caseStatusService.create(new CaseStatus(CaseStatus.UNASSIGNED, "Status for cases that have not yet been assigned", workflow));
+            //CaseStatus unassigned = caseStatusService.create(new CaseStatus(CaseStatus.UNASSIGNED, "Status for cases that have not yet been assigned", workflow));
+            //workflowStatuses.add(unassigned);
             CaseStatus open = caseStatusService.create(new CaseStatus(CaseStatus.OPEN, "Status for open cases", workflow));
-            workflowStatuses.add(unassigned);
+
             workflowStatuses.add(open);
             workflowStatuses.add(caseStatusService.create(new CaseStatus(CaseStatus.CLOSED, "Status for closed cases", workflow)));
+            workflowStatuses.add(caseStatusService.create(new CaseStatus(CaseStatus.ARCHIVED, "Status for archived cases", workflow)));
             workflow.setStatuses(workflowStatuses);
 
             // add notes app
@@ -172,29 +127,24 @@ public class IssueServiceImpl
                             .visibility(ContextVisibilityType.CLOSED)
                             .build());
 
-            // add note target page
-            CaseTarget target = this.noteTargetRepository.persist(new CaseTarget("/Issueblox-Server", notebloxGithubIo));
-
             // add a few notes
             Issue note1 = this.create(new Issue.Builder()
                     .parent(notesApp)
-                    .status(unassigned)
+                    .status(open)
                     .title(jlorem.sentence())
                     .quote("on-page support and collaboration tool")
                     .assignee(systemUser)
                     .detail(jlorem.paragraphs(3, false))
-                    .target(target)
-                    .originalUrl("http://noteblox.github.io/Issueblox-Server/index.html")
+                    .remoteAddress("http://noteblox.github.io/Issueblox-Server/index.html")
                     .range(new SelectionRange("/div[2]/div[1]/div[1]/section[1]/p[1]", "/div[2]/div[1]/div[1]/section[1]/p[1]", 15, 53))
                     .build());
             Issue note2 = this.create(new Issue.Builder()
                     .parent(notesApp)
-                    .status(unassigned)
+                    .status(open)
                     .title(jlorem.sentence())
                     .quote("ee the RES")
                     .detail(jlorem.paragraphs(3, false))
-                    .target(target)
-                    .originalUrl("http://noteblox.github.io/Issueblox-Server/index.html")
+                    .remoteAddress("http://noteblox.github.io/Issueblox-Server/index.html")
                     .range(new SelectionRange("/div[2]/div[1]/div[1]/section[2]/p[1]", "/div[2]/div[1]/div[1]/section[2]/p[1]/a[1]", 2, 3))
                     .build());
 
@@ -262,8 +212,8 @@ public class IssueServiceImpl
     }
 
     @Autowired
-    public void setBloxService(BloxService bloxService) {
-        this.bloxService = bloxService;
+    public void setSpaceBlockService(SpaceBlockService spaceBlockService) {
+        this.spaceBlockService = spaceBlockService;
     }
 
     @Autowired
@@ -287,12 +237,8 @@ public class IssueServiceImpl
     }
 
     @Autowired
-    public void setIssueTargetRepository(CaseTargetRepository noteTargetRepository) {
-        this.noteTargetRepository = noteTargetRepository;
-    }
-
-    @Autowired
     public void setCaseWorkflowService(CaseWorkflowService caseWorkflowService) {
         this.caseWorkflowService = caseWorkflowService;
     }
+
 }

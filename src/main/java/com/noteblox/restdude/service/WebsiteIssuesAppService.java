@@ -17,9 +17,10 @@
 package com.noteblox.restdude.service;
 
 import com.noteblox.restdude.model.WebsiteIssuesApp;
+import com.restdude.domain.cases.service.ContextService;
 import com.restdude.mdd.service.PersistableModelService;
 
 
-public interface WebsiteIssuesAppService extends PersistableModelService<WebsiteIssuesApp, String> {
+public interface WebsiteIssuesAppService extends ContextService<WebsiteIssuesApp> {
     public static final String BEAN_ID = "websiteIssuesAppService";
 }
